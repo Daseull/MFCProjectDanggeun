@@ -49,7 +49,7 @@ END_MESSAGE_MAP()
 
 
 // CDanggeunClientDlg dialog
-
+// where ??
 
 
 CDanggeunClientDlg::CDanggeunClientDlg(CWnd* pParent /*=nullptr*/)
