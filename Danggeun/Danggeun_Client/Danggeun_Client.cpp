@@ -16,7 +16,7 @@
 
 BEGIN_MESSAGE_MAP(CDanggeunClientApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
-END_MESSAGE_MAP()
+END_MESSAGE_MAP()//ㅇㅇ
 
 
 // CDanggeunClientApp construction
