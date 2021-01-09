@@ -9,7 +9,8 @@
 #endif
 
 #include "resource.h"		// main symbols
-
+#include "RoundButton2.h"
+#include "RoundButtonStyle.h"
 
 // CDanggeunClientApp:
 // See Danggeun_Client.cpp for the implementation of this class
