@@ -99,6 +99,8 @@ StyleCopReport.xml
 *.db-shm
 *.db-wal
 *.db
+*.VC.db
+*.VC.db-shm
 
 # Chutzpah Test files
 _Chutzpah*
@@ -111,6 +113,8 @@ ipch/
 *.opensdf
 *.sdf
 *.cachefile
+*.VC.db
+*.VC.VC.opendb
 *.VC.db
 *.VC.VC.opendb
 
