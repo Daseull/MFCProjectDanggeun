@@ -16,7 +16,7 @@
 
 BEGIN_MESSAGE_MAP(CDanggeunClientApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
-END_MESSAGE_MAP()
+END_MESSAGE_MAP()//ㅇㅇ
 
 
 // CDanggeunClientApp construction
@@ -65,7 +65,7 @@ BOOL CDanggeunClientApp::InitInstance()
 	int i = 0; // good
 	// Create the shell manager, in case the dialog contains
 	// any shell tree view or shell list view controls.
-	CShellManager *pShellManager = new CShellManager;
+	CShellManager *pShellManager = new CShellManager; // good
 
 	// Activate "Windows Native" visual manager for enabling themes in MFC controls
 	CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
