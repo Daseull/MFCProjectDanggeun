@@ -26,7 +26,7 @@ public:
 
 // Implementation
 
-	DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()//수정
 };
 
 extern CDanggeunClientApp theApp;
