@@ -30,6 +30,8 @@ public:
 
 // Implementation
 protected:
+
+	//afx_msg_안녕
 	DECLARE_MESSAGE_MAP()
 };
 
