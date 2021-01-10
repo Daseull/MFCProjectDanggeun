@@ -1,20 +1,20 @@
 ﻿#pragma once
 
 
-// CLoginDlg 대화 상자
+// JoinDlg 대화 상자
 
-class CLoginDlg : public CDialogEx
+class JoinDlg : public CDialogEx
 {
-	DECLARE_DYNAMIC(CLoginDlg)
+	DECLARE_DYNAMIC(JoinDlg)
 private:
 	CBrush m_bk_brush;
 public:
-	CLoginDlg(CWnd* pParent = nullptr);   // 표준 생성자입니다.
-	virtual ~CLoginDlg();
+	JoinDlg(CWnd* pParent = nullptr);   // 표준 생성자입니다.
+	virtual ~JoinDlg();
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DIALOG_LOGIN };
+	enum { IDD = IDD_DIALOG_JOIN };
 #endif
 
 protected:
@@ -22,12 +22,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-//	CRoundButtonStyle m_tMyButtonStyle;
-//	CButton m_tMyButton1;
-//	CRoundButton2 m_tMyButton1;
 	CRoundButton2 m_tMyButton1;
 	CRoundButtonStyle m_tMyButtonStyle;
-	CRoundButton2 m_tMyButton2;
-	afx_msg void OnBnClickedButtonJoin();
+	afx_msg void OnEnChangeEditJoinPw();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };

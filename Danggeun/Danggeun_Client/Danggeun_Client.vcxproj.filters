@@ -66,6 +66,12 @@
     <ClInclude Include="CSocCom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="JoinDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatePost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Danggeun_Client.cpp">
@@ -108,6 +114,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ListCtrlEx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JoinDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CreatePost.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

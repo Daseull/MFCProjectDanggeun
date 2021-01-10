@@ -15,6 +15,9 @@ ChatBox::ChatBox(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CHATBOX, pParent)
 	, m_strSend(_T(""))
 {
+	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
+	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
+
 
 }
 
@@ -27,12 +30,14 @@ void ChatBox::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_EDIT_SEND, m_strSend);
 	DDX_Control(pDX, IDC_CHATBOX, m_list);
+	DDX_Control(pDX, IDC_BUTTON_SEND, m_tMyButton1);
 }
 
 
 BEGIN_MESSAGE_MAP(ChatBox, CDialogEx)
 	ON_MESSAGE(UM_RECEIVE, (LRESULT(_cdecl CWnd::*)(WPARAM, LPARAM))OnReceive)
 	ON_BN_CLICKED(IDC_BUTTON_SEND, &ChatBox::OnBnClickedButtonSend)
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -83,4 +88,28 @@ void ChatBox::OnBnClickedButtonSend()
 	int i = m_list.GetCount();
 	m_list.InsertString(i, strTmp);
 	
+}
+
+
+HBRUSH ChatBox::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO:  여기서 DC의 특성을 변경합니다.
+	if (nCtlColor == CTLCOLOR_DLG) {//dlg
+		return m_bk_brush;
+	}
+	if (nCtlColor == CTLCOLOR_STATIC) {
+		pDC->SetBkColor(RGB(253, 212, 129));
+
+		pDC->SetTextColor(RGB(0, 0, 0));
+		return m_bk_brush;
+	}
+	if (nCtlColor == CTLCOLOR_BTN) {
+		//pDC->SetBkMode(TRANSPARENT);
+		pDC->SetBkColor(RGB(0, 200, 255));
+		return (HBRUSH)::GetStockObject(NULL_BRUSH);
+	}
+	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
+	return hbr;
 }

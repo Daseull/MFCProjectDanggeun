@@ -15,6 +15,7 @@
 #define IDD_DIALOG_JOIN                 131
 #define IDD_DIALOG_LOGIN                133
 #define IDD_CHATBOX                     140
+#define IDD_DIALOG_CREATE_POST          142
 #define IDC_BUTTON_LOGIN                1005
 #define IDC_BUTTON_JOIN                 1006
 #define IDC_EDIT_ID                     1007
@@ -26,8 +27,11 @@
 #define IDC_STATIC_INFO                 1011
 #define IDC_EDIT1                       1012
 #define IDC_EDIT2                       1013
+#define IDC_EDIT_JOIN_PW                1013
 #define IDC_EDIT3                       1014
+#define IDC_EDIT_JOIN_PHONE             1014
 #define IDC_COMBO1                      1015
+#define IDC_COMBO_JOIN_TOWN             1015
 #define IDC_STATIC_TEL                  1017
 #define IDC_STATIC_TOWN                 1018
 #define IDC_TAB_MAIN                    1020
@@ -42,14 +46,21 @@
 #define IDC_CHATBOX                     1033
 #define IDC_BUTTON_SEND                 1034
 #define IDC_EDIT_SEND                   1035
+#define IDC_EDIT_JOIN_ID                1036
+#define IDC_BUTTON_POST                 1037
+#define IDC_EDIT_POST_TITLE             1038
+#define IDC_EDIT_POST_PRICE             1039
+#define IDC_EDIT_POST_TEXT              1040
+#define IDC_STATIC_TITLE                1041
+#define IDC_STATIC_PRICE                1042
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        142
+#define _APS_NEXT_RESOURCE_VALUE        144
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1036
+#define _APS_NEXT_CONTROL_VALUE         1043
 #define _APS_NEXT_SYMED_VALUE           108
 #endif
 #endif

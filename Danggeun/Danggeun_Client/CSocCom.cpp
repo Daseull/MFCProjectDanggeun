@@ -3,6 +3,7 @@
 
 void CSocCom::Init(HWND hWnd) {
 	m_hWnd = hWnd;
+
 }
 
 void CSocCom::OnReceive(int nErrorCode)

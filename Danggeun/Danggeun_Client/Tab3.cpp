@@ -5,7 +5,8 @@
 #include "Danggeun_Client.h"
 #include "Tab3.h"
 #include "afxdialogex.h"
-
+#include "RoundButton2.h"
+#include "RoundButtonStyle.h"
 
 // CTab3 대화 상자
 
@@ -14,6 +15,9 @@ IMPLEMENT_DYNAMIC(CTab3, CDialogEx)
 CTab3::CTab3(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CTab3, pParent)
 {
+	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
+	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
+
 
 }
 
@@ -24,6 +28,8 @@ CTab3::~CTab3()
 void CTab3::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	//  DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton1);
+	DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton1);
 }
 
 
@@ -31,6 +37,7 @@ BEGIN_MESSAGE_MAP(CTab3, CDialogEx)
 	ON_BN_CLICKED(IDOK, &CTab3::OnBnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, &CTab3::OnBnClickedCancel)
 //	ON_LBN_SELCHANGE(IDC_LIST_HEART, &CTab3::OnLbnSelchangeListHeart)
+ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -51,3 +58,21 @@ void CTab3::OnBnClickedCancel()
 }
 
 
+
+
+HBRUSH CTab3::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO:  여기서 DC의 특성을 변경합니다.
+	if (nCtlColor == CTLCOLOR_DLG) {//dlg
+		return m_bk_brush;
+	}
+	if (nCtlColor == CTLCOLOR_STATIC) {
+		pDC->SetBkColor(RGB(253, 212, 129));
+		pDC->SetTextColor(RGB(0, 0, 0));
+		return m_bk_brush;
+	}
+	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
+	return hbr;
+}

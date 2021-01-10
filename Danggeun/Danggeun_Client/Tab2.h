@@ -6,6 +6,8 @@
 class CTab2 : public CDialogEx
 {
 	DECLARE_DYNAMIC(CTab2)
+private:
+	CBrush m_bk_brush;
 
 public:
 	CTab2(CWnd* pParent = nullptr);   // 표준 생성자입니다.
@@ -23,4 +25,5 @@ protected:
 public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedCancel();
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };

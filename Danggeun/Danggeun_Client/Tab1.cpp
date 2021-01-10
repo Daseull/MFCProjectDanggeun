@@ -6,7 +6,7 @@
 #include "Tab1.h"
 #include "afxdialogex.h"
 #include "ChatBox.h"
-
+#include "CreatePost.h"
 
 
 // CTab1 대화 상자
@@ -16,14 +16,17 @@ IMPLEMENT_DYNAMIC(CTab1, CDialogEx)
 CTab1::CTab1(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CTab1, pParent)
 	, m_strSearch(_T(""))
-	, m_strTown(_T(""))
+	, m_strTown(_T("동네명"))//동네명으로 임의 추가함
 {
 
-	
+	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
+	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
+	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
 }
 
 CTab1::~CTab1()
 {
+
 }
 
 //price에 단위 콤마 표시
@@ -120,6 +123,8 @@ void CTab1::DoDataExchange(CDataExchange* pDX)
 	//  DDX_Control(pDX, IDC_LIST1, m_list);
 	DDX_Text(pDX, IDC_STATIC_TOWN, m_strTown);
 	DDX_Control(pDX, IDC_LIST1, m_list);
+	DDX_Control(pDX, IDC_BUTTON_NEWPOST, m_tMyButton1);
+	DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton2);
 }
 
 
@@ -129,6 +134,11 @@ BEGIN_MESSAGE_MAP(CTab1, CDialogEx)
 	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CTab1::OnClickList1)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CTab1::OnLvnItemchangedList1)
 	ON_BN_CLICKED(IDC_BUTTON_SEARCH, &CTab1::OnClickedButtonSearch)
+	ON_BN_CLICKED(IDC_BUTTON_NEWPOST, &CTab1::OnBnClickedButtonNewpost)
+//	ON_WM_PAINT()
+//	ON_WM_ERASEBKGND()
+//	ON_WM_CTLCOLOR()
+ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -187,4 +197,36 @@ void CTab1::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult)
 		dlg.DoModal();
 	}
 	*/
+}
+
+
+void CTab1::OnBnClickedButtonNewpost()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CCreatePost dlg;
+	dlg.DoModal();
+
+}
+
+HBRUSH CTab1::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO:  여기서 DC의 특성을 변경합니다.
+	if (nCtlColor == CTLCOLOR_DLG) {//dlg
+		return m_bk_brush;
+	}
+	if (nCtlColor == CTLCOLOR_STATIC) {
+		pDC->SetBkColor(RGB(253, 212, 129));
+		
+		pDC->SetTextColor(RGB(0, 0, 0));
+		return m_bk_brush;
+	}
+	if (nCtlColor == CTLCOLOR_BTN) {
+		//pDC->SetBkMode(TRANSPARENT);
+		pDC->SetBkColor(RGB(0, 200, 255));
+		return (HBRUSH)::GetStockObject(NULL_BRUSH);
+	}
+	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
+	return hbr;
 }

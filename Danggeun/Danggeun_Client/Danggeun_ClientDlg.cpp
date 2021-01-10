@@ -11,6 +11,7 @@
 #include "Tab2.h"
 #include "Tab3.h"
 #include "Tab4.h"
+#include "LoginDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -80,6 +81,8 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_MAIN, &CDanggeunClientDlg::OnTcnSelchangeTabMain)
+	ON_WM_DESTROY()
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -114,17 +117,17 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
+	m_bk_brush.CreateSolidBrush(RGB(255, 241, 211));
+
 	// TODO: Add extra initialization here
 	CFont font_sel;
-	font_sel.CreateFont(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 0, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, _T("굴림체"));
+	font_sel.CreateFont(13, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 0, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, _T("굴림체"));
 
 	m_Tab.SetFont(&font_sel);
-
 	m_Tab.InsertItem(0, "홈");
 	m_Tab.InsertItem(1, "내 글 목록");
 	m_Tab.InsertItem(2, "관심리스트");
 	m_Tab.InsertItem(3, "내 정보");
-
 	m_Tab.SetCurSel(0);
 
 	CRect rect;
@@ -132,30 +135,32 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 
 	pDlg1 = new CTab1;
 	pDlg1->Create(IDD_CTab1, &m_Tab);
-	pDlg1->MoveWindow(25, 0, rect.Width(), rect.Height());
+	pDlg1->MoveWindow(20, 1, rect.Width(), rect.Height());
 	pDlg1->ShowWindow(SW_SHOW);
 
 	pDlg2 = new CTab2;
 	pDlg2->Create(IDD_CTab2, &m_Tab);
-	pDlg2->MoveWindow(25, 0, rect.Width(), rect.Height());
+	pDlg2->MoveWindow(20, 1, rect.Width(), rect.Height());
 	pDlg2->ShowWindow(SW_SHOW);
 
 	pDlg3 = new CTab3;
 	pDlg3->Create(IDD_CTab3, &m_Tab);
-	pDlg3->MoveWindow(25, 0, rect.Width(), rect.Height());
+	pDlg3->MoveWindow(20, 1, rect.Width(), rect.Height());
 	pDlg3->ShowWindow(SW_SHOW);
 
 	pDlg4 = new CTab4;
 	pDlg4->Create(IDD_CTab4, &m_Tab);
-	pDlg4->MoveWindow(25, 0, rect.Width(), rect.Height());
+	pDlg4->MoveWindow(20, 1, rect.Width(), rect.Height());
 	pDlg4->ShowWindow(SW_SHOW);
 
 	font_sel.DeleteObject();
 
+	m_Tab.ModifyStyle(0, TCS_OWNERDRAWFIXED);//tab 색상
+
 
 	//로그인 창 생성 코드여기에 넣어 주세요
-	CDialog log;	//임의로 해놓은 코드
-
+	CLoginDlg log;	//임의로 해놓은 코드
+	log.DoModal();
 
 	//여기다가 login 창 생성하고 doModao == IDOK(또는 로그인 성공 메세지,else면은 창 닫히고)
 	//if (log.DoModal() == IDOK) 
@@ -165,8 +170,6 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		//pDlg2->LoadPost();
 		////관심글 록록
 		//pDlg3->LoadPost();
-
-
 
 		//처음 켰을 땐 홈 탭이 보이게 설정
 		pDlg1->ShowWindow(SW_SHOW);
@@ -268,4 +271,30 @@ void CDanggeunClientDlg::OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	*pResult = 0;
 
+}
+
+
+
+
+void CDanggeunClientDlg::OnDestroy()
+{
+	CDialogEx::OnDestroy();
+
+	m_bk_brush.DeleteObject();
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+}
+
+
+HBRUSH CDanggeunClientDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO:  여기서 DC의 특성을 변경합니다.
+	
+	if (nCtlColor == CTLCOLOR_DLG) {//dlg
+		return m_bk_brush;
+	}
+	
+	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
+	return hbr;
 }

@@ -20,6 +20,9 @@ class CTab4;
 
 class CDanggeunClientDlg : public CDialogEx
 {
+private:
+	CBrush m_bk_brush;
+
 // Construction
 public:
 	CDanggeunClientDlg(CWnd* pParent = nullptr);	// standard constructor
@@ -54,4 +57,6 @@ public:
 	CTab4* pDlg4;	
 //	CTabCtrl m_Tab;
 	CMainTabCtrl m_Tab;
+	afx_msg void OnDestroy();
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };

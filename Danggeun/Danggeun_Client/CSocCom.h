@@ -3,6 +3,8 @@
 class CSocCom :
     public CSocket
 {
+
+
 public: 
     HWND m_hWnd;
 

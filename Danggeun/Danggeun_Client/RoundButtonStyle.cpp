@@ -36,7 +36,7 @@ CRoundButtonStyle::CRoundButtonStyle(void)
 	m_tBtnSize	= CSize(0, 0);
 
 	// Set Standard-AntiAliasing-Zone
-	m_tButtonStyle.m_dSizeAA					= 2.0;
+	m_tButtonStyle.m_dSizeAA					= 1.0;
 
 	// Set Standard-Position of HighLight
 	m_tButtonStyle.m_dHighLightX				=  0.0;
@@ -48,7 +48,7 @@ CRoundButtonStyle::CRoundButtonStyle(void)
 
 	// Set Heights of Button
 	m_tButtonStyle.m_dHeightBorder				= 0.0;
-	m_tButtonStyle.m_dHeightButton				= 0.3;
+	m_tButtonStyle.m_dHeightButton				= 0.2;
 
 	// Set Data of Highlight
 	m_tButtonStyle.m_dRadiusHighLight			= 3.0;
@@ -60,10 +60,10 @@ CRoundButtonStyle::CRoundButtonStyle(void)
 	m_tButtonStyle.m_tColorBack.m_tDisabled		= GetSysColor(COLOR_3DFACE);
 	m_tButtonStyle.m_tColorBorder.m_tDisabled	= RGB(255, 255, 255);
 	m_tButtonStyle.m_tColorFace.m_tDisabled		= RGB(255, 255, 255);
-
+	
 	m_tButtonStyle.m_tColorBack.m_tEnabled		= GetSysColor(COLOR_3DFACE);
-	//m_tButtonStyle.m_tColorBorder.m_tEnabled	= RGB(255, 255, 255);
-	m_tButtonStyle.m_tColorFace.m_tEnabled		= RGB(255, 251, 135);
+	m_tButtonStyle.m_tColorBorder.m_tEnabled	= RGB(255, 205, 105);
+	m_tButtonStyle.m_tColorFace.m_tEnabled		= RGB(255, 189, 57);
 
 	//X
 	m_tButtonStyle.m_tColorBack.m_tClicked		= GetSysColor(COLOR_3DFACE);
@@ -71,8 +71,8 @@ CRoundButtonStyle::CRoundButtonStyle(void)
 	m_tButtonStyle.m_tColorFace.m_tClicked		= RGB(255, 140, 16);
 
 	m_tButtonStyle.m_tColorBack.m_tPressed		= GetSysColor(COLOR_3DFACE);
-	//m_tButtonStyle.m_tColorBorder.m_tPressed	= RGB(255, 255, 255);
-	m_tButtonStyle.m_tColorFace.m_tPressed		= RGB(255, 137, 0);
+	m_tButtonStyle.m_tColorBorder.m_tPressed	= RGB(255, 174, 0);
+	m_tButtonStyle.m_tColorFace.m_tPressed		= RGB(255, 174, 0);
 
 	//X
 	m_tButtonStyle.m_tColorBack.m_tHot			= GetSysColor(COLOR_3DFACE);
@@ -246,6 +246,7 @@ bool CRoundButtonStyle::DrawMasks(CDC* _pDC)
 	int nY;
 	int nState;
 
+	
 	COLORREF	tColorBack;
 	COLORREF	tColorBorder;
 	COLORREF	tColorFace;
@@ -271,7 +272,7 @@ bool CRoundButtonStyle::DrawMasks(CDC* _pDC)
 				switch(nState)
 				{
 				case BS_ENABLED:
-					tColorBack		= m_tButtonStyle.m_tColorBack.m_tEnabled;
+					tColorBack		= RGB(253, 212, 129);
 					tColorBorder	= m_tButtonStyle.m_tColorBorder.m_tEnabled;
 					tColorFace		= m_tButtonStyle.m_tColorFace.m_tEnabled;
 					break;
@@ -281,7 +282,7 @@ bool CRoundButtonStyle::DrawMasks(CDC* _pDC)
 					tColorFace		= m_tButtonStyle.m_tColorFace.m_tClicked;
 					break;
 				case BS_PRESSED:
-					tColorBack		= m_tButtonStyle.m_tColorBack.m_tPressed;
+					tColorBack		= RGB(253, 212, 129);
 					tColorBorder	= m_tButtonStyle.m_tColorBorder.m_tPressed;
 					tColorFace		= m_tButtonStyle.m_tColorFace.m_tPressed;
 					break;

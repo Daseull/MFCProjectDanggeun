@@ -6,7 +6,8 @@
 class ChatBox : public CDialogEx
 {
 	DECLARE_DYNAMIC(ChatBox)
-
+private:
+	CBrush m_bk_brush;
 public:
 	ChatBox(CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	virtual ~ChatBox();
@@ -27,4 +28,7 @@ public:
 	virtual BOOL OnInitDialog();
 	afx_msg LPARAM OnReceive(UINT wParam, LPARAM IParam);
 	afx_msg void OnBnClickedButtonSend();
+	CRoundButtonStyle m_tMyButtonStyle;
+	CRoundButton2 m_tMyButton1;
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };
