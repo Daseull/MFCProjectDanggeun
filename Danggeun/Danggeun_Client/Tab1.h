@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "ListCtrlEx.h"
-// CTab1 대화 상자
 
 class CTab1 : public CDialogEx
 {

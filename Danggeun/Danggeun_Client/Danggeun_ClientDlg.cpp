@@ -163,7 +163,7 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	if (TRUE) {
 		pDlg1->Init();
 		////내 글 목록
-		//pDlg2->LoadPost();
+		pDlg2->Init();
 		////관심글 록록
 		//pDlg3->LoadPost();
 
@@ -245,12 +245,14 @@ void CDanggeunClientDlg::OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult)
 			pDlg2->ShowWindow(SW_HIDE);
 			pDlg3->ShowWindow(SW_HIDE);
 			pDlg4->ShowWindow(SW_HIDE);
+			pDlg1->LoadTownPost();
 			break;
 		case 1:
 			pDlg2->ShowWindow(SW_SHOW);
 			pDlg1->ShowWindow(SW_HIDE);
 			pDlg3->ShowWindow(SW_HIDE);
 			pDlg4->ShowWindow(SW_HIDE);
+			pDlg2->LoadMyPost();
 			break;
 		case 2:
 			pDlg3->ShowWindow(SW_SHOW);

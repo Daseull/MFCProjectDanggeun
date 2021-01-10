@@ -8,6 +8,7 @@
 #include "afxwin.h" //비트맵때문에 넣은거
 
 
+
 // CTab1 대화 상자
 
 IMPLEMENT_DYNAMIC(CTab1, CDialogEx)

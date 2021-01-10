@@ -1,12 +1,12 @@
 ﻿#pragma once
-
+#include "ListCtrlEx.h"
 
 // CTab2 대화 상자
 
 class CTab2 : public CDialogEx
 {
 	DECLARE_DYNAMIC(CTab2)
-
+	CImageList m_ImageList;
 public:
 	CTab2(CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	virtual ~CTab2();
@@ -23,4 +23,7 @@ protected:
 public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedCancel();
+	CListCtrlEx m_list;
+	void Init();
+	void LoadMyPost();
 };
