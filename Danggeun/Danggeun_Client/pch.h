@@ -12,8 +12,8 @@
 #include <afxsock.h>
 #include "CSocCom.h"
 
-#define UM_RECEIVE WM_USER+2
-
+#define UM_RECEIVE	WM_USER+2
+#define UM_LOGIN	WM_USER+3
 
 #endif //PCH_H
 

@@ -26,7 +26,9 @@
 #define IDC_STATIC_INFO                 1011
 #define IDC_EDIT1                       1012
 #define IDC_EDIT2                       1013
+#define IDC_EDIT_JOIN_PW                1013
 #define IDC_EDIT3                       1014
+#define IDC_EDIT_JOIN_PHONE             1014
 #define IDC_COMBO1                      1015
 #define IDC_STATIC_TEL                  1017
 #define IDC_STATIC_TOWN                 1018
@@ -42,6 +44,7 @@
 #define IDC_CHATBOX                     1033
 #define IDC_BUTTON_SEND                 1034
 #define IDC_EDIT_SEND                   1035
+#define IDC_EDIT_JOIN_ID                1036
 
 // Next default values for new objects
 // 
@@ -49,7 +52,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        142
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1036
+#define _APS_NEXT_CONTROL_VALUE         1037
 #define _APS_NEXT_SYMED_VALUE           108
 #endif
 #endif

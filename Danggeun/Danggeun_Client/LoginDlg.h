@@ -25,4 +25,8 @@ public:
 //	CButton m_tMyButton1;
 //	CRoundButton2 m_tMyButton1;
 	CRoundButton2 m_tMyButton1;
+	CString m_strID;
+	CString m_strPW;
+	afx_msg void OnBnClickedButtonJoin();
+	afx_msg void OnBnClickedButtonLogin();
 };

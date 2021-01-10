@@ -11,7 +11,8 @@
 #include "Tab2.h"
 #include "Tab3.h"
 #include "Tab4.h"
-
+#include "JoinDlg.h"
+#include "LoginDlg.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -90,6 +91,8 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// Add "About..." menu item to system menu.
+	CLoginDlg dlg = new CLoginDlg;
+	dlg.DoModal();
 
 	// IDM_ABOUTBOX must be in the system command range.
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
