@@ -54,4 +54,6 @@ public:
 	CTab4* pDlg4;	
 //	CTabCtrl m_Tab;
 	CMainTabCtrl m_Tab;
+protected:
+	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
 };

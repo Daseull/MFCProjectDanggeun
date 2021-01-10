@@ -24,9 +24,17 @@ public:
 //	CRoundButtonStyle m_tMyButtonStyle;
 //	CButton m_tMyButton1;
 //	CRoundButton2 m_tMyButton1;
+
+
 	CRoundButton2 m_tMyButton1;
-	CString m_strID;
-	CString m_strPW;
 	afx_msg void OnBnClickedButtonJoin();
 	afx_msg void OnBnClickedButtonLogin();
+
+protected:
+	afx_msg LRESULT OnUwmCustom2(WPARAM wParam, LPARAM lParam);
+
+
+public:
+	CString m_strID;
+	CString m_strPW;
 };

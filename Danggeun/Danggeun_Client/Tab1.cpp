@@ -171,9 +171,9 @@ void CTab1::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult)
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	MessageBox("List Clicked!");
 	ChatBox dlg = new ChatBox;
-	dlg.DoModal();
+	//dlg.DoModal();
 	*pResult = 0;
-	/*
+	
 	// 행 클릭시 행 넘버값 받아오기
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	int idx = pNMListView->iItem;
@@ -186,5 +186,5 @@ void CTab1::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult)
 		ChatBox dlg = new ChatBox;
 		dlg.DoModal();
 	}
-	*/
+	
 }

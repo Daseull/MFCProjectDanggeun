@@ -38,6 +38,7 @@ protected:
 
 	//afx_msg_안녕
 	DECLARE_MESSAGE_MAP()
+//	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -50,6 +51,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+
 END_MESSAGE_MAP()
 
 
@@ -81,17 +83,20 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_MAIN, &CDanggeunClientDlg::OnTcnSelchangeTabMain)
+	ON_MESSAGE(UWM_CUSTOM1, &CDanggeunClientDlg::OnUwmCustom1)
+
 END_MESSAGE_MAP()
 
 
 // CDanggeunClientDlg message handlers
+CLoginDlg dlg = new CLoginDlg;
 
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
 	// Add "About..." menu item to system menu.
-	CLoginDlg dlg = new CLoginDlg;
+
 	dlg.DoModal();
 
 	// IDM_ABOUTBOX must be in the system command range.
@@ -272,3 +277,12 @@ void CDanggeunClientDlg::OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 
 }
+
+
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
+{
+	dlg.EndDialog(IDOK);
+	return 0;
+}
+
+

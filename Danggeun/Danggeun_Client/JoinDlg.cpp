@@ -28,9 +28,7 @@ void JoinDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_EDIT_JOIN_ID, m_strID);
-	//  DDX_Control(pDX, IDC_EDIT_JOIN_PHONE, m_strPW);
 	DDX_Text(pDX, IDC_EDIT_JOIN_PHONE, m_strPHONE);
-	//  DDX_Control(pDX, IDC_EDIT_JOIN_PW, m_strPW);
 	DDX_Text(pDX, IDC_EDIT_JOIN_PW, m_strPW);
 	DDX_Control(pDX, IDC_COMBO1, m_Town);
 }
@@ -50,8 +48,9 @@ void JoinDlg::OnBnClickedButtonJoinOk()
 	CString str;
 	CStdioFile file;
 	CFileException ex;
-	if (file.Open("UserTable.txt", CFile::modeReadWrite, &ex)) {
+	if (file.Open("UserTable.txt", CFile::modeWrite, &ex)) {
 		UpdateData(TRUE);
+		file.SeekToEnd();
 		m_strID += "\n";
 		m_strPW += "\n";
 		m_strPHONE += "\n";
@@ -62,5 +61,6 @@ void JoinDlg::OnBnClickedButtonJoinOk()
 		// 종료한다. 
 		file.Close();
 		MessageBox("회원가입 성공 !");
+		::SendMessage(((JoinDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
 	}
 }

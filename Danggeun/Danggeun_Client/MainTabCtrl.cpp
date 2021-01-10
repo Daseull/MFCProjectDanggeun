@@ -104,3 +104,4 @@ void CMainTabCtrl::DrawItem(LPDRAWITEMSTRUCT IpDrawItemStruct)
 	}
 	pDC->SelectObject(p_old_font);
 }
+
