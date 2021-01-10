@@ -115,8 +115,6 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-
-
 	CFont font_sel;
 	font_sel.CreateFont(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 0, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, _T("굴림체"));
 
@@ -154,7 +152,31 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 
 	font_sel.DeleteObject();
 
+
+	//로그인 창 생성 코드여기에 넣어 주세요
+	CDialog log;	//임의로 해놓은 코드
+
+
+	//여기다가 login 창 생성하고 doModao == IDOK(또는 로그인 성공 메세지,else면은 창 닫히고)
+	//if (log.DoModal() == IDOK) 
+	if (TRUE) {
+		pDlg1->Init();
+		////내 글 목록
+		//pDlg2->LoadPost();
+		////관심글 록록
+		//pDlg3->LoadPost();
+
+
+
+		//처음 켰을 땐 홈 탭이 보이게 설정
+		pDlg1->ShowWindow(SW_SHOW);
+		pDlg2->ShowWindow(SW_HIDE);
+		pDlg3->ShowWindow(SW_HIDE);
+		pDlg4->ShowWindow(SW_HIDE);
+	}
 	
+
+
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }

@@ -12,6 +12,7 @@
 #include "MainTabCtrl.h"
 
 // CDanggeunClientDlg dialog
+//얘네 뭐야...?
 class CTab1;
 class CTab2;
 class CTab3;

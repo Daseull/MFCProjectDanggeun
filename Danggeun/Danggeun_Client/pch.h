@@ -9,5 +9,9 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
-
 #endif //PCH_H
+
+//윈64에는 제공안한다고 에러떠요... 다들 버전 뭘로해놨어요...?
+//#ifndef _AFX_NO_DB_SUPPORT
+//#include <afxdao.h>
+//#endif
