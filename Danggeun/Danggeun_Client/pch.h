@@ -16,3 +16,8 @@
 
 
 #endif //PCH_H
+
+//��64���� �������Ѵٰ� ��������... �ٵ� ���� �����س����...?
+//#ifndef _AFX_NO_DB_SUPPORT
+//#include <afxdao.h>
+//#endif

@@ -188,6 +188,7 @@
     <ClInclude Include="Danggeun_Client.h" />
     <ClInclude Include="Danggeun_ClientDlg.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="ListCtrlEx.h" />
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="MainTabCtrl.h" />
     <ClInclude Include="pch.h" />
@@ -205,6 +206,7 @@
     <ClCompile Include="CSocCom.cpp" />
     <ClCompile Include="Danggeun_Client.cpp" />
     <ClCompile Include="Danggeun_ClientDlg.cpp" />
+    <ClCompile Include="ListCtrlEx.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="MainTabCtrl.cpp" />
     <ClCompile Include="pch.cpp">
