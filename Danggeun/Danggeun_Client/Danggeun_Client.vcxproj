@@ -183,6 +183,8 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ChatBox.h" />
+    <ClInclude Include="CSocCom.h" />
     <ClInclude Include="Danggeun_Client.h" />
     <ClInclude Include="Danggeun_ClientDlg.h" />
     <ClInclude Include="framework.h" />
@@ -199,6 +201,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChatBox.cpp" />
+    <ClCompile Include="CSocCom.cpp" />
     <ClCompile Include="Danggeun_Client.cpp" />
     <ClCompile Include="Danggeun_ClientDlg.cpp" />
     <ClCompile Include="LoginDlg.cpp" />

@@ -30,5 +30,14 @@ protected:
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+	afx_msg LPARAM OnAccept(UINT wParam, LPARAM IParam);
+	afx_msg LPARAM OnReceive(UINT wParam, LPARAM IParam);
 	DECLARE_MESSAGE_MAP()
+public:
+	CSocServer m_socServer;
+	CSocCom* m_socCom;
+	CListBox m_list;
+	CString m_strStatus;
+	CString m_strSend;
+	afx_msg void OnBnClickedButtonSend();
 };

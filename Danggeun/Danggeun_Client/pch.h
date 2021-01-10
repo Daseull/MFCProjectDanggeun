@@ -9,5 +9,10 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
+#include <afxsock.h>
+#include "CSocCom.h"
+
+#define UM_RECEIVE WM_USER+2
+
 
 #endif //PCH_H
