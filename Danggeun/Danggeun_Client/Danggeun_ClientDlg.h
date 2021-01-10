@@ -59,4 +59,6 @@ public:
 	CMainTabCtrl m_Tab;
 	afx_msg void OnDestroy();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+protected:
+	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
 };

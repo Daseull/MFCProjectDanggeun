@@ -12,8 +12,9 @@
 #include <afxsock.h>
 #include "CSocCom.h"
 
-#define UM_RECEIVE WM_USER+2
-
+#define UM_RECEIVE	WM_USER+2
+#define UWM_CUSTOM1	WM_USER+3
+#define UWM_CUSTOM2	WM_USER+4
 
 #endif //PCH_H
 

@@ -11,8 +11,8 @@
 #include "Tab2.h"
 #include "Tab3.h"
 #include "Tab4.h"
+#include "JoinDlg.h"
 #include "LoginDlg.h"
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -38,6 +38,9 @@ protected:
 
 	//afx_msg_안녕
 	DECLARE_MESSAGE_MAP()
+//	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
+public:
+//	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -50,6 +53,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+
 END_MESSAGE_MAP()
 
 
@@ -81,6 +85,8 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_MAIN, &CDanggeunClientDlg::OnTcnSelchangeTabMain)
+	ON_MESSAGE(UWM_CUSTOM1, &CDanggeunClientDlg::OnUwmCustom1)
+
 	ON_WM_DESTROY()
 	ON_WM_CTLCOLOR()
 //	ON_COMMAND(IDC_BUTTON_SEARCH, &CDanggeunClientDlg::OnButtonSearch)
@@ -88,12 +94,15 @@ END_MESSAGE_MAP()
 
 
 // CDanggeunClientDlg message handlers
+CLoginDlg dlg = new CLoginDlg;
 
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
 	// Add "About..." menu item to system menu.
+
+	dlg.DoModal();
 
 	// IDM_ABOUTBOX must be in the system command range.
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
@@ -301,3 +310,13 @@ HBRUSH CDanggeunClientDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
 }
+
+
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
+{
+	dlg.EndDialog(IDOK);
+	return 0;
+}
+
+
+
