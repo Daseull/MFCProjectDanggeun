@@ -39,6 +39,8 @@ protected:
 	//afx_msg_안녕
 	DECLARE_MESSAGE_MAP()
 //	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
+public:
+//	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -284,5 +286,6 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 	dlg.EndDialog(IDOK);
 	return 0;
 }
+
 
 

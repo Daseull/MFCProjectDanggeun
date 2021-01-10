@@ -26,4 +26,5 @@ public:
 	CString m_strPW;
 	CComboBox m_Town;
 	afx_msg void OnBnClickedButtonJoinOk();
+	virtual BOOL OnInitDialog();
 };

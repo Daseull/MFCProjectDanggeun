@@ -45,22 +45,41 @@ END_MESSAGE_MAP()
 void JoinDlg::OnBnClickedButtonJoinOk()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	CString str;
+	CString str, town;
 	CStdioFile file;
 	CFileException ex;
 	if (file.Open("UserTable.txt", CFile::modeWrite, &ex)) {
 		UpdateData(TRUE);
 		file.SeekToEnd();
+		m_Town.GetLBText(m_Town.GetCurSel(), town);
+		town += "\n";
 		m_strID += "\n";
 		m_strPW += "\n";
 		m_strPHONE += "\n";
 		file.WriteString(m_strID);
 		file.WriteString(m_strPW);
 		file.WriteString(m_strPHONE);
+		file.WriteString(town);
 
 		// 종료한다. 
 		file.Close();
 		MessageBox("회원가입 성공 !");
-		::SendMessage(((JoinDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
+		::SendMessage(((JoinDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM2, 0, 0);
 	}
+}
+
+
+BOOL JoinDlg::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+	m_Town.AddString("강남구");
+	m_Town.AddString("광진구");
+	m_Town.AddString("서초구");
+	m_Town.AddString("송파구");
+	m_Town.AddString("은평구");
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
