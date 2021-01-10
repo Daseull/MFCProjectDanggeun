@@ -13,7 +13,7 @@ class CTab1 : public CDialogEx
 public:
 	CTab1(CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	virtual ~CTab1();
-	void LoadPostList();
+	void LoadTownPost();
 	void SearchPost(CString Key);
 	void Init();
 	

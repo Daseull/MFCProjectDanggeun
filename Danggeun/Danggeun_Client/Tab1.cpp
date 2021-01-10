@@ -5,7 +5,7 @@
 #include "Danggeun_Client.h"
 #include "Tab1.h"
 #include "afxdialogex.h"
-
+#include "afxwin.h" //비트맵때문에 넣은거
 
 
 // CTab1 대화 상자
@@ -43,21 +43,20 @@ CTab1::~CTab1()
 
 void CTab1::Init()
 {
+	//데베에서 동네
+	//m_strTown = getTown();
 
-	
+	m_ImageList.Create(40, 40, ILC_COLORDDB| ILC_MASK, 8, 8);
+
+	/*CBitmap bmp;
 	CImage img;
-	img.Load("res\\1.BMP");
-	if (img.IsNull()) AfxMessageBox("로드실패");
+	img.Load("res\\1.PNG");
+	bmp.Attach(img);
+	m_ImageList.Add(&bmp, RGB(255,255,255));*/
 
-	CBitmap bmp;
-	bmp.Attach(&img);
-
-	m_ImageList.Create(40, 40, ILC_COLORDDB | ILC_MASK, 8, 8);
-	m_ImageList.Add(&bmp, RGB(0, 128, 128));
-
-	
 	m_list.SetImageList(&m_ImageList, LVSIL_SMALL);
 	
+
 	//스크롤 해도 글쓰기 버튼 안움직이게 하려고 
 	GetDlgItem(IDC_BUTTON_NEWPOST)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
 	GetDlgItem(IDC_LIST1)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
@@ -68,32 +67,48 @@ void CTab1::Init()
 	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
 	m_list.InsertColumn(1, "가격", LVCFMT_RIGHT, 80);
 
-	LoadPostList();
+	LoadTownPost();
 }
 
 
 
-void CTab1::LoadPostList()
+void CTab1::LoadTownPost()
 {
+	
+	GetDlgItem(IDC_BUTTON_NEWPOST)->ShowWindow(SW_SHOW);
+	//TO DO: 뒤로가기 버튼 숨기기는 여기에 추가해 주세요.
 
-	int n = 4;
-	while (n--) {
-		//얘네는 원래 get from db
+	
+	//초기화
+	int n = m_list.GetItemCount();
+	while (n--)
+		m_ImageList.Remove(0);
+	m_list.DeleteAllItems();
+	
+
+	
+	int postsize = 4;
+	while (postsize--) {
+
+		CBitmap bmp;
+		CImage img;
+		//데이터베이스에서 가져올것
+		img.Load("res\\1.PNG");
+		bmp.Attach(img);
+		m_ImageList.Add(&bmp, RGB(255, 255, 255));
+
+
+		//데이터 베이스에스에서 가져올것
 		CString title, price;
 		title = "커피 팔아요 얼죽아아아아아아아아";
 		price = "7000원";
 		//title = title.Left(8);
 
 		int i = m_list.GetItemCount();
-		m_list.AddItem(title, i, 0, -1, 0);
+		m_list.AddItem(title, i, 0, -1, i);
 		m_list.AddItem(price, i, 1);
-
-		i = m_list.GetItemCount();
-		m_list.AddItem("cofffeparayo", i, 0, -1, 0);
-		m_list.AddItem("7000원", i, 1);
-
 	}
-
+	m_strSearch.Empty();
 	UpdateData(FALSE);
 
 
@@ -101,21 +116,30 @@ void CTab1::LoadPostList()
 
 void CTab1::SearchPost(CString Key)
 {
+	GetDlgItem(IDC_BUTTON_NEWPOST)->ShowWindow(SW_HIDE);
+	//TO DO: 뒤로가기 버튼 보이기는 여기에 해주세요.
+
+
+	//초기화
+	int n = m_list.GetItemCount();
+	while (n--)
+		m_ImageList.Remove(0);
 	m_list.DeleteAllItems();
-	
+
+
 	if (Key.IsEmpty()) {
 		AfxMessageBox("검색어를 입력하세요");
 		return;
 	}
 
 
+	
 	Key = Key.MakeUpper();
-	
-	
+
 	CString str[3] = { "지금은 검색 테스트 중", "hihellobye", "커피 커피 커피" };
-	int n = 3;
+	int postsize = 3;
 	
-	for (int i = 0; i < n; i++) {
+	for (int i = 0; i < postsize; i++) {
 		CString title = str[i];
 		if (str[i].MakeUpper().Find(Key) != -1) {
 			int nItem = m_list.GetItemCount();
