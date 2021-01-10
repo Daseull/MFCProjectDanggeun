@@ -50,7 +50,7 @@ void JoinDlg::OnBnClickedButtonJoinOk()
 
 		// 종료한다. 
 		file.Close();
-		MessageBox("회원가입 성공 !");
+		AfxMessageBox("Login Success !");
 		::SendMessage(((JoinDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM2, 0, 0);
 	}
 }
