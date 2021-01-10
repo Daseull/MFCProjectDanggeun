@@ -80,6 +80,7 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_MAIN, &CDanggeunClientDlg::OnTcnSelchangeTabMain)
+//	ON_COMMAND(IDC_BUTTON_SEARCH, &CDanggeunClientDlg::OnButtonSearch)
 END_MESSAGE_MAP()
 
 
@@ -269,3 +270,10 @@ void CDanggeunClientDlg::OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 
 }
+
+
+//void CDanggeunClientDlg::OnButtonSearch()
+//{
+//	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+//	pDlg1->SearchPost("hi");
+//}

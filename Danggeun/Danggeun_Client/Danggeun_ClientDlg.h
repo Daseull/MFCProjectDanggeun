@@ -54,4 +54,5 @@ public:
 	CTab4* pDlg4;	
 //	CTabCtrl m_Tab;
 	CMainTabCtrl m_Tab;
+//	afx_msg void OnButtonSearch();
 };

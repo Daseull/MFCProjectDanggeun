@@ -6,7 +6,7 @@
 class CTab1 : public CDialogEx
 {
 	DECLARE_DYNAMIC(CTab1)
-
+	CImageList m_ImageList;
 	
 
 
@@ -16,6 +16,7 @@ public:
 	void LoadPostList();
 	void SearchPost(CString Key);
 	void Init();
+	
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME
