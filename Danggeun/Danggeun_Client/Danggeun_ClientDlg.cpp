@@ -41,6 +41,7 @@ protected:
 //	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
 public:
 //	virtual BOOL OnInitDialog();
+//	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -166,11 +167,6 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	font_sel.DeleteObject();
 
 	m_Tab.ModifyStyle(0, TCS_OWNERDRAWFIXED);//tab 색상
-
-
-	//로그인 창 생성 코드여기에 넣어 주세요
-	CLoginDlg log;	//임의로 해놓은 코드
-	log.DoModal();
 
 	//여기다가 login 창 생성하고 doModao == IDOK(또는 로그인 성공 메세지,else면은 창 닫히고)
 	//if (log.DoModal() == IDOK) 
@@ -320,3 +316,14 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 
 
 
+
+
+//BOOL CAboutDlg::OnInitDialog()
+//{
+//	CDialogEx::OnInitDialog();
+//
+//	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+//
+//	return TRUE;  // return TRUE unless you set the focus to a control
+//				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+//}

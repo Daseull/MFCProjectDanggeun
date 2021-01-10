@@ -26,11 +26,13 @@ public:
 	CString m_strID;
 	CString m_strPHONE;
 	CString m_strPW;
-	CComboBox m_Town;
+//	CComboBox m_Town;
 	afx_msg void OnBnClickedButtonJoinOk();
-	virtual BOOL OnInitDialog();
+//	virtual BOOL OnInitDialog();
 	CRoundButton2 m_tMyButton1;
 	CRoundButtonStyle m_tMyButtonStyle;
 	afx_msg void OnEnChangeEditJoinPw();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	CComboBox m_Town;
+	virtual BOOL OnInitDialog();
 };

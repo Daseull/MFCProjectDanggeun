@@ -23,6 +23,7 @@ void JoinDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_JOIN_PW, m_strPW);
 	DDX_Control(pDX, IDC_COMBO1, m_Town);
 	DDX_Control(pDX, IDC_BUTTON_JOIN_OK, m_tMyButton1);
+	DDX_Control(pDX, IDC_COMBO_JOIN_TOWN, m_Town);
 }
 BEGIN_MESSAGE_MAP(JoinDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_JOIN_OK, &JoinDlg::OnBnClickedButtonJoinOk)
@@ -54,22 +55,6 @@ void JoinDlg::OnBnClickedButtonJoinOk()
 	}
 }
 
-
-BOOL JoinDlg::OnInitDialog()
-{
-	CDialogEx::OnInitDialog();
-
-	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-	m_Town.AddString("강남구");
-	m_Town.AddString("광진구");
-	m_Town.AddString("서초구");
-	m_Town.AddString("송파구");
-	m_Town.AddString("은평구");
-
-	return TRUE;  // return TRUE unless you set the focus to a control
-				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
-}
-
 HBRUSH JoinDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
@@ -91,4 +76,15 @@ HBRUSH JoinDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
+}
+
+
+BOOL JoinDlg::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
