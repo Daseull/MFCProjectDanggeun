@@ -2,6 +2,8 @@
 #include "Danggeun_Client.h"
 #include "JoinDlg.h"
 #include "afxdialogex.h"
+#include "UserDB.h"
+
 IMPLEMENT_DYNAMIC(JoinDlg, CDialogEx)
 JoinDlg::JoinDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOG_JOIN, pParent)
@@ -29,31 +31,47 @@ BEGIN_MESSAGE_MAP(JoinDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_JOIN_OK, &JoinDlg::OnBnClickedButtonJoinOk)
 	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
+
 void JoinDlg::OnBnClickedButtonJoinOk()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	CString str, town;
-	CStdioFile file;
-	CFileException ex;
-	UpdateData(TRUE);
-	if (m_strID.GetLength() == 0 || m_strPW.GetLength() == 0 || m_strPHONE.GetLength() == 0) MessageBox("fill out all forms");
-	else if (file.Open("UserTable.txt", CFile::modeWrite, &ex)) {
-		file.SeekToEnd();
-		m_Town.GetLBText(m_Town.GetCurSel(), town);
-		town += "\n";
-		m_strID += "\n";
-		m_strPW += "\n";
-		m_strPHONE += "\n";
-		file.WriteString(m_strID);
-		file.WriteString(m_strPW);
-		file.WriteString(m_strPHONE);
-		file.WriteString(town);
+	CUserDB* userDB;
+	userDB = new CUserDB(); // new keyword -> pointer
+	userDB->InitDB();
 
-		// 종료한다. 
-		file.Close();
+	//아이디
+	CString id;
+	GetDlgItemText(IDC_EDIT_JOIN_ID, id);
+
+	//비밀번호
+	CString pw;
+	GetDlgItemText(IDC_EDIT_JOIN_PW, pw);	
+
+	//동네
+	CString tTown;
+	int town;
+	town = m_Town.GetCurSel();
+
+	//번호
+	CString phone;
+	GetDlgItemText(IDC_EDIT_JOIN_PHONE, phone);
+
+	CUserDTO user;
+	user.SetUserID(id);
+	user.SetUserPW(pw);
+	user.SetTown(town);
+	user.SetPhone(phone);
+	userDB->dao.createUser(user);
+
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString str;
+	UpdateData(TRUE);
+	if (m_strID.GetLength() == 0 || m_strPW.GetLength() == 0 || m_strPHONE.GetLength() == 0)
+		MessageBox("fill out all forms");
+	else {
 		AfxMessageBox("Join Success !");
 		::SendMessage(((JoinDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM2, 0, 0);
 	}
+	
 }
 
 HBRUSH JoinDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
@@ -85,11 +103,13 @@ BOOL JoinDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-
-	
-
-	UpdateData(FALSE);
+	GetDlgItem(IDC_EDIT_JOIN_ID)->SetWindowTextA("");
+	GetDlgItem(IDC_EDIT_JOIN_PW)->SetWindowTextA("");
+	GetDlgItem(IDC_EDIT_JOIN_PHONE)->SetWindowTextA("");
+	GetDlgItem(IDC_COMBO_JOIN_TOWN)->SetWindowTextA("");
+	UpdateData(TRUE);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
+
