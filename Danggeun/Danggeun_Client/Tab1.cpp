@@ -9,7 +9,7 @@
 #include "CreatePost.h"
 #include "afxwin.h" //비트맵때문에 넣은거
 #include "LoginDlg.h"
-
+#include "DetailPage.h"
 
 // CTab1 대화 상자
 
@@ -22,6 +22,8 @@ CTab1::CTab1(CWnd* pParent /*=nullptr*/)
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
+	m_tMyButton3.SetRoundButtonStyle(&m_tMyButtonStyle);
+
 }
 
 CTab1::~CTab1()
@@ -150,6 +152,7 @@ void CTab1::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST1, m_list);
 	DDX_Control(pDX, IDC_BUTTON_NEWPOST, m_tMyButton1);
 	DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton2);
+	DDX_Control(pDX, IDC_BUTTON_BACK, m_tMyButton3);
 }
 
 
@@ -248,7 +251,8 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 	sIndexValue = m_list.GetItemText(idx, 1);
 
 	if (idx != -1) {
-		ChatBox dlg = new ChatBox;
+
+		CDetailPage dlg = new CDetailPage;
 		dlg.DoModal();
 	}
 	

@@ -17,6 +17,7 @@ CTab3::CTab3(CWnd* pParent /*=nullptr*/)
 {
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
+	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
 
 
 }
@@ -31,6 +32,7 @@ void CTab3::DoDataExchange(CDataExchange* pDX)
 	//  DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton1);
 	DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton1);
 	DDX_Text(pDX, IDC_STATIC_TOWN, m_strTown);
+	DDX_Control(pDX, IDC_BUTTON_BACK, m_tMyButton2);
 }
 
 

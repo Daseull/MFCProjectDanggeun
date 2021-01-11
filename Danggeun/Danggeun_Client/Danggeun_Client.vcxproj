@@ -201,6 +201,7 @@
     <ClInclude Include="CSocCom.h" />
     <ClInclude Include="Danggeun_Client.h" />
     <ClInclude Include="Danggeun_ClientDlg.h" />
+    <ClInclude Include="DetailPage.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="JoinDlg.h" />
     <ClInclude Include="ListCtrlEx.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="CSocCom.cpp" />
     <ClCompile Include="Danggeun_Client.cpp" />
     <ClCompile Include="Danggeun_ClientDlg.cpp" />
+    <ClCompile Include="DetailPage.cpp" />
     <ClCompile Include="JoinDlg.cpp" />
     <ClCompile Include="ListCtrlEx.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
@@ -262,7 +264,10 @@
     <None Include="res\DanggeunClient.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\resized\heart_btn (1).bmp" />
+    <Image Include="..\..\..\..\resized\heart_btn.png" />
     <Image Include="res\bitmap1.bmp" />
+    <Image Include="res\bitmap2.bmp" />
     <Image Include="res\Danggeun_Client.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

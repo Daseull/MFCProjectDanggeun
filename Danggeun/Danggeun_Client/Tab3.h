@@ -31,4 +31,5 @@ public:
 	CRoundButton2 m_tMyButton1;
 	CString m_strTown;
 	afx_msg void OnStnClickedCancel();
+	CRoundButton2 m_tMyButton2;
 };

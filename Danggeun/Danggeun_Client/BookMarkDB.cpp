@@ -2,9 +2,6 @@
 #include "BookMarkDB.h"
 
 
-// SQLite는 UTF8을 사용하기 때문에 코드 변환이 필요합니다.
-// 출처 - http://dolphin.ivyro.net/file/algorithm/SQLite/tutoria03.html
-
 CBookMarkDB::CBookMarkDB() {
 	dao = CBookMarkDAO();
 	dto = CBookMarkDTO();

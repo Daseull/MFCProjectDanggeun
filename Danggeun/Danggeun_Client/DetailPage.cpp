@@ -1,0 +1,123 @@
+﻿// DetailPage.cpp: 구현 파일
+//
+
+#include "pch.h"
+#include "Danggeun_Client.h"
+#include "DetailPage.h"
+#include "afxdialogex.h"
+#include "ChatBox.h"
+
+
+// CDetailPage 대화 상자
+
+IMPLEMENT_DYNAMIC(CDetailPage, CDialogEx)
+
+CDetailPage::CDetailPage(CWnd* pParent /*=nullptr*/)
+	: CDialogEx(IDD_DIALOG_DETAIL, pParent)
+{
+	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
+	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
+	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
+
+}
+
+CDetailPage::~CDetailPage()
+{
+}
+
+void CDetailPage::DoDataExchange(CDataExchange* pDX)
+{
+	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_BUTTON_CHAT, m_tMyButton1);
+	DDX_Control(pDX, IDC_STATIC_ID, m_userid);
+	DDX_Control(pDX, IDC_STATIC_TOWN, m_usertown);
+	DDX_Control(pDX, IDC_STATIC_STATE, m_state);
+	DDX_Control(pDX, IDC_STATIC_PRICE, m_price);
+	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
+	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
+	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
+	DDX_Control(pDX, IDC_BUTTON_HEART, m_tMyButton2);
+}
+
+
+BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
+	ON_BN_CLICKED(IDC_BUTTON_CHAT, &CDetailPage::OnBnClickedButtonChat)
+	ON_WM_CTLCOLOR()
+END_MESSAGE_MAP()
+
+
+// CDetailPage 메시지 처리기
+
+
+void CDetailPage::OnBnClickedButtonChat()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	ChatBox dlg = new ChatBox;
+	dlg.DoModal();
+}
+
+
+HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+	// TODO:  여기서 DC의 특성을 변경합니다.
+	CFont font;
+	font.CreateFont(16, 9, 0, 0,FW_HEAVY, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, OUT_DEFAULT_PRECIS,DEFAULT_QUALITY, DEFAULT_PITCH,"나눔고딕");
+
+	if (nCtlColor == CTLCOLOR_DLG) {
+		return m_bk_brush;
+	}
+
+	if (m_userid.m_hWnd == pWnd->m_hWnd) {
+		pDC->SetBkColor(RGB(253, 212, 129));
+		pDC->SetTextColor(RGB(255, 133, 0));
+		return m_bk_brush;
+	}
+	else if (m_usertown.m_hWnd == pWnd->m_hWnd) {
+		pDC->SetBkColor(RGB(253, 212, 129));
+		pDC->SetTextColor(RGB(255, 133, 0));
+		return m_bk_brush;
+	}
+	else if (m_state.m_hWnd == pWnd->m_hWnd) {
+		pDC->SetBkColor(RGB(253, 212, 129));
+		pDC->SetTextColor(RGB(0, 169, 76));
+		return m_bk_brush;
+	}
+	else if (m_price.m_hWnd == pWnd->m_hWnd) {
+		pDC->SetBkColor(RGB(253, 212, 129));
+		pDC->SetTextColor(RGB(61, 149, 255));
+		return m_bk_brush;
+	}
+	else if (nCtlColor==CTLCOLOR_STATIC) {
+		pDC->SetBkColor(RGB(253, 212, 129));
+		pDC->SetTextColor(RGB(0, 0, 0));
+		return m_bk_brush;
+	}
+	
+	if (nCtlColor == CTLCOLOR_BTN) {
+		pDC->SetBkColor(RGB(0, 200, 255));
+		return (HBRUSH)::GetStockObject(NULL_BRUSH);
+	}
+	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
+	return hbr;
+}
+
+BOOL CDetailPage::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+	CFont font,font1,font2;
+	font.CreateFontA(25, 0, 0, 0, 1000, 0, 0, 0, 0, OUT_DEFAULT_PRECIS, 0, DEFAULT_QUALITY, DEFAULT_PITCH , "나눔 고딕");
+	font1.CreateFontA(30, 0, 0, 0, 1000, 0, 0, 0, 0, OUT_DEFAULT_PRECIS, 0, DEFAULT_QUALITY, DEFAULT_PITCH, "나눔 고딕");
+	font2.CreateFontA(35, 8, 0, 0, 1000, 0, 1, 0, 0, OUT_DEFAULT_PRECIS, 0, DEFAULT_QUALITY, DEFAULT_PITCH|FF_DONTCARE, "나눔 고딕");
+
+	GetDlgItem(IDC_STATIC_ID)->SetFont(&font1);
+	GetDlgItem(IDC_STATIC_TOWN)->SetFont(&font);
+	GetDlgItem(IDC_STATIC_STATE)->SetFont(&font);
+	GetDlgItem(IDC_STATIC_PRICE)->SetFont(&font2);
+
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}

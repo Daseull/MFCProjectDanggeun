@@ -47,6 +47,7 @@ public:
 //	virtual BOOL OnInitDialog();
 //	virtual BOOL OnInitDialog();
 	void OnClose();
+//	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
