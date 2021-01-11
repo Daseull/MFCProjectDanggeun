@@ -60,31 +60,28 @@ void CTab1::LoadTownPost()
 	m_list.DeleteAllItems();
 	
 
-	
-	int postsize = 4;
-	while (postsize--) {
-
-		CBitmap bmp;
-		CImage img;
-		//데이터베이스에서 가져올것
-		img.Load("res\\testimage.png");
-		bmp.Attach(img);
-		m_ImageList.Add(&bmp, RGB(255, 255, 255));
-
-
-		//데이터 베이스에스에서 가져올것
-		CString title, price;
-		title = "커피 팔아요 얼죽아아아아아아아아";
-		price = "7000원";
-		//title = title.Left(8);
-
-		int i = m_list.GetItemCount();
-		m_list.AddItem(title, i, 0, -1, i);
-		m_list.AddItem(price, i, 1);
+	extern CUserDTO* CurrentUser;
+	extern CPostDB* postDB;
+	for (CPostDTO* post : postDB->postList) {
+		if (post->GetTown() == CurrentUser->GetTown()) {
+			CBitmap bmp;
+			CImage img;
+			img.Load(post->GetImgName());
+			bmp.Attach(img);
+			m_ImageList.Add(&bmp, RGB(255, 255, 255));
+			int i = m_list.GetItemCount();
+			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+			m_list.AddItem("7000", i, 1);
+			m_list.AddItem("판매중", i, 2);
+			//m_list.AddItem(post->GetPrice(), i, 1);
+			//m_list.AddItem(post->GetState(), i, 2);
+		}
 	}
+
+	extern CString town[];
+	m_strTown = town[CurrentUser->GetTown()];
 	m_strSearch.Empty();
 	UpdateData(FALSE);
-
 
 }
 
@@ -109,19 +106,29 @@ void CTab1::SearchPost(CString Key)
 
 	
 	Key = Key.MakeUpper();
+	extern CUserDTO* CurrentUser;
+	extern CPostDB* postDB;
 
-	CString str[3] = { "지금은 검색 테스트 중", "hihellobye", "커피 커피 커피" };
-	int postsize = 3;
-	
-	for (int i = 0; i < postsize; i++) {
-		CString title = str[i];
-		if (str[i].MakeUpper().Find(Key) != -1) {
-			int nItem = m_list.GetItemCount();
-			m_list.AddItem(title, nItem, 0);
-			m_list.AddItem("71000", nItem, 1);
+	for (CPostDTO* post : postDB->postList) {
+		CString title = post->GetTitle();
+		if (title.MakeUpper().Find(Key) != -1) {
+			CBitmap bmp;
+			CImage img;
+			img.Load(post->GetImgName());
+			bmp.Attach(img);
+			m_ImageList.Add(&bmp, RGB(255, 255, 255));
+
+			int i = m_list.GetItemCount();
+			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+			//m_list.AddItem(post->GetPrice(), i, 1);
+			//m_list.AddItem(post->GetState(), i, 2);
+			
+			m_list.AddItem("8000", i, 1);
+			m_list.AddItem("거래완료", i, 2);
 		}
+
 	}
-	
+
 
 	UpdateData(FALSE);
 }
@@ -185,31 +192,8 @@ void CTab1::OnClickedButtonSearch()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
 	SearchPost(m_strSearch);
-	
 
 }
-
-//void CTab1::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult)
-//{
-//	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
-//	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-//	ChatBox dlg = new ChatBox;
-//	*pResult = 0;
-//	
-//	// 행 클릭시 행 넘버값 받아오기
-//	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-//	int idx = pNMListView->iItem;
-//
-//	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
-//	CString sIndexValue;
-//	sIndexValue = m_list.GetItemText(idx, 1);
-//
-//	if (idx != -1) {
-//		ChatBox dlg = new ChatBox;
-//		dlg.DoModal();
-//	}
-//	
-//}
 
 
 void CTab1::OnBnClickedButtonNewpost()
@@ -271,19 +255,6 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 BOOL CTab1::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
-	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-	extern CString CurrentUser;
-	extern CPostDB* postDB;
-	CPostDTO test;
-	test.SetImgName("res\\testimage.png");
-	test.SetContent("커피 팔아요 다들 못자요 오늘");
-	test.SetTitle("커피 팔아요");
-	//test.SetTown();
-
-
-		//데베에서 동네
-	//m_strTown = getTown();
 	m_ImageList.Create(60, 60, ILC_COLORDDB | ILC_MASK, 8, 8);
 
 	/*CBitmap bmp;
@@ -302,12 +273,24 @@ BOOL CTab1::OnInitDialog()
 
 
 	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT);
-	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
-	m_list.InsertColumn(1, "가격", LVCFMT_CENTER, 80);
-	m_list.InsertColumn(2, "판매상태", LVCFMT_CENTER, 30);
-
+	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 420);
+	m_list.InsertColumn(1, "가격", LVCFMT_RIGHT, 100);
+	m_list.InsertColumn(2, "판매상태", LVCFMT_RIGHT, 100);
+	
 	LoadTownPost();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+
+
+
+
+BOOL CTab1::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
+		OnClickedButtonSearch();
+
+	return CDialogEx::PreTranslateMessage(pMsg);
 }

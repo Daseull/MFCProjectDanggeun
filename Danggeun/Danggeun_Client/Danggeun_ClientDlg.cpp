@@ -179,15 +179,6 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	pDlg3->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg3->ShowWindow(SW_SHOW);
 
-
-	//for (CUserDTO* user : userDB->userList) {
-	//	if (user->GetUserID() == CurrentUser) {
-	//		pDlg1->m_strTown = town[user->GetTown()];
-	//		pDlg3->m_strTown = town[user->GetTown()];
-	//		UpdateData(FALSE);
-	//	}
-	//}
-
 	pDlg4 = new CTab4;
 	pDlg4->Create(IDD_CTab4, &m_Tab);
 	pDlg4->MoveWindow(28, 0, rect.Width(), rect.Height());
@@ -197,22 +188,6 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	font_sel.DeleteObject();
 
 	m_Tab.ModifyStyle(0, TCS_OWNERDRAWFIXED);//tab 색상
-
-	////여기다가 login 창 생성하고 doModao == IDOK(또는 로그인 성공 메세지,else면은 창 닫히고)
-	////if (log.DoModal() == IDOK) 
-	//if (TRUE) {
-	//	//pDlg1->Init();
-	//	////내 글 목록
-	//	pDlg2->Init();
-	//	////관심글 록록
-	//	//pDlg3->LoadPost();
-
-	//	//처음 켰을 땐 홈 탭이 보이게 설정
-	//	pDlg1->ShowWindow(SW_SHOW);
-	//	pDlg2->ShowWindow(SW_HIDE);
-	//	pDlg3->ShowWindow(SW_HIDE);
-	//	pDlg4->ShowWindow(SW_HIDE);
-	//}
 
 	pDlg1->ShowWindow(SW_SHOW);
 	pDlg2->ShowWindow(SW_HIDE);
