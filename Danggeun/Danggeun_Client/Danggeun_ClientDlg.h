@@ -11,6 +11,7 @@
 #include "Tab4.h"
 #include "MainTabCtrl.h"
 #include "UserDB.h"
+#include "PostDB.h"
 #pragma comment(lib, "sqlite3.lib")
 
 // CDanggeunClientDlg dialog
@@ -67,4 +68,8 @@ public:
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 protected:
 	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
+public:
+//	void OnClose();
+	/*afx_msg void OnClose();*/
+	afx_msg void OnClose();
 };

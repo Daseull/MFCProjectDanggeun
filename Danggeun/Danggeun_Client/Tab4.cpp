@@ -13,6 +13,8 @@ IMPLEMENT_DYNAMIC(CTab4, CDialogEx)
 
 CTab4::CTab4(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CTab4, pParent)
+	, m_strPhone(_T(""))
+	, m_strPW(_T(""))
 {
 	
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
@@ -32,6 +34,9 @@ void CTab4::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_QUIT, m_tMyButton2);
 	//  DDX_Text(pDX, IDC_STATIC_ID, m_userId);
 	DDX_Control(pDX, IDC_STATIC_ID, m_userid);
+	DDX_Text(pDX, IDC_EDIT_CHANGEPHONE, m_strPhone);
+	DDX_Text(pDX, IDC_EDIT_CHANGEPW, m_strPW);
+	DDX_Control(pDX, IDC_COMBO_CHANGETOWN, m_Town);
 }
 
 
@@ -40,6 +45,8 @@ BEGIN_MESSAGE_MAP(CTab4, CDialogEx)
 	ON_BN_CLICKED(IDCANCEL, &CTab4::OnBnClickedCancel)
 	//ON_BN_CLICKED(IDC_BUTTON_QUIT, &CTab4::OnBnClickedButtonQuit)
 	ON_WM_CTLCOLOR()
+	ON_BN_CLICKED(IDC_BUTTON_CHANGEOK, &CTab4::OnClickedButtonChangeok)
+	ON_BN_CLICKED(IDC_BUTTON_WITHDRAW, &CTab4::OnClickedButtonWithdraw)
 END_MESSAGE_MAP()
 
 
@@ -96,4 +103,62 @@ HBRUSH CTab4::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
+}
+
+
+BOOL CTab4::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+	extern CString CurrentUser;
+	extern CUserDB* userDB;
+	
+	
+	for (CUserDTO* user : userDB->userList) {
+		if (CurrentUser == user->GetUserID()) {
+			CString CurrentUser = user->GetUserID();
+			m_strPhone = user->GetPhone();
+			m_strPW = user->GetUserPW();
+			m_Town.SetCurSel(user->GetTown());
+		}
+	}
+
+
+	UpdateData(FALSE);
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+
+
+void CTab4::OnClickedButtonChangeok()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(TRUE);
+	
+	CUserDTO user;
+	extern CString CurrentUser;
+	extern CUserDB* userDB;
+
+	user.SetTown(m_Town.GetCurSel());
+	user.SetUserID(CurrentUser);
+	user.SetUserPW(m_strPW);
+	user.SetPhone(m_strPhone);
+	userDB->dao.updateUser(user);
+	AfxMessageBox("변경 완료!");
+
+}
+
+
+
+
+void CTab4::OnClickedButtonWithdraw()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	extern CString CurrentUser;
+	extern CUserDB* userDB;
+
+	AfxMessageBox("회원 탈퇴 완료ㅠㅠ\n 다음에 또 이용해주세요!");
+	userDB->dao.deleteUser(CurrentUser);
+	exit(0);
 }
