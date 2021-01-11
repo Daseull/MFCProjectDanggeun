@@ -35,8 +35,9 @@ void JoinDlg::OnBnClickedButtonJoinOk()
 	CString str, town;
 	CStdioFile file;
 	CFileException ex;
-	if (file.Open("UserTable.txt", CFile::modeWrite, &ex)) {
-		UpdateData(TRUE);
+	UpdateData(TRUE);
+	if (m_strID.GetLength() == 0 || m_strPW.GetLength() == 0 || m_strPHONE.GetLength() == 0) MessageBox("fill out all forms");
+	else if (file.Open("UserTable.txt", CFile::modeWrite, &ex)) {
 		file.SeekToEnd();
 		m_Town.GetLBText(m_Town.GetCurSel(), town);
 		town += "\n";
@@ -50,7 +51,7 @@ void JoinDlg::OnBnClickedButtonJoinOk()
 
 		// 종료한다. 
 		file.Close();
-		AfxMessageBox("Login Success !");
+		AfxMessageBox("Join Success !");
 		::SendMessage(((JoinDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM2, 0, 0);
 	}
 }

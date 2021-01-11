@@ -70,18 +70,18 @@ void CLoginDlg::OnBnClickedButtonLogin()
 			if (!strcmp(str, m_strID)) {
 				file.ReadString(str);
 				if (!strcmp(str, m_strPW)) {
-					MessageBox("로그인 성공 !");
+					MessageBox("Login Success !");
 					chk = 2;
 				}
 				else {
-					MessageBox("ID/PW를 확인해주세요");
+					MessageBox("check your ID/PW");
 					chk = 1;
 				}
 				break;
 			}
 		}
 
-		if (!chk) MessageBox("ID/PW를 확인해주세요");
+		if (!chk) MessageBox("check your ID/PW");
 		if(chk == 2) ::SendMessage(((CLoginDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
 		file.Close();
 	}
