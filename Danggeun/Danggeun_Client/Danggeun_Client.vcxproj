@@ -30,30 +30,30 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
+    <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -76,9 +76,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(SolutionDir)\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>
+    </OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -93,9 +97,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)SQlite3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)SQlite3;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -115,9 +123,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)\SQlite3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(ProjectDir)\SQlite3</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -183,22 +193,55 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ChatBox.h" />
+    <ClInclude Include="CreatePost.h" />
+    <ClInclude Include="CSocCom.h" />
     <ClInclude Include="Danggeun_Client.h" />
     <ClInclude Include="Danggeun_ClientDlg.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="JoinDlg.h" />
+    <ClInclude Include="ListCtrlEx.h" />
+    <ClInclude Include="LoginDlg.h" />
+    <ClInclude Include="MainTabCtrl.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="RoundButton2.h" />
+    <ClInclude Include="RoundButtonStyle.h" />
+    <ClInclude Include="SQlite3\sqlite3.h" />
+    <ClInclude Include="Tab1.h" />
+    <ClInclude Include="Tab2.h" />
+    <ClInclude Include="Tab3.h" />
+    <ClInclude Include="Tab4.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="UserDAO.h" />
+    <ClInclude Include="UserDB.h" />
+    <ClInclude Include="UserDTO.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChatBox.cpp" />
+    <ClCompile Include="CreatePost.cpp" />
+    <ClCompile Include="CSocCom.cpp" />
     <ClCompile Include="Danggeun_Client.cpp" />
     <ClCompile Include="Danggeun_ClientDlg.cpp" />
+    <ClCompile Include="JoinDlg.cpp" />
+    <ClCompile Include="ListCtrlEx.cpp" />
+    <ClCompile Include="LoginDlg.cpp" />
+    <ClCompile Include="MainTabCtrl.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RoundButton2.cpp" />
+    <ClCompile Include="RoundButtonStyle.cpp" />
+    <ClCompile Include="Tab1.cpp" />
+    <ClCompile Include="Tab2.cpp" />
+    <ClCompile Include="Tab3.cpp" />
+    <ClCompile Include="Tab4.cpp" />
+    <ClCompile Include="UserDAO.cpp" />
+    <ClCompile Include="UserDB.cpp" />
+    <ClCompile Include="UserDTO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DanggeunClient.rc" />
