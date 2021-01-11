@@ -34,11 +34,14 @@ void CCreatePost::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_POST_PRICE, m_strPrice);
 	DDX_Text(pDX, IDC_EDIT_POST_TEXT, m_strText);
 	DDX_Control(pDX, IDC_COMBO_STATE, m_state);
+	DDX_Control(pDX, IDC_STATIC_ADDPIC, m_img);
 }
 
 
 BEGIN_MESSAGE_MAP(CCreatePost, CDialogEx)
 	ON_WM_CTLCOLOR()
+	ON_BN_CLICKED(IDC_BUTTON_POST, &CCreatePost::OnBnClickedButtonPost)
+	ON_STN_CLICKED(IDC_STATIC_ADDPIC, &CCreatePost::OnStnClickedStaticAddpic)
 END_MESSAGE_MAP()
 
 
@@ -81,3 +84,46 @@ BOOL CCreatePost::OnInitDialog()
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
+
+CString img_path;
+void CCreatePost::OnBnClickedButtonPost()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	extern CPostDB* postDB;
+	postDB = new CPostDB;
+	postDB->InitDB();
+	postDB->postList = postDB->dao.getAll();
+
+	extern CUserDTO* CurrentUser;
+	UpdateData(TRUE);
+	CPostDTO post;
+	post.SetTitle(m_strTitle);
+	post.SetContent(m_strText);
+	post.SetImgName(img_path);
+	post.SetUserID(CurrentUser->GetUserID());
+	post.SetTown(CurrentUser->GetTown());
+	postDB->dao.createPost(post);
+	MessageBox("작성 완료 !");
+	::SendMessage(((CCreatePost*)GetParent())->GetSafeHwnd(), UWM_CUSTOM3, 0, 0);
+}
+
+
+void CCreatePost::OnStnClickedStaticAddpic()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	char szFilter[] = " All Files(*.*)|*.*|";
+	CFileDialog dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, (CString)szFilter, NULL);
+	if (IDOK == dlg.DoModal())
+	{
+		// 이미지 경로 획득
+		img_path = dlg.GetPathName();
+		CImage img;
+		img.Load(img_path);
+		HBITMAP h_bmp = (HBITMAP)img;
+		m_img.SetBitmap(h_bmp);
+		img_path = img_path.Mid(img_path.Find("res\\") + 4);
+	}
+}
+
+
+

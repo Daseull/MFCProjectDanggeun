@@ -46,4 +46,6 @@ public:
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual BOOL OnInitDialog();
+protected:
+	afx_msg LRESULT OnUwmCustom3(WPARAM wParam, LPARAM lParam);
 };

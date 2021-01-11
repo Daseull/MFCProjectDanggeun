@@ -31,4 +31,7 @@ public:
 	CComboBox m_state;
 	
 	virtual BOOL OnInitDialog();
+	afx_msg void OnBnClickedButtonPost();
+	afx_msg void OnStnClickedStaticAddpic();
+	CStatic m_img;
 };

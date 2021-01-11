@@ -215,8 +215,7 @@ void CTab1::OnClickedButtonSearch()
 void CTab1::OnBnClickedButtonNewpost()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	CCreatePost dlg;
-	dlg.DoModal();
+	::SendMessage(((CTab1*)GetParent()->GetParent())->GetSafeHwnd(), UWM_CUSTOM4, 0, 0);
 
 }
 
@@ -311,3 +310,6 @@ BOOL CTab1::OnInitDialog()
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
+
+
+
