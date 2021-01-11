@@ -38,6 +38,7 @@ BEGIN_MESSAGE_MAP(ChatBox, CDialogEx)
 	ON_MESSAGE(UM_RECEIVE, (LRESULT(AFX_MSG_CALL CWnd::*)(WPARAM, LPARAM))OnReceive)
 	ON_BN_CLICKED(IDC_BUTTON_SEND, &ChatBox::OnBnClickedButtonSend)
 	ON_WM_CTLCOLOR()
+	ON_COMMAND(IDOK, &ChatBox::OnIdok)
 END_MESSAGE_MAP()
 
 
@@ -87,6 +88,9 @@ void ChatBox::OnBnClickedButtonSend()
 	strTmp.Format(_T("%s"), pTmp);
 	int i = m_list.GetCount();
 	m_list.InsertString(i, strTmp);
+
+	m_strSend.Empty();
+	UpdateData(FALSE);
 	
 }
 
@@ -112,4 +116,11 @@ HBRUSH ChatBox::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
+}
+
+
+void ChatBox::OnIdok()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	OnBnClickedButtonSend();
 }

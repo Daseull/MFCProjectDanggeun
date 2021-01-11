@@ -31,4 +31,5 @@ public:
 	CRoundButtonStyle m_tMyButtonStyle;
 	CRoundButton2 m_tMyButton1;
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg void OnIdok();
 };

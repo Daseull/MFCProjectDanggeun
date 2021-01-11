@@ -22,9 +22,7 @@
 #define IDC_EDIT_PW                     1008
 #define IDC_STATIC_ID                   1009
 #define IDC_STATIC_PW                   1010
-#define IDC_STATIC_PW_EDIT              1010
 #define IDC_BUTTON_JOIN_OK              1011
-#define IDC_STATIC_INFO                 1011
 #define IDC_EDIT1                       1012
 #define IDC_EDIT2                       1013
 #define IDC_EDIT_JOIN_PW                1013
@@ -32,6 +30,7 @@
 #define IDC_EDIT_JOIN_PHONE             1014
 #define IDC_COMBO1                      1015
 #define IDC_COMBO_JOIN_TOWN             1015
+#define IDC_COMBO_STATE                 1016
 #define IDC_STATIC_TEL                  1017
 #define IDC_STATIC_TOWN                 1018
 #define IDC_TAB_MAIN                    1020
@@ -53,14 +52,17 @@
 #define IDC_EDIT_POST_TEXT              1040
 #define IDC_STATIC_TITLE                1041
 #define IDC_STATIC_PRICE                1042
+#define IDC_STATIC_ADDPIC               1044
+#define IDC_STATIC_PW_EDIT              1100
+#define IDC_STATIC_INFO                 1101
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        146
+#define _APS_NEXT_RESOURCE_VALUE        148
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1043
+#define _APS_NEXT_CONTROL_VALUE         1045
 #define _APS_NEXT_SYMED_VALUE           108
 #endif
 #endif

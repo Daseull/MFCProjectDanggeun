@@ -70,7 +70,8 @@ void CTab1::Init()
 	
 	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT);
 	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
-	m_list.InsertColumn(1, "가격", LVCFMT_RIGHT, 80);
+	m_list.InsertColumn(1, "가격", LVCFMT_CENTER, 80);
+	m_list.InsertColumn(2, "판매상태", LVCFMT_CENTER, 30);
 
 	LoadTownPost();
 }
@@ -174,7 +175,7 @@ void CTab1::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CTab1, CDialogEx)
 	ON_BN_CLICKED(IDOK, &CTab1::OnBnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, &CTab1::OnBnClickedCancel)
-	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CTab1::OnClickList1)
+//	ON_NOTIFY(NM_CLICK, IDC_LIST1, &CTab1::OnClickList1)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CTab1::OnLvnItemchangedList1)
 	ON_BN_CLICKED(IDC_BUTTON_SEARCH, &CTab1::OnClickedButtonSearch)
 	ON_BN_CLICKED(IDC_BUTTON_NEWPOST, &CTab1::OnBnClickedButtonNewpost)
@@ -182,6 +183,7 @@ BEGIN_MESSAGE_MAP(CTab1, CDialogEx)
 //	ON_WM_ERASEBKGND()
 //	ON_WM_CTLCOLOR()
 ON_WM_CTLCOLOR()
+ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CTab1::OnDblclkList1)
 END_MESSAGE_MAP()
 
 
@@ -218,27 +220,27 @@ void CTab1::OnClickedButtonSearch()
 
 }
 
-void CTab1::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult)
-{
-	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	ChatBox dlg = new ChatBox;
-	*pResult = 0;
-	
-	// 행 클릭시 행 넘버값 받아오기
-	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	int idx = pNMListView->iItem;
-
-	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
-	CString sIndexValue;
-	sIndexValue = m_list.GetItemText(idx, 1);
-
-	if (idx != -1) {
-		ChatBox dlg = new ChatBox;
-		dlg.DoModal();
-	}
-	
-}
+//void CTab1::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult)
+//{
+//	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+//	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+//	ChatBox dlg = new ChatBox;
+//	*pResult = 0;
+//	
+//	// 행 클릭시 행 넘버값 받아오기
+//	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+//	int idx = pNMListView->iItem;
+//
+//	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
+//	CString sIndexValue;
+//	sIndexValue = m_list.GetItemText(idx, 1);
+//
+//	if (idx != -1) {
+//		ChatBox dlg = new ChatBox;
+//		dlg.DoModal();
+//	}
+//	
+//}
 
 
 void CTab1::OnBnClickedButtonNewpost()
@@ -270,4 +272,28 @@ HBRUSH CTab1::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
+}
+
+
+void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	ChatBox dlg = new ChatBox;
+	*pResult = 0;
+
+	// 행 클릭시 행 넘버값 받아오기
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	int idx = pNMListView->iItem;
+
+	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
+	CString sIndexValue;
+	sIndexValue = m_list.GetItemText(idx, 1);
+
+	if (idx != -1) {
+		ChatBox dlg = new ChatBox;
+		dlg.DoModal();
+	}
+	
+	*pResult = 0;
 }

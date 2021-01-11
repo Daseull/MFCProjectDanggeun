@@ -28,4 +28,7 @@ public:
 	CString m_strPrice;
 	CString m_strText;
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	CComboBox m_state;
+	
+	virtual BOOL OnInitDialog();
 };
