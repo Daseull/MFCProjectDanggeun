@@ -75,7 +75,6 @@ CDanggeunClientDlg::CDanggeunClientDlg(CWnd* pParent /*=nullptr*/)
 	pDlg2 = NULL;
 	pDlg3 = NULL;
 	pDlg4 = NULL;
-
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
@@ -100,6 +99,8 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 //	ON_COMMAND(IDC_BUTTON_SEARCH, &CDanggeunClientDlg::OnButtonSearch)
 //  ON_WM_CLOSE()
 //ON_WM_CLOSE()
+ON_MESSAGE(UWM_CUSTOM4, &CDanggeunClientDlg::OnUwmCustom4)
+ON_MESSAGE(UWM_CUSTOM3, &CDanggeunClientDlg::OnUwmCustom3)
 END_MESSAGE_MAP()
 
 
@@ -327,4 +328,18 @@ void CDanggeunClientDlg::OnClose()
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CDialogEx::OnClose();
+}
+
+CCreatePost cDlg;
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
+{
+	cDlg.DoModal();
+	return 0;
+}
+
+
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom3(WPARAM wParam, LPARAM lParam)
+{
+	cDlg.EndDialog(IDOK);
+	return 0;
 }

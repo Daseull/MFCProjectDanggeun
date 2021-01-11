@@ -47,4 +47,6 @@ public:
 	afx_msg void OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual BOOL OnInitDialog();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+protected:
+	afx_msg LRESULT OnUwmCustom3(WPARAM wParam, LPARAM lParam);
 };
