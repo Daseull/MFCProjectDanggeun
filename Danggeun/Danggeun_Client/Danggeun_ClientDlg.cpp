@@ -187,14 +187,10 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	
 	userDB = new CUserDB(); // new keyword -> pointer
 	userDB->InitDB();
-
+	userDB->userList = userDB->dao.getAll();
 	/* DB Init
-	
-	
-	
+
 	*/
-
-
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 

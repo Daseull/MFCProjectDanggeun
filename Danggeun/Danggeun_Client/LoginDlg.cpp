@@ -6,6 +6,9 @@
 #include "LoginDlg.h"
 #include "afxdialogex.h"
 #include "JoinDlg.h"
+#include "UserDAO.h"
+#include "UserDB.h"
+#include "UserDTO.h"
 
 // CLoginDlg 대화 상자
 
@@ -65,26 +68,24 @@ void CLoginDlg::OnBnClickedButtonLogin()
 	CString str;
 	int chk = 0;
 	UpdateData(TRUE);
-	if (file.Open("UserTable.txt", CFile::modeRead)) {
-		while (file.ReadString(str)) {
-			if (!strcmp(str, m_strID)) {
-				file.ReadString(str);
-				if (!strcmp(str, m_strPW)) {
-					MessageBox("Login Success !");
-					chk = 2;
-				}
-				else {
-					MessageBox("check your ID/PW");
-					chk = 1;
-				}
-				break;
-			}
-		}
 
-		if (!chk) MessageBox("check your ID/PW");
-		if(chk == 2) ::SendMessage(((CLoginDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
-		file.Close();
+	CUserDB* userDB = new CUserDB(); // new keyword -> pointer
+	userDB->InitDB();
+	userDB->userList = userDB->dao.getAll();
+
+	for (CUserDTO* user : userDB->userList) {
+		if (m_strID == user->GetUserID() || m_strPW == user->GetUserPW()) {
+			MessageBox("Login Success!");
+			chk = 2;
+		}
+		else {
+			MessageBox("check your ID/PW");
+			chk = 1;
+		}
+		break;
 	}
+	if (!chk) MessageBox("check your ID/PW");
+	if (chk == 2) ::SendMessage(((CLoginDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
 }
 
 
