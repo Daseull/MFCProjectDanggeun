@@ -189,9 +189,6 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	userDB->InitDB();
 
 	/* DB Init
-	
-	
-	
 	*/
 
 
