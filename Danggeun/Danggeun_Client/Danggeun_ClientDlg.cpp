@@ -18,9 +18,9 @@
 #define new DEBUG_NEW
 #endif
 
+CString CurrentUser;
 
 // CAboutDlg dialog used for App About
-
 class CAboutDlg : public CDialogEx
 {
 public:
@@ -187,14 +187,10 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	
 	userDB = new CUserDB(); // new keyword -> pointer
 	userDB->InitDB();
-
+	userDB->userList = userDB->dao.getAll();
 	/* DB Init
-	
-	
-	
+
 	*/
-
-
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -319,6 +315,8 @@ HBRUSH CDanggeunClientDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 {
 	dlg.EndDialog(IDOK);
+	MessageBox(CurrentUser);
+	//pDlg1->m_strTown = CurrentUser;
 	return 0;
 }
 
