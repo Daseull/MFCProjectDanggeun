@@ -10,6 +10,8 @@
 #include "Tab3.h"
 #include "Tab4.h"
 #include "MainTabCtrl.h"
+#include "UserDB.h"
+#pragma comment(lib, "sqlite3.lib")
 
 // CDanggeunClientDlg dialog
 //얘네 뭐야...?
@@ -50,6 +52,8 @@ protected:
 public:
 //	CTabCtrl m_Tab;
 	afx_msg void OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult);
+
+	CUserDB* userDB;
 
 	CTab1* pDlg1;
 	CTab2* pDlg2;

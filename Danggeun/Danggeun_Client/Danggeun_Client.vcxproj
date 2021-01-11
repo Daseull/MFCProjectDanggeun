@@ -76,9 +76,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(SolutionDir)\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>
+    </OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -93,9 +97,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)SQlite3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)SQlite3;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -115,9 +123,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)\SQlite3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(ProjectDir)\SQlite3</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -197,11 +207,15 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RoundButton2.h" />
     <ClInclude Include="RoundButtonStyle.h" />
+    <ClInclude Include="SQlite3\sqlite3.h" />
     <ClInclude Include="Tab1.h" />
     <ClInclude Include="Tab2.h" />
     <ClInclude Include="Tab3.h" />
     <ClInclude Include="Tab4.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="UserDAO.h" />
+    <ClInclude Include="UserDB.h" />
+    <ClInclude Include="UserDTO.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChatBox.cpp" />
@@ -225,6 +239,9 @@
     <ClCompile Include="Tab2.cpp" />
     <ClCompile Include="Tab3.cpp" />
     <ClCompile Include="Tab4.cpp" />
+    <ClCompile Include="UserDAO.cpp" />
+    <ClCompile Include="UserDB.cpp" />
+    <ClCompile Include="UserDTO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DanggeunClient.rc" />

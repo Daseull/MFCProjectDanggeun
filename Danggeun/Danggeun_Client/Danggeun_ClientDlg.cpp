@@ -13,6 +13,7 @@
 #include "Tab4.h"
 #include "JoinDlg.h"
 #include "LoginDlg.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -184,7 +185,14 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		pDlg4->ShowWindow(SW_HIDE);
 	}
 	
+	userDB = new CUserDB(); // new keyword -> pointer
+	userDB->InitDB();
 
+	/* DB Init
+	
+	
+	
+	*/
 
 
 	return TRUE;  // return TRUE  unless you set the focus to a control

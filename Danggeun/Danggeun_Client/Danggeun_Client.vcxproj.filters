@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\DB">
+      <UniqueIdentifier>{86dc8661-a38c-4bed-a35a-c984d531d9b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Danggeun_Client.h">
@@ -72,6 +75,18 @@
     <ClInclude Include="CreatePost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UserDAO.h">
+      <Filter>Source Files\DB</Filter>
+    </ClInclude>
+    <ClInclude Include="UserDB.h">
+      <Filter>Source Files\DB</Filter>
+    </ClInclude>
+    <ClInclude Include="UserDTO.h">
+      <Filter>Source Files\DB</Filter>
+    </ClInclude>
+    <ClInclude Include="SQlite3\sqlite3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Danggeun_Client.cpp">
@@ -121,6 +136,15 @@
     </ClCompile>
     <ClCompile Include="CreatePost.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserDAO.cpp">
+      <Filter>Source Files\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="UserDB.cpp">
+      <Filter>Source Files\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="UserDTO.cpp">
+      <Filter>Source Files\DB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
