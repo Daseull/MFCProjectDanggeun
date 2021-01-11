@@ -49,12 +49,16 @@ END_MESSAGE_MAP()
 
 
 // CLoginDlg 메시지 처리기
-
 JoinDlg dlg = new JoinDlg;
+
 void CLoginDlg::OnBnClickedButtonJoin()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	
+
 	dlg.DoModal();
+
+
 }
 
 
