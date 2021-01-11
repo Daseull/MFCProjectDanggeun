@@ -113,9 +113,12 @@ CLoginDlg dlg = new CLoginDlg;
 
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
-	CDialogEx::OnInitDialog();
+	userDB = new CUserDB;
 
-	dlg.DoModal();
+	CDialogEx::OnInitDialog();
+	if (dlg.DoModal() == IDCANCEL) {		
+		exit(0);
+	}
 
 	// IDM_ABOUTBOX must be in the system command range.
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
