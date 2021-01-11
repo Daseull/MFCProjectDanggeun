@@ -90,10 +90,7 @@ void CCreatePost::OnBnClickedButtonPost()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	extern CPostDB* postDB;
-	postDB = new CPostDB;
-	postDB->InitDB();
-	postDB->postList = postDB->dao.getAll();
-
+	
 	extern CUserDTO* CurrentUser;
 	UpdateData(TRUE);
 	CPostDTO post;
@@ -104,6 +101,7 @@ void CCreatePost::OnBnClickedButtonPost()
 	post.SetTown(CurrentUser->GetTown());
 	postDB->dao.createPost(post);
 	MessageBox("작성 완료 !");
+	postDB->postList = postDB->dao.getAll();
 	::SendMessage(((CCreatePost*)GetParent())->GetSafeHwnd(), UWM_CUSTOM3, 0, 0);
 }
 

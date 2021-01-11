@@ -136,11 +136,11 @@ void CTab4::OnClickedButtonChangeok()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
-	
+	extern CUserDTO* CurrentUser;
 	extern CUserDB* userDB;	
 	CUserDTO user;
 	user.SetTown(m_Town.GetCurSel());
-	user.SetUserID(m_strID);
+	user.SetUserID(CurrentUser->GetUserID());
 	user.SetUserPW(m_strPW);
 	user.SetPhone(m_strPhone);
 	userDB->dao.updateUser(user);

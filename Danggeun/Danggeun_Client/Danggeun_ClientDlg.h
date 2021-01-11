@@ -57,10 +57,6 @@ public:
 //	CTabCtrl m_Tab;
 	afx_msg void OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult);
 
-	CUserDB* userDB;
-	CPostDB* postDB;
-	CBookMarkDB* bookMarkDB;
-
 	CTab1* pDlg1;
 	CTab2* pDlg2;
 	CTab3* pDlg3;
