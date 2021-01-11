@@ -2,7 +2,7 @@
 #include "BookMarkDAO.h"
 #pragma warning(disable:4996)
 CBookMarkDAO::CBookMarkDAO() {
-	_user = NULL;
+	_bookMark = NULL;
 	_db = NULL;
 	_stmt = NULL;
 	_errmsg = NULL;
@@ -34,9 +34,8 @@ int CBookMarkDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)
 	return nAnsiSize;
 }
 
-
 // C
-BOOL CBookMarkDAO::createUser(CBookMarkDTO user) {
+BOOL CBookMarkDAO::createBookMark(CBookMarkDTO bookMark) {
 
 
 	BOOL result = true;
@@ -71,18 +70,10 @@ BOOL CBookMarkDAO::createUser(CBookMarkDTO user) {
 	//}
 
 	//sqlite3_finalize(_stmt);
-	char userID[100];
-	int sLen;
-	dataClean(userID, user.GetUserID(), &sLen);
 
-
-
-	sqlite3_prepare_v2(_db, "insert into user(userID, userPw, town, phone, isAdmin) values(?,?,?,?,?)", -1, &_stmt, NULL);
-	sqlite3_bind_text(_stmt, 1, userID, strlen(userID), SQLITE_STATIC);
-	sqlite3_bind_text(_stmt, 2, user.GetUserPW(), user.GetUserPW().GetLength(), SQLITE_STATIC);
-	sqlite3_bind_int(_stmt, 3, user.GetTown());
-	sqlite3_bind_text(_stmt, 4, user.GetPhone(), user.GetPhone().GetLength(), SQLITE_STATIC);
-	sqlite3_bind_int(_stmt, 5, user.GetIsAdim());
+	sqlite3_prepare_v2(_db, "insert into bookmark(userID, postID) values(?,?)", -1, &_stmt, NULL);
+	sqlite3_bind_text(_stmt, 2, bookMark.GetUserID(), bookMark.GetUserID().GetLength(), SQLITE_STATIC);
+	sqlite3_bind_int(_stmt, 3, bookMark.GetPostID());
 	/*sqlite3_step(_stmt);
 	sqlite3_finalize(_stmt);*/
 
@@ -104,7 +95,7 @@ BOOL CBookMarkDAO::createUser(CBookMarkDTO user) {
 }
 
 // R
-CBookMarkDTO& CBookMarkDAO::getUser(CString userID) {
+CBookMarkDTO& CBookMarkDAO::getBookMark(int bookMarkID) {
 	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
 	int rc = sqlite3_open("test.db", &_db);
@@ -117,10 +108,10 @@ CBookMarkDTO& CBookMarkDAO::getUser(CString userID) {
 
 	// "from user"
 	CString sTmp;
-	sTmp.Format("select * from user where userID = ?");
+	sTmp.Format("select * from bookmark where bookMarkID= ?");
 
-	sqlite3_prepare16_v2(_db, sTmp, -1, &_stmt, NULL);
-	sqlite3_bind_text16(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
+	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
+	sqlite3_bind_int(_stmt, 1, bookMarkID);
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		throw NULL;
@@ -129,33 +120,19 @@ CBookMarkDTO& CBookMarkDAO::getUser(CString userID) {
 	int i;
 	int num_cols = sqlite3_column_count(_stmt);
 
-	_user = new CBookMarkDTO();
+	_bookMark = new CBookMarkDTO();
 
-	char szAnsi[300];
-	UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 0), szAnsi, 300);
-	CString _userID(szAnsi);
+	int _bookMarkID = sqlite3_column_int(_stmt, 0);
+	CString _userID(sqlite3_column_text(_stmt, 1));
+	int _postID = sqlite3_column_int(_stmt, 2);
 
-	UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 1), szAnsi, 300);
-	CString userPw(szAnsi);
-
-	int town = sqlite3_column_int(_stmt, 2);
-
-	UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300);
-	CString phone(szAnsi);
-
-	bool isAdmin = sqlite3_column_int(_stmt, 4);
-
-	_user->SetUserID(_userID);
-	_user->SetUserPW(userPw);
-	_user->SetTown(town);
-	_user->SetPhone(phone);
-	_user->SetIsAdim(isAdmin);
-
+	_bookMark->SetPostID(_bookMarkID);
+	_bookMark->SetUserID(_userID);
+	_bookMark->SetPostID(_postID);
 
 	sqlite3_finalize(_stmt);
-
 	sqlite3_close(_db);
-	return *_user;
+	return *_bookMark;
 }
 
 std::vector<CBookMarkDTO*> CBookMarkDAO::getAll() {
@@ -169,47 +146,85 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAll() {
 		exit(1);
 	}
 
-	// "from user"
+	
+	resetList();
 	CString sTmp;
-	sTmp.Format("select * from user");
+	sTmp.Format("select * from bookmark");
 
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
 		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
-		_user = new CBookMarkDTO();
+		_bookMark = new CBookMarkDTO();
 
-		char szAnsi[300];
-		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 0), szAnsi, 300);
-		CString userID(szAnsi);
+		int _bookMarkID = sqlite3_column_int(_stmt, 0);
+		CString _userID(sqlite3_column_text(_stmt, 1));
+		int _postID = sqlite3_column_int(_stmt, 2);
 
-		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 1), szAnsi, 300);
-		CString userPw(szAnsi);
+		_bookMark->SetPostID(_bookMarkID);
+		_bookMark->SetUserID(_userID);
+		_bookMark->SetPostID(_postID);
 
-		int town = sqlite3_column_int(_stmt, 2);
-
-		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300);
-		CString phone(szAnsi);
-
-		bool isAdmin = sqlite3_column_int(_stmt, 4);
-
-		_user->SetUserID(userID);
-		_user->SetUserPW(userPw);
-		_user->SetTown(town);
-		_user->SetPhone(phone);
-		_user->SetIsAdim(isAdmin);
-
-		_userList.push_back(_user);
+		_bookMarkList.push_back(_bookMark);
 	}
 
 	sqlite3_finalize(_stmt);
 
 	sqlite3_close(_db);
-	return _userList;
+	return _bookMarkList;
 }
 
-std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByTown(int townID) {
+std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByUser(CString userID) {
+	// 테이블을 읽어와 리스트 컨트롤에 보여주기
+
+	int rc = sqlite3_open("test.db", &_db);
+	if (rc != SQLITE_OK)
+	{
+		printf("Failed to open DB\n");
+		sqlite3_close(_db);
+		exit(1);
+	}
+
+	//sqlite3_finalize(_stmt);
+	//sqlite3_prepare(_db, "INSERT ... (?,?)", -1, &_stmt, NULL);
+	//sqlite3_bind_int(_stmt, 1, 123);
+	//sqlite3_bind_int(_stmt, 2, 456);
+	//sqlite3_step(_stmt);
+	//sqlite3_finalize(_stmt);
+
+
+	resetList();
+	CString sTmp;
+	//sTmp.Format(_T("select * from db where "));
+	sTmp.Format(_T("select * from bookmark where userID = ?"));
+	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
+	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
+	
+	while (sqlite3_step(_stmt) != SQLITE_DONE) {
+		int i;
+		int num_cols = sqlite3_column_count(_stmt);
+
+		_bookMark = new CBookMarkDTO();
+
+		int _bookMarkID = sqlite3_column_int(_stmt, 0);
+		CString _userID(sqlite3_column_text(_stmt, 1));
+		int _postID = sqlite3_column_int(_stmt, 2);
+
+		_bookMark->SetPostID(_bookMarkID);
+		_bookMark->SetUserID(_userID);
+		_bookMark->SetPostID(_postID);
+
+		_bookMarkList.push_back(_bookMark);
+	}
+
+	sqlite3_finalize(_stmt);
+
+	sqlite3_close(_db);
+	return _bookMarkList;
+}
+
+std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByPost(int postID) {
 	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
 	int rc = sqlite3_open("test.db", &_db);
@@ -229,93 +244,78 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByTown(int townID) {
 
 
 	// "from user"
+	resetList();
 	CString sTmp;
 	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("select * from user where town = ?"));
+	sTmp.Format(_T("select * from bookmark where postID = ?"));
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
-	sqlite3_bind_int(_stmt, 1, townID);
+	sqlite3_bind_int(_stmt, 1, postID);
+
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
 		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
-		_user = new CBookMarkDTO();
+		_bookMark = new CBookMarkDTO();
 
-		char szAnsi[300];
-		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 0), szAnsi, 300);
-		CString userID(szAnsi);
+		int _bookMarkID = sqlite3_column_int(_stmt, 0);
+		CString _userID(sqlite3_column_text(_stmt, 1));
+		int _postID = sqlite3_column_int(_stmt, 2);
 
-		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 1), szAnsi, 300);
-		CString userPw(szAnsi);
+		_bookMark->SetPostID(_bookMarkID);
+		_bookMark->SetUserID(_userID);
+		_bookMark->SetPostID(_postID);
 
-		int town = sqlite3_column_int(_stmt, 2);
-
-		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300);
-		CString phone(szAnsi);
-
-		bool isAdmin = sqlite3_column_int(_stmt, 4);
-
-		_user->SetUserID(userID);
-		_user->SetUserPW(userPw);
-		_user->SetTown(town);
-		_user->SetPhone(phone);
-		_user->SetIsAdim(isAdmin);
-
-		_userList.push_back(_user);
+		_bookMarkList.push_back(_bookMark);
 	}
 
 	sqlite3_finalize(_stmt);
 
 	sqlite3_close(_db);
-	return _userList;
+	return _bookMarkList;
 }
+
 
 // U
-BOOL CBookMarkDAO::updateUser(CBookMarkDTO user) {
-
-
-	int rc = sqlite3_open("test.db", &_db);
-	if (rc != SQLITE_OK)
-	{
-		printf("Failed to open DB\n");
-		sqlite3_close(_db);
-		exit(1);
-	}
-
-	sqlite3_finalize(_stmt);
-	sqlite3_prepare(_db, "UPDATE user SET userID = ?,"
-										 "userPw = ?,"
-										 "town = ?,"
-										 "phone = ?,"
-										 "isAdmin = WHERE userID = ? ", -1, &_stmt, NULL);
-
-
-	// https://stackoverflow.com/a/61796041/14099774
-	BOOL result = true;
-
-	sqlite3_bind_text(_stmt, 1, user.GetUserID(), user.GetUserID().GetLength(), SQLITE_TRANSIENT);
-	sqlite3_bind_text(_stmt, 2, user.GetUserPW(), user.GetUserPW().GetLength(), SQLITE_TRANSIENT);
-	sqlite3_bind_int(_stmt, 3, user.GetTown());
-	sqlite3_bind_text(_stmt, 4, user.GetPhone(), user.GetPhone().GetLength(), SQLITE_TRANSIENT);
-	sqlite3_bind_int(_stmt, 5, user.GetIsAdim());
-	
-	
-
-	if (sqlite3_step(_stmt) != SQLITE_DONE) {
-		// 제대로 동작하지 않은 경우
-		result = false;
-	}
-	// https://www.sqlite.org/c3ref/step.html
-	// reset -> 
-	sqlite3_reset(_stmt);
-	sqlite3_finalize(_stmt);
-
-	sqlite3_close(_db);
-
-	return result;
-}
+//BOOL CBookMarkDAO::updateBookMark(CBookMarkDTO bookmark) {
+//
+//
+//	int rc = sqlite3_open("test.db", &_db);
+//	if (rc != SQLITE_OK)
+//	{
+//		printf("Failed to open DB\n");
+//		sqlite3_close(_db);
+//		exit(1);
+//	}
+//
+//	sqlite3_finalize(_stmt);
+//	sqlite3_prepare(_db, "UPDATE bookmark SET userID = ?,"
+//										 "postID = ?"
+//										 "WHERE bookMarkID = ? ", -1, &_stmt, NULL);
+//
+//
+//	// https://stackoverflow.com/a/61796041/14099774
+//	BOOL result = true;
+//
+//	sqlite3_bind_text(_stmt, 1, bookmark.GetUserID(), bookmark.GetUserID().GetLength(), SQLITE_STATIC);
+//	sqlite3_bind_int(_stmt, 2, bookmark.GetPostID());
+//	sqlite3_bind_int(_stmt, 3, bookmark.GetBookMarkID());
+//	
+//	if (sqlite3_step(_stmt) != SQLITE_DONE) {
+//		// 제대로 동작하지 않은 경우
+//		result = false;
+//	}
+//	// https://www.sqlite.org/c3ref/step.html
+//	// reset -> 
+//	sqlite3_reset(_stmt);
+//	sqlite3_finalize(_stmt);
+//
+//	sqlite3_close(_db);
+//
+//	return result;
+//}
 
 // D
-BOOL CBookMarkDAO::deleteUser(CString userID) {
+BOOL CBookMarkDAO::deleteBookMark(int bookMarkID) {
 	int rc = sqlite3_open("test.db", &_db);
 	if (rc != SQLITE_OK)
 	{
@@ -339,8 +339,8 @@ BOOL CBookMarkDAO::deleteUser(CString userID) {
 	//	printf("delete");
 	//}
 
-	sqlite3_prepare(_db, "delete from user where userID = ?", -1, &_stmt, NULL);
-	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_TRANSIENT);
+	sqlite3_prepare(_db, "delete from bookmark where bookMarkID = ?", -1, &_stmt, NULL);
+	sqlite3_bind_int(_stmt, 1, bookMarkID);
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
@@ -354,7 +354,6 @@ BOOL CBookMarkDAO::deleteUser(CString userID) {
 	sqlite3_close(_db);
 
 	return result;
-	
 }
 
 

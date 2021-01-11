@@ -10,8 +10,7 @@ public:
 	CBookMarkDB();
 	void InitDB();
 	
-	
 	CBookMarkDTO dto;
 	CBookMarkDAO dao;
-	std::vector<CBookMarkDTO*> userList;
+	std::vector<CBookMarkDTO*> bookMarkList;
 };
