@@ -9,5 +9,16 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
+#include <afxsock.h>
+#include "CSocCom.h"
+
+#define UM_RECEIVE	WM_USER+2
+#define UWM_CUSTOM1	WM_USER+3
+#define UWM_CUSTOM2	WM_USER+4
 
 #endif //PCH_H
+
+//��64���� �������Ѵٰ� ��������... �ٵ� ���� �����س����...?
+//#ifndef _AFX_NO_DB_SUPPORT
+//#include <afxdao.h>
+//#endif

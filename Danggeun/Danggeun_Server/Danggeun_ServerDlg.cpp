@@ -7,6 +7,7 @@
 #include "Danggeun_Server.h"
 #include "Danggeun_ServerDlg.h"
 #include "afxdialogex.h"
+#pragma warning(disable:4996)
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -52,6 +53,8 @@ END_MESSAGE_MAP()
 
 CDanggeunServerDlg::CDanggeunServerDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DANGGEUN_SERVER_DIALOG, pParent)
+	, m_strStatus(_T(""))
+	, m_strSend(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -59,12 +62,18 @@ CDanggeunServerDlg::CDanggeunServerDlg(CWnd* pParent /*=nullptr*/)
 void CDanggeunServerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_LIST1, m_list);
+	DDX_Text(pDX, IDC_STATIC_STATUS, m_strStatus);
+	DDX_Text(pDX, IDC_EDIT_SEND, m_strSend);
 }
 
 BEGIN_MESSAGE_MAP(CDanggeunServerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_MESSAGE(UM_ACCEPT, (LRESULT(AFX_MSG_CALL  CWnd::*)(WPARAM, LPARAM)) OnAccept)
+	ON_MESSAGE(UM_RECEIVE, (LRESULT(AFX_MSG_CALL  CWnd::*)(WPARAM, LPARAM)) OnReceive)
+	ON_BN_CLICKED(IDC_BUTTON_SEND, &CDanggeunServerDlg::OnBnClickedButtonSend)
 END_MESSAGE_MAP()
 
 
@@ -73,6 +82,14 @@ END_MESSAGE_MAP()
 BOOL CDanggeunServerDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
+	m_socCom = NULL;
+
+	m_socServer.Create(5000);
+	m_socServer.Listen();
+	m_socServer.Init(this->m_hWnd);
+	//AfxMessageBox(_T("Create!"));
+	return TRUE;
+
 
 	// Add "About..." menu item to system menu.
 
@@ -153,3 +170,46 @@ HCURSOR CDanggeunServerDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+LPARAM CDanggeunServerDlg::OnAccept(UINT wParam, LPARAM IParam) {
+	m_strStatus = "접속성공";
+	m_socCom = new CSocCom;
+	m_socCom = m_socServer.GetAcceptSocCom();
+	m_socCom->Init(this->m_hWnd);
+
+	m_socCom->Send("접속성공", 256);
+
+	UpdateData(FALSE);
+	return TRUE;
+}
+// (LRESULT(_cdecl CWnd::*)(WPARAM, LPARAM))
+
+LPARAM CDanggeunServerDlg::OnReceive(UINT wParam, LPARAM IParam) {
+	char pTmp[256];
+	CString strTmp;
+	memset(pTmp, '\0', 256);
+
+	m_socCom->Receive(pTmp, 256);
+	strTmp.Format(_T("%s"), pTmp);
+
+	int i = m_list.GetCount();
+	m_list.InsertString(i, strTmp);
+	return TRUE;
+
+}
+
+void CDanggeunServerDlg::OnBnClickedButtonSend()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(TRUE);
+	char pTmp[256];
+	CString strTmp;
+
+	memset(pTmp, '\0', 256);
+	strcpy_s(pTmp, m_strSend);
+	m_socCom->Send(pTmp, 256);
+
+	strTmp.Format(_T("%s"), pTmp);
+	int i = m_list.GetCount();
+	m_list.InsertString(i, strTmp);
+}
