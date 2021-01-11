@@ -19,7 +19,7 @@
 #endif
 
 CString CurrentUser;
-
+CUserDB* userDB;
 // CAboutDlg dialog used for App About
 class CAboutDlg : public CDialogEx
 {
@@ -165,6 +165,7 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	pDlg4->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg4->ShowWindow(SW_SHOW);
 
+
 	font_sel.DeleteObject();
 
 	m_Tab.ModifyStyle(0, TCS_OWNERDRAWFIXED);//tab 색상
@@ -185,9 +186,6 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		pDlg4->ShowWindow(SW_HIDE);
 	}
 	
-	userDB = new CUserDB(); // new keyword -> pointer
-	userDB->InitDB();
-	userDB->userList = userDB->dao.getAll();
 	/* DB Init
 
 	*/
@@ -315,8 +313,6 @@ HBRUSH CDanggeunClientDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 {
 	dlg.EndDialog(IDOK);
-	MessageBox(CurrentUser);
-	//pDlg1->m_strTown = CurrentUser;
 	return 0;
 }
 

@@ -14,7 +14,7 @@
 
 IMPLEMENT_DYNAMIC(CLoginDlg, CDialogEx)
 extern CString CurrentUser;
-
+extern CUserDB* userDB;
 CLoginDlg::CLoginDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOG_LOGIN, pParent)
 	, m_strID(_T(""))
@@ -58,11 +58,7 @@ JoinDlg dlg = new JoinDlg;
 void CLoginDlg::OnBnClickedButtonJoin()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	
-
 	dlg.DoModal();
-
-
 }
 
 
@@ -79,18 +75,19 @@ void CLoginDlg::OnBnClickedButtonLogin()
 	userDB->userList = userDB->dao.getAll();
 
 	for (CUserDTO* user : userDB->userList) {
-		if (m_strID == user->GetUserID() || m_strPW == user->GetUserPW()) {
-
-			CurrentUser = m_strID;
-			//MessageBox((m_strPW == user->GetUserPW()));
-			MessageBox("Login Success!");
-			chk = 2;
+		if (m_strID == user->GetUserID()) {
+			if (m_strPW == user->GetUserPW()) {
+				CurrentUser = m_strID;
+				//MessageBox((m_strPW == user->GetUserPW()));
+				MessageBox("Login Success!");
+				chk = 2;
+			}
+			else {
+				MessageBox("check your ID/PW");
+				chk = 1;
+			}
+			break;
 		}
-		else {
-			MessageBox("check your ID/PW");
-			chk = 1;
-		}
-		break;
 	}
 	if (!chk) MessageBox("check your ID/PW");
 	if (chk == 2) ::SendMessage(((CLoginDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);

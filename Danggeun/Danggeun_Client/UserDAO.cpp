@@ -34,7 +34,6 @@ int CUserDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)
 	return nAnsiSize;
 }
 
-
 // C
 BOOL CUserDAO::createUser(CUserDTO user) {
 
