@@ -140,6 +140,7 @@ void CTab4::OnClickedButtonChangeok()
 	extern CString CurrentUser;
 	extern CUserDB* userDB;
 
+	user.SetTown(m_Town.GetCurSel());
 	user.SetUserID(CurrentUser);
 	user.SetUserPW(m_strPW);
 	user.SetPhone(m_strPhone);
