@@ -1,8 +1,8 @@
 #include "pch.h"
-#include "UserDTO.h"
+#include "BookMarkDTO.h"
 
 
-CUserDTO::CUserDTO() {
+CBookMarkDTO::CBookMarkDTO() {
 	SetUserID("");
 	SetUserPW("");
 	SetTown(-1);
@@ -11,19 +11,19 @@ CUserDTO::CUserDTO() {
 }
 
 // Setter
-void CUserDTO::SetUserID(CString userID) {
+void CBookMarkDTO::SetUserID(CString userID) {
 	this->userID = userID;
 }
-void CUserDTO::SetUserPW(CString userPw) {
+void CBookMarkDTO::SetUserPW(CString userPw) {
 	this->userPw = userPw;
 }
-void CUserDTO::SetTown(int nTown) {
+void CBookMarkDTO::SetTown(int nTown) {
 	this->town = nTown;
 }
-void CUserDTO::SetPhone(CString phone) {
+void CBookMarkDTO::SetPhone(CString phone) {
 	this->phone = phone;
 
 }
-void CUserDTO::SetIsAdim(BOOL isAdmin) {
+void CBookMarkDTO::SetIsAdim(BOOL isAdmin) {
 	this->isAdmin = isAdmin;
 }

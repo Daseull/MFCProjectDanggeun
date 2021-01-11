@@ -1,29 +1,32 @@
 #include "pch.h"
-#include "UserDTO.h"
+#include "PostDTO.h"
 
 
-CUserDTO::CUserDTO() {
-	SetUserID("");
-	SetUserPW("");
-	SetTown(-1);
-	SetPhone("");
-	SetIsAdim(FALSE);
+CPostDTO::CPostDTO() {
+	CPostDTO::SetPostID(-1);
+	CPostDTO::SetUserID("");
+	CPostDTO::SetTown(-1);
+	CPostDTO::SetTitle("");
+	CPostDTO::SetContent("");
+	CPostDTO::SetImgName("");
 }
 
 // Setter
-void CUserDTO::SetUserID(CString userID) {
+void CPostDTO::SetPostID(int postID) {
+	this->postID = postID;
+}
+void CPostDTO::SetUserID(CString userID) {
 	this->userID = userID;
 }
-void CUserDTO::SetUserPW(CString userPw) {
-	this->userPw = userPw;
+void CPostDTO::SetTown(int town) {
+	this->town = town;
 }
-void CUserDTO::SetTown(int nTown) {
-	this->town = nTown;
+void CPostDTO::SetTitle(CString title) {
+	this->title = title;
 }
-void CUserDTO::SetPhone(CString phone) {
-	this->phone = phone;
-
+void CPostDTO::SetContent(CString content) {
+	this->content = content;
 }
-void CUserDTO::SetIsAdim(BOOL isAdmin) {
-	this->isAdmin = isAdmin;
+void CPostDTO::SetImgName(CString imgName) {
+	this->imgName = imgName;
 }

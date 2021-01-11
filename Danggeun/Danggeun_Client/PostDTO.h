@@ -1,30 +1,32 @@
 #pragma once
 #include <afxstr.h>
 
-
 // 
-class CUserDTO {
+class CPostDTO {
 public:
-	CUserDTO();
+	CPostDTO();
 private:
-	CString userID;
-	CString userPw;
-	int town;
-	CString phone;
-	BOOL isAdmin;
+	int postID; // PK
+	CString userID; // FK
+	int town; 
+	CString title;
+	CString content; // content
+	CString imgName; // img
 
 public:
 	// Getter
-	CString CUserDTO::GetUserID() { return userID; }
-	CString CUserDTO::GetUserPW() { return userPw; }
-	int CUserDTO::GetTown() { return town; }
-	CString CUserDTO::GetPhone() { return phone; }
-	BOOL CUserDTO::GetIsAdim() { return isAdmin; }
+	int CPostDTO::GetPostID() { return postID; }
+	CString CPostDTO::GetUserID() { return userID; }
+	int CPostDTO::GetTown() { return town; }
+	CString CPostDTO::GetTitle() { return title; }
+	CString CPostDTO::GetContent() { return content; }
+	CString CPostDTO::GetImgName() { return imgName; }
 
 	// Setter
-	void SetUserID(CString userID);
-	void SetUserPW(CString userPw);
-	void SetTown(int nTown);
-	void SetPhone(CString phone);
-	void SetIsAdim(BOOL isAdmin);
+	void CPostDTO::SetPostID(int postID);
+	void CPostDTO::SetUserID(CString userID);
+	void CPostDTO::SetTown(int town);
+	void CPostDTO::SetTitle(CString title);
+	void CPostDTO::SetContent(CString content);
+	void CPostDTO::SetImgName(CString imgName);
 };

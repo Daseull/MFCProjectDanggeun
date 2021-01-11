@@ -11,6 +11,7 @@
 #include "Tab4.h"
 #include "MainTabCtrl.h"
 #include "UserDB.h"
+#include "PostDB.h"
 #pragma comment(lib, "sqlite3.lib")
 
 // CDanggeunClientDlg dialog
@@ -54,6 +55,7 @@ public:
 	afx_msg void OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult);
 
 	CUserDB* userDB;
+	CPostDB* postDB;
 
 	CTab1* pDlg1;
 	CTab2* pDlg2;

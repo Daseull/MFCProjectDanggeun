@@ -185,10 +185,13 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		pDlg4->ShowWindow(SW_HIDE);
 	}
 	
-	userDB = new CUserDB(); // new keyword -> pointer
-	userDB->InitDB();
+	postDB = new CPostDB();
+	postDB->InitDB();
+
 
 	/* DB Init
+	userDB = new CUserDB(); // new keyword -> pointer
+	userDB->InitDB();
 	*/
 
 

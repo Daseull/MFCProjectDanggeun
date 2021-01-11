@@ -1,16 +1,16 @@
 #include "pch.h"
-#include "UserDB.h"
+#include "BookMarkDB.h"
 #include "Danggeun_ClientDlg.h"
 
 // SQLite는 UTF8을 사용하기 때문에 코드 변환이 필요합니다.
 // 출처 - http://dolphin.ivyro.net/file/algorithm/SQLite/tutoria03.html
 
-CUserDB::CUserDB() {
-	dao = CUserDAO();
-	dto = CUserDTO();
+CBookMarkDB::CBookMarkDB() {
+	dao = CBookMarkDAO();
+	dto = CBookMarkDTO();
 }
 
-void CUserDB::InitDB() {
+void CBookMarkDB::InitDB() {
 	// 데이터베이스 파일 생성 및 열기
 
 	int rc = sqlite3_open("test.db", &(dao._db));

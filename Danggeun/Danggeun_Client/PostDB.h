@@ -1,17 +1,17 @@
 #pragma once
 //#include "MFC_DBDlg.h"
 #include "sqlite3.h"
-#include "UserDAO.h"
-#include "UserDTO.h"
+#include "PostDAO.h"
+#include "PostDTO.h"
 #include <vector>
-class CUserDB
+
+class CPostDB
 {
 public:
-	CUserDB();
+	CPostDB();
 	void InitDB();
 	
-	
-	CUserDTO dto;
-	CUserDAO dao;
-	std::vector<CUserDTO*> userList;
+	CPostDAO dao;
+	CPostDTO dto;
+	std::vector<CPostDTO*> postList;
 };

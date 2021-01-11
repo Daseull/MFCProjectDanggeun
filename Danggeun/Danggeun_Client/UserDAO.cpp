@@ -281,22 +281,22 @@ BOOL CUserDAO::updateUser(CUserDTO user) {
 		exit(1);
 	}
 
-	sqlite3_finalize(_stmt);
-	sqlite3_prepare(_db, "UPDATE user SET userID = ?"
-										 "userPw = ?"
+	//sqlite3_finalize(_stmt);
+	sqlite3_prepare(_db, "UPDATE user SET userPw = ?"
 										 "town = ?"
 										 "phone = ?"
-										 "isAdmin = ? ? WHERE userID = ? ", -1, &_stmt, NULL);
+										 "isAdmin = ?"
+										 "WHERE userID = ? ", -1, &_stmt, NULL);
 
 
 	// https://stackoverflow.com/a/61796041/14099774
 	BOOL result = true;
 
-	sqlite3_bind_text(_stmt, 1, user.GetUserID(), user.GetUserID().GetLength(), SQLITE_TRANSIENT);
-	sqlite3_bind_text(_stmt, 2, user.GetUserPW(), user.GetUserPW().GetLength(), SQLITE_TRANSIENT);
-	sqlite3_bind_int(_stmt, 3, user.GetTown());
-	sqlite3_bind_text(_stmt, 4, user.GetPhone(), user.GetPhone().GetLength(), SQLITE_TRANSIENT);
-	sqlite3_bind_int(_stmt, 5, user.GetIsAdim());
+	sqlite3_bind_text(_stmt, 1, user.GetUserPW(), user.GetUserPW().GetLength(), SQLITE_STATIC);
+	sqlite3_bind_int(_stmt, 2, user.GetTown());
+	sqlite3_bind_text(_stmt, 3, user.GetPhone(), user.GetPhone().GetLength(), SQLITE_STATIC);
+	sqlite3_bind_int(_stmt, 4, user.GetIsAdim());
+	sqlite3_bind_text(_stmt, 5, user.GetUserID(), user.GetUserID().GetLength(), SQLITE_STATIC);
 	
 	
 

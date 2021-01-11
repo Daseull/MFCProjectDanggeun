@@ -3,9 +3,9 @@
 
 
 // 
-class CUserDTO {
+class CBookMarkDTO {
 public:
-	CUserDTO();
+	CBookMarkDTO();
 private:
 	CString userID;
 	CString userPw;
@@ -15,11 +15,11 @@ private:
 
 public:
 	// Getter
-	CString CUserDTO::GetUserID() { return userID; }
-	CString CUserDTO::GetUserPW() { return userPw; }
-	int CUserDTO::GetTown() { return town; }
-	CString CUserDTO::GetPhone() { return phone; }
-	BOOL CUserDTO::GetIsAdim() { return isAdmin; }
+	CString CBookMarkDTO::GetUserID() { return userID; }
+	CString CBookMarkDTO::GetUserPW() { return userPw; }
+	int CBookMarkDTO::GetTown() { return town; }
+	CString CBookMarkDTO::GetPhone() { return phone; }
+	BOOL CBookMarkDTO::GetIsAdim() { return isAdmin; }
 
 	// Setter
 	void SetUserID(CString userID);

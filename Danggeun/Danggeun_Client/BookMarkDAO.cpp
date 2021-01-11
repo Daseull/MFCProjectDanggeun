@@ -1,14 +1,14 @@
 #include "pch.h"
-#include "UserDAO.h"
+#include "BookMarkDAO.h"
 #pragma warning(disable:4996)
-CUserDAO::CUserDAO() {
+CBookMarkDAO::CBookMarkDAO() {
 	_user = NULL;
 	_db = NULL;
 	_stmt = NULL;
 	_errmsg = NULL;
 }
 
-int CUserDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize)
+int CBookMarkDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize)
 {
 	WCHAR 	szUnicode[255];
 	char 	szUTF8code[255];
@@ -20,7 +20,7 @@ int CUserDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize)
 	strDest[nUTF8codeSize] = 0;
 	return nUTF8codeSize;
 }
-int CUserDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)
+int CBookMarkDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)
 {
 	WCHAR 	szUnicode[255];
 	char 	szAnsi[255];
@@ -36,7 +36,7 @@ int CUserDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)
 
 
 // C
-BOOL CUserDAO::createUser(CUserDTO user) {
+BOOL CBookMarkDAO::createUser(CBookMarkDTO user) {
 
 
 	BOOL result = true;
@@ -104,7 +104,7 @@ BOOL CUserDAO::createUser(CUserDTO user) {
 }
 
 // R
-CUserDTO& CUserDAO::getUser(CString userID) {
+CBookMarkDTO& CBookMarkDAO::getUser(CString userID) {
 	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
 	int rc = sqlite3_open("test.db", &_db);
@@ -129,7 +129,7 @@ CUserDTO& CUserDAO::getUser(CString userID) {
 	int i;
 	int num_cols = sqlite3_column_count(_stmt);
 
-	_user = new CUserDTO();
+	_user = new CBookMarkDTO();
 
 	char szAnsi[300];
 	UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 0), szAnsi, 300);
@@ -158,7 +158,7 @@ CUserDTO& CUserDAO::getUser(CString userID) {
 	return *_user;
 }
 
-std::vector<CUserDTO*> CUserDAO::getAll() {
+std::vector<CBookMarkDTO*> CBookMarkDAO::getAll() {
 	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
 	int rc = sqlite3_open("test.db", &_db);
@@ -178,7 +178,7 @@ std::vector<CUserDTO*> CUserDAO::getAll() {
 		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
-		_user = new CUserDTO();
+		_user = new CBookMarkDTO();
 
 		char szAnsi[300];
 		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 0), szAnsi, 300);
@@ -209,7 +209,7 @@ std::vector<CUserDTO*> CUserDAO::getAll() {
 	return _userList;
 }
 
-std::vector<CUserDTO*> CUserDAO::getAllByTown(int townID) {
+std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByTown(int townID) {
 	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
 	int rc = sqlite3_open("test.db", &_db);
@@ -238,7 +238,7 @@ std::vector<CUserDTO*> CUserDAO::getAllByTown(int townID) {
 		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
-		_user = new CUserDTO();
+		_user = new CBookMarkDTO();
 
 		char szAnsi[300];
 		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 0), szAnsi, 300);
@@ -270,7 +270,7 @@ std::vector<CUserDTO*> CUserDAO::getAllByTown(int townID) {
 }
 
 // U
-BOOL CUserDAO::updateUser(CUserDTO user) {
+BOOL CBookMarkDAO::updateUser(CBookMarkDTO user) {
 
 
 	int rc = sqlite3_open("test.db", &_db);
@@ -315,7 +315,7 @@ BOOL CUserDAO::updateUser(CUserDTO user) {
 }
 
 // D
-BOOL CUserDAO::deleteUser(CString userID) {
+BOOL CBookMarkDAO::deleteUser(CString userID) {
 	int rc = sqlite3_open("test.db", &_db);
 	if (rc != SQLITE_OK)
 	{
@@ -358,7 +358,7 @@ BOOL CUserDAO::deleteUser(CString userID) {
 }
 
 
-void CUserDAO::dataClean(char* dest, CString str, int* sLen) {
+void CBookMarkDAO::dataClean(char* dest, CString str, int* sLen) {
 	char* tmp;
 	//*sLen = WideCharToMultiByte(CP_ACP, 0, (LPCWCH)(LPCTSTR)str, -1, NULL, 0, NULL, NULL);
 	tmp = new char[str.GetLength() + 1];

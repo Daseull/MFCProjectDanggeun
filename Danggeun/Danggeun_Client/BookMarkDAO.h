@@ -1,20 +1,20 @@
 #pragma once
 #include <vector>
-#include "UserDTO.h"
+#include "BookMarkDTO.h"
 #include "sqlite3.h"
 #include <assert.h>
 
-class CUserDAO {
+class CBookMarkDAO {
 public:
 	//CUserDAO(sqlite3* db, sqlite3_stmt* stmt, char* errmsg);
-	CUserDAO();
+	CBookMarkDAO();
 
 	sqlite3* _db;
 	sqlite3_stmt* _stmt;
 	char* _errmsg;
 private:
-	std::vector<CUserDTO*> _userList;
-	CUserDTO* _user;
+	std::vector<CBookMarkDTO*> _userList;
+	CBookMarkDTO* _user;
 
 public:
 	int AnsiToUTF8(char* szSrc, char* strDest, int destSize);
@@ -22,13 +22,13 @@ public:
 	void dataClean(char* dest, CString str, int* sLen);
 	void resetList(){ _userList.clear(); }
 	// C
-	BOOL createUser(CUserDTO);
+	BOOL createUser(CBookMarkDTO);
 	// R
-	CUserDTO& getUser(CString userID);
-	std::vector<CUserDTO*> getAll();
-	std::vector<CUserDTO*> getAllByTown(int townID);
+	CBookMarkDTO& getUser(CString userID);
+	std::vector<CBookMarkDTO*> getAll();
+	std::vector<CBookMarkDTO*> getAllByTown(int townID);
 	// U
-	BOOL updateUser(CUserDTO);
+	BOOL updateUser(CBookMarkDTO);
 	// D
 	BOOL deleteUser(CString userID);
 };

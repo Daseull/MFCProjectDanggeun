@@ -93,6 +93,24 @@
     <ClInclude Include="UserDTO.h">
       <Filter>Source Files\DB\Header</Filter>
     </ClInclude>
+    <ClInclude Include="BookMarkDAO.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BookMarkDB.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BookMarkDTO.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PostDAO.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PostDB.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PostDTO.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Danggeun_Client.cpp">
@@ -144,13 +162,31 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UserDAO.cpp">
-      <Filter>Source Files\DB</Filter>
+      <Filter>Source Files\DB\Source</Filter>
     </ClCompile>
     <ClCompile Include="UserDB.cpp">
-      <Filter>Source Files\DB</Filter>
+      <Filter>Source Files\DB\Source</Filter>
     </ClCompile>
     <ClCompile Include="UserDTO.cpp">
-      <Filter>Source Files\DB</Filter>
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BookMarkDAO.cpp">
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BookMarkDB.cpp">
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BookMarkDTO.cpp">
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PostDAO.cpp">
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PostDB.cpp">
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PostDTO.cpp">
+      <Filter>Source Files\DB\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
