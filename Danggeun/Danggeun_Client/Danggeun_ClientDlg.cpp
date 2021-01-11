@@ -189,9 +189,19 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	userDB->InitDB();
 
 	/* DB Init
-	
-	
-	
+	postDB = new CPostDB();
+	postDB->InitDB();
+
+	// create/update
+	CUserDTO user;
+	user.SetUserID("2");
+	user.SetUserPW("3");
+	user.SetTown(2);
+	user.SetPhone("44444");
+	user.SetIsAdim(FALSE);
+
+	userDB->dao.updateUser(user);
+	//userDB->dao.createUser(user);
 	*/
 
 

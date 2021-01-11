@@ -193,6 +193,9 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BookMarkDAO.h" />
+    <ClInclude Include="BookMarkDB.h" />
+    <ClInclude Include="BookMarkDTO.h" />
     <ClInclude Include="ChatBox.h" />
     <ClInclude Include="CreatePost.h" />
     <ClInclude Include="CSocCom.h" />
@@ -204,6 +207,9 @@
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="MainTabCtrl.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PostDAO.h" />
+    <ClInclude Include="PostDB.h" />
+    <ClInclude Include="PostDTO.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RoundButton2.h" />
     <ClInclude Include="RoundButtonStyle.h" />
@@ -218,6 +224,9 @@
     <ClInclude Include="UserDTO.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BookMarkDAO.cpp" />
+    <ClCompile Include="BookMarkDB.cpp" />
+    <ClCompile Include="BookMarkDTO.cpp" />
     <ClCompile Include="ChatBox.cpp" />
     <ClCompile Include="CreatePost.cpp" />
     <ClCompile Include="CSocCom.cpp" />
@@ -233,6 +242,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PostDAO.cpp" />
+    <ClCompile Include="PostDB.cpp" />
+    <ClCompile Include="PostDTO.cpp" />
     <ClCompile Include="RoundButton2.cpp" />
     <ClCompile Include="RoundButtonStyle.cpp" />
     <ClCompile Include="Tab1.cpp" />
