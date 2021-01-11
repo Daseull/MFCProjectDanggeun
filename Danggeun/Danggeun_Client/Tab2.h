@@ -8,8 +8,8 @@ class CTab2 : public CDialogEx
 	DECLARE_DYNAMIC(CTab2)
 private:
 	CBrush m_bk_brush;
-
 	CImageList m_ImageList;
+
 public:
 	CTab2(CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	virtual ~CTab2();
@@ -30,4 +30,6 @@ public:
 	void Init();
 	void LoadMyPost();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	virtual BOOL OnInitDialog();
+	afx_msg void OnDblclkListMyPost(NMHDR* pNMHDR, LRESULT* pResult);
 };

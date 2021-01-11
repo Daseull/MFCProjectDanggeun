@@ -67,6 +67,9 @@ void CTab1::LoadTownPost()
 			CBitmap bmp;
 			CImage img;
 			img.Load("res\\" + post->GetImgName());
+			if (img.IsNull()) {
+				img.Load("res\\LoadError.png");
+			}
 			bmp.Attach(img);
 			m_ImageList.Add(&bmp, RGB(255, 255, 255));
 			int i = m_list.GetItemCount();
@@ -115,6 +118,9 @@ void CTab1::SearchPost(CString Key)
 			CBitmap bmp;
 			CImage img;
 			img.Load("res\\" + post->GetImgName());
+			if (img.IsNull()) {
+				img.Load("res\\LoadError.png");
+			}
 			bmp.Attach(img);
 			m_ImageList.Add(&bmp, RGB(255, 255, 255));
 
@@ -273,7 +279,7 @@ BOOL CTab1::OnInitDialog()
 
 
 	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT);
-	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 420);
+	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
 	m_list.InsertColumn(1, "가격", LVCFMT_RIGHT, 100);
 	m_list.InsertColumn(2, "판매상태", LVCFMT_RIGHT, 100);
 	

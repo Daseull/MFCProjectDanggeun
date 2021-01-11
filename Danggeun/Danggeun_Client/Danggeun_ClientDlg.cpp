@@ -341,5 +341,6 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom3(WPARAM wParam, LPARAM lParam)
 {
 	cDlg.EndDialog(IDOK);
+	pDlg1->LoadTownPost();
 	return 0;
 }
