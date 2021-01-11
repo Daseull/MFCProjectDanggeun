@@ -35,7 +35,7 @@ void ChatBox::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(ChatBox, CDialogEx)
-	ON_MESSAGE(UM_RECEIVE, (LRESULT(_cdecl CWnd::*)(WPARAM, LPARAM))OnReceive)
+	ON_MESSAGE(UM_RECEIVE, (LRESULT(AFX_MSG_CALL CWnd::*)(WPARAM, LPARAM))OnReceive)
 	ON_BN_CLICKED(IDC_BUTTON_SEND, &ChatBox::OnBnClickedButtonSend)
 	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()

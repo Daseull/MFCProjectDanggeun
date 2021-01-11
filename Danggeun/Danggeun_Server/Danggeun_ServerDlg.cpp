@@ -7,6 +7,7 @@
 #include "Danggeun_Server.h"
 #include "Danggeun_ServerDlg.h"
 #include "afxdialogex.h"
+#pragma warning(disable:4996)
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -70,8 +71,8 @@ BEGIN_MESSAGE_MAP(CDanggeunServerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_MESSAGE(UM_ACCEPT, (LRESULT(_cdecl CWnd::*)(WPARAM, LPARAM)) OnAccept)
-	ON_MESSAGE(UM_RECEIVE, (LRESULT(_cdecl CWnd::*)(WPARAM, LPARAM)) OnReceive)
+	ON_MESSAGE(UM_ACCEPT, (LRESULT(AFX_MSG_CALL  CWnd::*)(WPARAM, LPARAM)) OnAccept)
+	ON_MESSAGE(UM_RECEIVE, (LRESULT(AFX_MSG_CALL  CWnd::*)(WPARAM, LPARAM)) OnReceive)
 	ON_BN_CLICKED(IDC_BUTTON_SEND, &CDanggeunServerDlg::OnBnClickedButtonSend)
 END_MESSAGE_MAP()
 
