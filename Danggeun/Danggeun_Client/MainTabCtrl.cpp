@@ -42,7 +42,8 @@ BOOL CMainTabCtrl::OnEraseBkgnd(CDC* pDC)
 void CMainTabCtrl::DrawItem(LPDRAWITEMSTRUCT IpDrawItemStruct)
 {
 	// TODO: 여기에 구현 코드 추가.
-    COLORREF m_select_border_color = RGB(253, 212, 129);
+    //COLORREF m_select_border_color = RGB(253, 212, 129);
+    COLORREF m_select_border_color = RGB(247, 134, 59);
     COLORREF m_select_text_color = RGB(0, 0, 0);
 
     COLORREF m_unselect_border_color = RGB(255, 235, 194);

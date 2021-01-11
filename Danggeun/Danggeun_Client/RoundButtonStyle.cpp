@@ -63,7 +63,7 @@ CRoundButtonStyle::CRoundButtonStyle(void)
 	
 	m_tButtonStyle.m_tColorBack.m_tEnabled		= GetSysColor(COLOR_3DFACE);
 	m_tButtonStyle.m_tColorBorder.m_tEnabled	= RGB(255, 205, 105);
-	m_tButtonStyle.m_tColorFace.m_tEnabled		= RGB(255, 189, 57);
+	m_tButtonStyle.m_tColorFace.m_tEnabled		= RGB(247, 134, 59);
 
 	//X
 	m_tButtonStyle.m_tColorBack.m_tClicked		= GetSysColor(COLOR_3DFACE);
