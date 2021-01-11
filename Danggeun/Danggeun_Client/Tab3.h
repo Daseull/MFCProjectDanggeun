@@ -29,4 +29,6 @@ public:
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	CRoundButtonStyle m_tMyButtonStyle;
 	CRoundButton2 m_tMyButton1;
+	CString m_strTown;
+	afx_msg void OnStnClickedCancel();
 };

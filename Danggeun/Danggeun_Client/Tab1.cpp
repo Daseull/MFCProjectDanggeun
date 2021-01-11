@@ -18,9 +18,7 @@ IMPLEMENT_DYNAMIC(CTab1, CDialogEx)
 CTab1::CTab1(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CTab1, pParent)
 	, m_strSearch(_T(""))
-	, m_strTown(_T("동네명"))//동네명으로 임의 추가함
 {
-
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);

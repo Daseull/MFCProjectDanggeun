@@ -30,6 +30,7 @@ void CTab3::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	//  DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton1);
 	DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton1);
+	DDX_Text(pDX, IDC_STATIC_TOWN, m_strTown);
 }
 
 
@@ -38,6 +39,7 @@ BEGIN_MESSAGE_MAP(CTab3, CDialogEx)
 	ON_BN_CLICKED(IDCANCEL, &CTab3::OnBnClickedCancel)
 //	ON_LBN_SELCHANGE(IDC_LIST_HEART, &CTab3::OnLbnSelchangeListHeart)
 ON_WM_CTLCOLOR()
+ON_STN_CLICKED(IDCANCEL, &CTab3::OnStnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -75,4 +77,10 @@ HBRUSH CTab3::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
+}
+
+
+void CTab3::OnStnClickedCancel()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

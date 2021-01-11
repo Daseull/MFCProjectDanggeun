@@ -60,7 +60,7 @@ public:
 	CTab2* pDlg2;
 	CTab3* pDlg3;
 	CTab4* pDlg4;	
-	CUserDB* userDB;
+//	CUserDB* userDB;
 //	CTabCtrl m_Tab;
 	CMainTabCtrl m_Tab;
 	afx_msg void OnDestroy();

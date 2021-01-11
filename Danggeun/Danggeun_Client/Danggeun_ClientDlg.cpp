@@ -18,8 +18,10 @@
 #define new DEBUG_NEW
 #endif
 
+
 CString CurrentUser;
 CUserDB* userDB;
+
 // CAboutDlg dialog used for App About
 class CAboutDlg : public CDialogEx
 {
@@ -36,7 +38,6 @@ public:
 
 // Implementation
 protected:
-
 	//afx_msg_안녕
 	DECLARE_MESSAGE_MAP()
 //	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
@@ -96,8 +97,10 @@ END_MESSAGE_MAP()
 
 
 // CDanggeunClientDlg message handlers
-extern CLoginDlg dlg = new CLoginDlg;
-
+CLoginDlg dlg = new CLoginDlg;
+CString town[25] = { "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구",
+					"노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구",
+					"양천구", "영등포구", "용산구","은평구", "종로구", "중구", "중랑구" };
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -149,7 +152,8 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	pDlg1->Create(IDD_CTab1, &m_Tab);
 	pDlg1->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg1->ShowWindow(SW_SHOW);
-
+	
+	
 	pDlg2 = new CTab2;
 	pDlg2->Create(IDD_CTab2, &m_Tab);
 	pDlg2->MoveWindow(28, 0, rect.Width(), rect.Height());
@@ -160,6 +164,13 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	pDlg3->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg3->ShowWindow(SW_SHOW);
 
+	for (CUserDTO* user : userDB->userList) {
+		if (user->GetUserID() == CurrentUser) {
+			pDlg1->m_strTown = town[user->GetTown()];
+			pDlg3->m_strTown = town[user->GetTown()];
+			UpdateData(FALSE);
+		}
+	}
 	pDlg4 = new CTab4;
 	pDlg4->Create(IDD_CTab4, &m_Tab);
 	pDlg4->MoveWindow(28, 0, rect.Width(), rect.Height());

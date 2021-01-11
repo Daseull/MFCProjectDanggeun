@@ -15,7 +15,9 @@
 #define UM_RECEIVE	WM_USER+2
 #define UWM_CUSTOM1	WM_USER+3
 #define UWM_CUSTOM2	WM_USER+4
-
+#include "UserDAO.h"
+#include "UserDB.h"
+#include "UserDTO.h"
 #endif //PCH_H
 
 //��64���� �������Ѵٰ� ��������... �ٵ� ���� �����س����...?

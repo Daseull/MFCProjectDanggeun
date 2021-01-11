@@ -15,6 +15,7 @@
 IMPLEMENT_DYNAMIC(CLoginDlg, CDialogEx)
 extern CString CurrentUser;
 extern CUserDB* userDB;
+
 CLoginDlg::CLoginDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOG_LOGIN, pParent)
 	, m_strID(_T(""))
@@ -70,7 +71,7 @@ void CLoginDlg::OnBnClickedButtonLogin()
 	int chk = 0;
 	UpdateData(TRUE);
 
-	CUserDB* userDB = new CUserDB;
+	userDB = new CUserDB;
 	userDB->InitDB();
 	userDB->userList = userDB->dao.getAll();
 
@@ -78,7 +79,6 @@ void CLoginDlg::OnBnClickedButtonLogin()
 		if (m_strID == user->GetUserID()) {
 			if (m_strPW == user->GetUserPW()) {
 				CurrentUser = m_strID;
-				//MessageBox((m_strPW == user->GetUserPW()));
 				MessageBox("Login Success!");
 				chk = 2;
 			}
