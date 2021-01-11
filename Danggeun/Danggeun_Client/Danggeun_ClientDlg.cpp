@@ -21,6 +21,8 @@
 
 CString CurrentUser;
 CUserDB* userDB;
+CPostDB* postDB;
+CBookMarkDB* bookmarkDB;
 
 // CAboutDlg dialog used for App About
 class CAboutDlg : public CDialogEx
@@ -141,6 +143,15 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	// TODO: Add extra initialization here
 	CFont font_sel;
 	font_sel.CreateFont(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 0, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, _T("나눔고딕"));
+
+	postDB = new CPostDB;
+	postDB->InitDB();
+	postDB->postList = postDB->dao.getAll();
+
+	//bookmarkDB = new CBookMarkDB;
+	//bookmarkDB->InitDB();
+	//bookmarkDB->bookmarkList = bookmarkDB->dao.getAll();
+
 
 	m_Tab.SetFont(&font_sel);
 	m_Tab.InsertItem(0, "홈");
