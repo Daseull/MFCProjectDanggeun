@@ -85,7 +85,7 @@ BOOL CCreatePost::OnInitDialog()
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
 
-CString img_path;
+CString img_path = "";
 void CCreatePost::OnBnClickedButtonPost()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -93,18 +93,23 @@ void CCreatePost::OnBnClickedButtonPost()
 	postDB = new CPostDB;
 	postDB->InitDB();
 	postDB->postList = postDB->dao.getAll();
-
-	extern CUserDTO* CurrentUser;
+	
 	UpdateData(TRUE);
-	CPostDTO post;
-	post.SetTitle(m_strTitle);
-	post.SetContent(m_strText);
-	post.SetImgName(img_path);
-	post.SetUserID(CurrentUser->GetUserID());
-	post.SetTown(CurrentUser->GetTown());
-	postDB->dao.createPost(post);
-	MessageBox("작성 완료 !");
-	::SendMessage(((CCreatePost*)GetParent())->GetSafeHwnd(), UWM_CUSTOM3, 0, 0);
+	if (m_strTitle == "글 제목을 작성해주세요" || m_strPrice == "\\가격을 입력해주세요"
+		|| m_strText == "동네에 올릴 게시글 내용을 작성해주세요(가품 및 판매금지품목은 게시가 제한 될 수 있어요.)"
+		|| img_path == "") MessageBox("양식을 모두 입력해주세요!");
+	else {
+		extern CUserDTO* CurrentUser;
+		CPostDTO post;
+		post.SetTitle(m_strTitle);
+		post.SetContent(m_strText);
+		post.SetImgName(img_path);
+		post.SetUserID(CurrentUser->GetUserID());
+		post.SetTown(CurrentUser->GetTown());
+		postDB->dao.createPost(post);
+		MessageBox("작성 완료 !");
+		::SendMessage(((CCreatePost*)GetParent())->GetSafeHwnd(), UWM_CUSTOM3, 0, 0);
+	}
 }
 
 
