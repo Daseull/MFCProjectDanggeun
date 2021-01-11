@@ -185,12 +185,14 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		pDlg4->ShowWindow(SW_HIDE);
 	}
 	
-	userDB = new CUserDB(); // new keyword -> pointer
-	userDB->InitDB();
 
-	/* DB Init
 	postDB = new CPostDB();
 	postDB->InitDB();
+
+	
+	/* DB Init
+	userDB = new CUserDB(); // new keyword -> pointer
+	userDB->InitDB();
 
 	// create/update
 	CUserDTO user;
@@ -202,6 +204,14 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 
 	userDB->dao.updateUser(user);
 	//userDB->dao.createUser(user);
+
+	search test
+	postDB->postList = postDB->dao.getAllByTitleSearch("치킨");
+	for (CPostDTO* post : postDB->postList) {
+		post->SetContent("이 치킨은 냠!");
+		postDB->dao.updatePost(*post);
+	}
+
 	*/
 
 

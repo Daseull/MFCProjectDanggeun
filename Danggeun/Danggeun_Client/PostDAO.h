@@ -15,6 +15,7 @@ public:
 private:
 	std::vector<CPostDTO*> _postList;
 	CPostDTO* _post;
+
 	int AnsiToUTF8(char* szSrc, char* strDest, int destSize);
 	int UTF8ToAnsi(char* szSrc, char* strDest, int destSize);
 	void dataClean(char* dest, CString str);

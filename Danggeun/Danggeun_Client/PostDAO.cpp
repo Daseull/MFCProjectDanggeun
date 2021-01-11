@@ -292,13 +292,16 @@ std::vector<CPostDTO*> CPostDAO::getAllByTitleSearch(CString q) {
 	_postList.clear();
 	CString sTmp;
 	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("SELECT * FROM tablename WHERE who LIKE '%?%'"));
 
 	char _q[100];
 	dataClean(_q, q);
+	sTmp.Format("SELECT * FROM post WHERE title like '%%%s%%'", q);
 
-	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
-	sqlite3_bind_text(_stmt, 1, _q, strlen(_q), SQLITE_STATIC);
+	char _sql[100];
+	dataClean(_sql, sTmp);
+
+	sqlite3_prepare_v2(_db, _sql, -1, &_stmt, NULL);
+	//sqlite3_bind_text(_stmt, 1, _q, strlen(_q), SQLITE_STATIC);
 
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
 		int i;
