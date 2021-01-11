@@ -45,7 +45,7 @@ CRoundButton2::CRoundButton2(void):
 	, m_sOldCaption(_T(""))
 	  {
 	// Set Standards in Font-Style
-	m_tLogFont.lfHeight			= 14;
+	m_tLogFont.lfHeight			= 16;
 	m_tLogFont.lfWidth			= 0;
 	m_tLogFont.lfEscapement		= 0;
 	m_tLogFont.lfOrientation	= 0;
@@ -58,7 +58,7 @@ CRoundButton2::CRoundButton2(void):
 	m_tLogFont.lfClipPrecision	= CLIP_DEFAULT_PRECIS;
 	m_tLogFont.lfQuality		= ANTIALIASED_QUALITY;
 	m_tLogFont.lfPitchAndFamily	= DEFAULT_PITCH;
-	strcpy_s(m_tLogFont.lfFaceName, "±¼¸²Ã¼");
+	strcpy_s(m_tLogFont.lfFaceName, "³ª´®°íµñ");
 
 	m_tBtnFont.CreateFontIndirect(&m_tLogFont);
 

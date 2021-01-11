@@ -132,7 +132,7 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 	CFont font_sel;
-	font_sel.CreateFont(13, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 0, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, _T("굴림체"));
+	font_sel.CreateFont(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 0, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, _T("나눔고딕"));
 
 	m_Tab.SetFont(&font_sel);
 	m_Tab.InsertItem(0, "홈");
@@ -146,22 +146,22 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 
 	pDlg1 = new CTab1;
 	pDlg1->Create(IDD_CTab1, &m_Tab);
-	pDlg1->MoveWindow(20, 1, rect.Width(), rect.Height());
+	pDlg1->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg1->ShowWindow(SW_SHOW);
 
 	pDlg2 = new CTab2;
 	pDlg2->Create(IDD_CTab2, &m_Tab);
-	pDlg2->MoveWindow(20, 1, rect.Width(), rect.Height());
+	pDlg2->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg2->ShowWindow(SW_SHOW);
 
 	pDlg3 = new CTab3;
 	pDlg3->Create(IDD_CTab3, &m_Tab);
-	pDlg3->MoveWindow(20, 1, rect.Width(), rect.Height());
+	pDlg3->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg3->ShowWindow(SW_SHOW);
 
 	pDlg4 = new CTab4;
 	pDlg4->Create(IDD_CTab4, &m_Tab);
-	pDlg4->MoveWindow(20, 1, rect.Width(), rect.Height());
+	pDlg4->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg4->ShowWindow(SW_SHOW);
 
 	font_sel.DeleteObject();

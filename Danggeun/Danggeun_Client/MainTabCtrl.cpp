@@ -86,16 +86,15 @@ void CMainTabCtrl::DrawItem(LPDRAWITEMSTRUCT IpDrawItemStruct)
         // 선택된 탭이라면...
         pDC->SetTextColor(m_select_text_color);
         // 텍스트의 위치를 보정하여 선택된 느낌이 강조되도록 만든다.
-        rect.bottom += ::GetSystemMetrics(SM_CYEDGE) * 3;
-        rect.left += ::GetSystemMetrics(SM_CYEDGE)*3;
+        rect.left += ::GetSystemMetrics(SM_CYEDGE) * 2;
+        rect.bottom += ::GetSystemMetrics(SM_CYEDGE) * 6;
        pDC->DrawText(tab_text, rect,DT_SINGLELINE| DT_BOTTOM| DT_LEFT);
     }
     else {
         // 선택되지 않은 탭이라면...
         pDC->FillSolidRect(rect, m_unselect_border_color);
-        //rect.bottom += ::GetSystemMetrics(SM_CYEDGE) * 2;
         rect.left += ::GetSystemMetrics(SM_CYEDGE) * 2;
-        rect.bottom += ::GetSystemMetrics(SM_CYEDGE) * 5;
+        rect.bottom += ::GetSystemMetrics(SM_CYEDGE) * 6;
 
         pDC->SetTextColor(m_unselect_text_color);
         pDC->DrawText(tab_text, rect,DT_SINGLELINE | DT_BOTTOM | DT_LEFT );
