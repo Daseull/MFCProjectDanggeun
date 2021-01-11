@@ -206,7 +206,6 @@ void CTab1::OnBnClickedButtonNewpost()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	::SendMessage(((CTab1*)GetParent()->GetParent())->GetSafeHwnd(), UWM_CUSTOM4, 0, 0);
-
 }
 
 HBRUSH CTab1::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)

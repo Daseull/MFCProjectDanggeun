@@ -333,6 +333,7 @@ void CDanggeunClientDlg::OnClose()
 CCreatePost cDlg;
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
 {
+	
 	cDlg.DoModal();
 	return 0;
 }
@@ -340,6 +341,10 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
 
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom3(WPARAM wParam, LPARAM lParam)
 {
+	cDlg.m_strTitle = "글 제목을 작성해주세요";
+	cDlg.m_strText = "동네에 올릴 게시글 내용을 작성해주세요(가품 및 판매금지품목은 게시가 제한 될 수 있어요.)";
+	cDlg.m_strPrice = "\\가격을 입력해주세요";
+	UpdateData(FALSE);
 	cDlg.EndDialog(IDOK);
 	pDlg1->LoadTownPost();
 	return 0;
