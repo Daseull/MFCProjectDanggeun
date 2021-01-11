@@ -111,6 +111,9 @@
     <ClInclude Include="PostDTO.h">
       <Filter>Source Files\DB\Header</Filter>
     </ClInclude>
+    <ClInclude Include="DetailPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Danggeun_Client.cpp">
@@ -188,6 +191,9 @@
     <ClCompile Include="PostDTO.cpp">
       <Filter>Source Files\DB\Source</Filter>
     </ClCompile>
+    <ClCompile Include="DetailPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DanggeunClient.rc">
@@ -201,6 +207,18 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Danggeun_Client.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\resized\heart_btn.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\resized\heart_btn (1).bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

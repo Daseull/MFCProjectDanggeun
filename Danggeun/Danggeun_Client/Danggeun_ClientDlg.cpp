@@ -18,9 +18,10 @@
 #define new DEBUG_NEW
 #endif
 
-
 CString CurrentUser;
 CUserDB* userDB;
+CPostDB* postDB;
+CBookMarkDB* bookmarkDB;
 
 // CAboutDlg dialog used for App About
 class CAboutDlg : public CDialogEx
@@ -45,6 +46,7 @@ public:
 //	virtual BOOL OnInitDialog();
 //	virtual BOOL OnInitDialog();
 	void OnClose();
+//	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -175,6 +177,7 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 			UpdateData(FALSE);
 		}
 	}
+
 	pDlg4 = new CTab4;
 	pDlg4->Create(IDD_CTab4, &m_Tab);
 	pDlg4->MoveWindow(28, 0, rect.Width(), rect.Height());
@@ -334,17 +337,17 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 
 
 
+/*
+BOOL CAboutDlg::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
 
-//BOOL CAboutDlg::OnInitDialog()
-//{
-//	CDialogEx::OnInitDialog();
-//
-//	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-//
-//	return TRUE;  // return TRUE unless you set the focus to a control
-//				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
-//}
+	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+*/
 
 
 
@@ -362,3 +365,6 @@ void CDanggeunClientDlg::OnClose()
 	AfxMessageBox("bye");
 	CDialogEx::OnClose();
 }
+
+
+

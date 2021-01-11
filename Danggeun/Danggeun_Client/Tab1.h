@@ -47,4 +47,5 @@ public:
 //	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult);
+	CRoundButton2 m_tMyButton3;
 };

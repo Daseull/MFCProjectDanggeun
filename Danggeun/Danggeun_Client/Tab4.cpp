@@ -82,8 +82,6 @@ HBRUSH CTab4::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 	
 	if (m_userid.m_hWnd == pWnd->m_hWnd) {
-		
-
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(255, 133, 0));
 		return m_bk_brush;

@@ -14,6 +14,12 @@
 #include "UserDAO.h"
 #include "UserDB.h"
 #include "UserDTO.h"
+#include "PostDAO.h"
+#include "PostDB.h"
+#include "PostDTO.h"
+#include "BookMarkDAO.h"
+#include "BookMarkDB.h"
+#include "BookMarkDTO.h"
 
 #define UM_RECEIVE	WM_USER+2
 #define UWM_CUSTOM1	WM_USER+3

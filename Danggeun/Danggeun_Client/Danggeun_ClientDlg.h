@@ -72,4 +72,5 @@ public:
 //	void OnClose();
 	/*afx_msg void OnClose();*/
 	afx_msg void OnClose();
+	//virtual BOOL OnInitDialog();
 };
