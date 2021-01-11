@@ -264,8 +264,6 @@
     <None Include="res\DanggeunClient.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\resized\heart_btn (1).bmp" />
-    <Image Include="..\..\..\..\resized\heart_btn.png" />
     <Image Include="res\bitmap1.bmp" />
     <Image Include="res\bitmap2.bmp" />
     <Image Include="res\Danggeun_Client.ico" />
