@@ -83,6 +83,7 @@ void CLoginDlg::OnBnClickedButtonLogin()
 
 		if (!chk) MessageBox("check your ID/PW");
 		if(chk == 2) ::SendMessage(((CLoginDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
+		
 		file.Close();
 	}
 }

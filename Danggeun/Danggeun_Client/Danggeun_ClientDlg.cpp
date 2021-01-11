@@ -96,7 +96,6 @@ END_MESSAGE_MAP()
 
 
 // CDanggeunClientDlg message handlers
-CLoginDlg dlg = new CLoginDlg;
 
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
@@ -104,6 +103,7 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 
 	// Add "About..." menu item to system menu.
 
+	CLoginDlg dlg = new CLoginDlg;
 	dlg.DoModal();
 
 	// IDM_ABOUTBOX must be in the system command range.

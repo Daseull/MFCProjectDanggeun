@@ -13,6 +13,8 @@ IMPLEMENT_DYNAMIC(CTab4, CDialogEx)
 
 CTab4::CTab4(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CTab4, pParent)
+	, m_strPhone(_T(""))
+	, m_strPW(_T(""))
 {
 	
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
@@ -32,6 +34,9 @@ void CTab4::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_QUIT, m_tMyButton2);
 	//  DDX_Text(pDX, IDC_STATIC_ID, m_userId);
 	DDX_Control(pDX, IDC_STATIC_ID, m_userid);
+	DDX_Text(pDX, IDC_EDIT_CHANGEPHONE, m_strPhone);
+	DDX_Text(pDX, IDC_EDIT_CHANGEPW, m_strPW);
+	DDX_Control(pDX, IDC_COMBO_CHANGETOWN, m_Town);
 }
 
 
@@ -96,4 +101,30 @@ HBRUSH CTab4::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
+}
+
+
+BOOL CTab4::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+	CUserDB* userDB = new CUserDB();
+	userDB->InitDB();
+	userDB->userList = userDB->dao.getAll();
+
+	CString ID = "id";
+	for (CUserDTO* user : userDB->userList) {
+		if (ID == user->GetUserID()) {
+			CString CurrentUser = user->GetUserID();
+
+			m_strPhone = 
+
+		}
+	}
+
+
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }

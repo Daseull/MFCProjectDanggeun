@@ -24,6 +24,7 @@ class CDanggeunClientDlg : public CDialogEx
 {
 private:
 	CBrush m_bk_brush;
+	CString CurrentUser;
 
 // Construction
 public:
