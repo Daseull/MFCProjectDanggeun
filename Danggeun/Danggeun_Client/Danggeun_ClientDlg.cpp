@@ -19,6 +19,7 @@
 #endif
 
 CString CurrentUser;
+CUserDB* userDB;
 
 // CAboutDlg dialog used for App About
 class CAboutDlg : public CDialogEx
@@ -43,6 +44,7 @@ protected:
 public:
 //	virtual BOOL OnInitDialog();
 //	virtual BOOL OnInitDialog();
+	void OnClose();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -56,6 +58,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 
+	//ON_UM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -91,19 +94,21 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 
 	ON_WM_DESTROY()
 	ON_WM_CTLCOLOR()
+	ON_COMMAND(UM_CLOSE, &CDanggeunClientDlg::OnClose)
 //	ON_COMMAND(IDC_BUTTON_SEARCH, &CDanggeunClientDlg::OnButtonSearch)
+//  ON_WM_CLOSE()
+//ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
 // CDanggeunClientDlg message handlers
+CLoginDlg dlg = new CLoginDlg;
 
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// Add "About..." menu item to system menu.
-
-	CLoginDlg dlg = new CLoginDlg;
+	// Add "About..." menu item to system menu.	
 	dlg.DoModal();
 
 	// IDM_ABOUTBOX must be in the system command range.
@@ -185,9 +190,7 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		pDlg4->ShowWindow(SW_HIDE);
 	}
 	
-	userDB = new CUserDB(); // new keyword -> pointer
-	userDB->InitDB();
-	userDB->userList = userDB->dao.getAll();
+	
 	/* DB Init
 
 	*/
@@ -333,3 +336,21 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 //	return TRUE;  // return TRUE unless you set the focus to a control
 //				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 //}
+
+
+
+
+//void CAboutDlg::OnClose()
+//{
+//	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+//
+//	CDialogEx::OnClose();
+//}
+
+
+void CDanggeunClientDlg::OnClose()
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	AfxMessageBox("bye");
+	CDialogEx::OnClose();
+}

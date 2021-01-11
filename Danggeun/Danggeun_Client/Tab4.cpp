@@ -45,6 +45,8 @@ BEGIN_MESSAGE_MAP(CTab4, CDialogEx)
 	ON_BN_CLICKED(IDCANCEL, &CTab4::OnBnClickedCancel)
 	//ON_BN_CLICKED(IDC_BUTTON_QUIT, &CTab4::OnBnClickedButtonQuit)
 	ON_WM_CTLCOLOR()
+	ON_BN_CLICKED(IDC_BUTTON_CHANGEOK, &CTab4::OnClickedButtonChangeok)
+	ON_BN_CLICKED(IDC_BUTTON_WITHDRAW, &CTab4::OnClickedButtonWithdraw)
 END_MESSAGE_MAP()
 
 
@@ -109,22 +111,53 @@ BOOL CTab4::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-	CUserDB* userDB = new CUserDB();
-	userDB->InitDB();
-	userDB->userList = userDB->dao.getAll();
-
-	CString ID = "id";
+	extern CString CurrentUser;
+	extern CUserDB* userDB;
+	
+	
 	for (CUserDTO* user : userDB->userList) {
-		if (ID == user->GetUserID()) {
+		if (CurrentUser == user->GetUserID()) {
 			CString CurrentUser = user->GetUserID();
-
-			m_strPhone = 
-
+			m_strPhone = user->GetPhone();
+			m_strPW = user->GetUserPW();
+			m_Town.SetCurSel(user->GetTown());
 		}
 	}
 
 
-
+	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+
+
+void CTab4::OnClickedButtonChangeok()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(TRUE);
+	
+	CUserDTO user;
+	extern CString CurrentUser;
+	extern CUserDB* userDB;
+
+	user.SetUserID(CurrentUser);
+	user.SetUserPW(m_strPW);
+	user.SetPhone(m_strPhone);
+	userDB->dao.updateUser(user);
+	AfxMessageBox("변경 완료!");
+
+}
+
+
+
+
+void CTab4::OnClickedButtonWithdraw()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	extern CString CurrentUser;
+	extern CUserDB* userDB;
+
+	AfxMessageBox("회원 탈퇴 완료ㅠㅠ\n 다음에 또 이용해주세요!");
+	userDB->dao.deleteUser(CurrentUser);
+	exit(0);
 }

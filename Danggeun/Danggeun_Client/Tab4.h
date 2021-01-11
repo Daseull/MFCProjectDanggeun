@@ -38,6 +38,8 @@ public:
 	CString m_strPhone;
 	CString m_strPW;
 	CComboBox m_Town;
+	afx_msg void OnClickedButtonChangeok();
+	afx_msg void OnClickedButtonWithdraw();
 };
 
 

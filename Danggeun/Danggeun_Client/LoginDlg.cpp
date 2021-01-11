@@ -70,7 +70,8 @@ void CLoginDlg::OnBnClickedButtonLogin()
 	int chk = 0;
 	UpdateData(TRUE);
 
-	CUserDB* userDB = new CUserDB;
+	extern CUserDB* userDB;
+	userDB = new CUserDB;
 	userDB->InitDB();
 	userDB->userList = userDB->dao.getAll();
 
