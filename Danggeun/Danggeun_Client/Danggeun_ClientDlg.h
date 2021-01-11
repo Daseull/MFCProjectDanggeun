@@ -12,6 +12,7 @@
 #include "MainTabCtrl.h"
 #include "UserDB.h"
 #include "PostDB.h"
+#include "BookMarkDB.h"
 #pragma comment(lib, "sqlite3.lib")
 
 // CDanggeunClientDlg dialog
@@ -56,6 +57,7 @@ public:
 
 	CUserDB* userDB;
 	CPostDB* postDB;
+	CBookMarkDB* bookMarkDB;
 
 	CTab1* pDlg1;
 	CTab2* pDlg2;

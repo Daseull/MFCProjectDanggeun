@@ -186,13 +186,30 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	}
 	
 
+	userDB = new CUserDB(); // new keyword -> pointer
+	userDB->InitDB();
+
+	bookMarkDB = new CBookMarkDB();
+	bookMarkDB->InitDB();
+
 	postDB = new CPostDB();
 	postDB->InitDB();
 
-	
+	CBookMarkDTO bookmark = bookMarkDB->dao.getBookMark(4);
+	bookMarkDB->dao.deleteBookMark(bookmark.GetBookMarkID());
+
+	//bookMarkDB->bookMarkList = bookMarkDB->dao.getAllByUser("아이디");
+	//for (CBookMarkDTO* bookMark : bookMarkDB->bookMarkList) {
+	//	bookMarkDB->dao.deleteBookMark(bookMark->GetBookMarkID());
+	//}
+
 	/* DB Init
 	userDB = new CUserDB(); // new keyword -> pointer
 	userDB->InitDB();
+	postDB = new CPostDB();
+	postDB->InitDB();
+	bookMarkDB = new CBookMarkDB();
+	bookMarkDB->InitDB();
 
 	// create/update
 	CUserDTO user;
@@ -205,11 +222,29 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	userDB->dao.updateUser(user);
 	//userDB->dao.createUser(user);
 
-	search test
+	CBookMarkDTO bookmark;
+	bookmark.SetUserID("1");
+	bookmark.SetPostID(1);
+
+	bookMarkDB->dao.createBookMark(bookmark);
+	// get test
+	CUserDTO user = userDB->dao.getUser("아이디");
+	user.SetPhone("111");
+	userDB->dao.updateUser(user);
+	
+	CBookMarkDTO bookmark = bookMarkDB->dao.getBookMark(3);
+	bookMarkDB->dao.deleteBookMark(bookmark.GetBookMarkID());
+
+	// search test
 	postDB->postList = postDB->dao.getAllByTitleSearch("치킨");
 	for (CPostDTO* post : postDB->postList) {
 		post->SetContent("이 치킨은 냠!");
 		postDB->dao.updatePost(*post);
+	}
+
+	bookMarkDB->bookMarkList = bookMarkDB->dao.getAllByUser("1");
+	for (CBookMarkDTO* bookMark : bookMarkDB->bookMarkList) {
+		bookMarkDB->dao.deleteBookMark(bookMark->GetBookMarkID());
 	}
 
 	*/

@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "PostDB.h"
-#include "Danggeun_ClientDlg.h"
 
 CPostDB::CPostDB() {
 	dao = CPostDAO();

@@ -72,8 +72,8 @@ BOOL CBookMarkDAO::createBookMark(CBookMarkDTO bookMark) {
 	//sqlite3_finalize(_stmt);
 
 	sqlite3_prepare_v2(_db, "insert into bookmark(userID, postID) values(?,?)", -1, &_stmt, NULL);
-	sqlite3_bind_text(_stmt, 2, bookMark.GetUserID(), bookMark.GetUserID().GetLength(), SQLITE_STATIC);
-	sqlite3_bind_int(_stmt, 3, bookMark.GetPostID());
+	sqlite3_bind_text(_stmt, 1, bookMark.GetUserID(), bookMark.GetUserID().GetLength(), SQLITE_STATIC);
+	sqlite3_bind_int(_stmt, 2, bookMark.GetPostID());
 	/*sqlite3_step(_stmt);
 	sqlite3_finalize(_stmt);*/
 
@@ -108,8 +108,7 @@ CBookMarkDTO& CBookMarkDAO::getBookMark(int bookMarkID) {
 
 	// "from user"
 	CString sTmp;
-	sTmp.Format("select * from bookmark where bookMarkID= ?");
-
+	sTmp.Format("select * from bookmark where bookMarkID = ?");
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, bookMarkID);
 
@@ -193,12 +192,14 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByUser(CString userID) {
 	//sqlite3_step(_stmt);
 	//sqlite3_finalize(_stmt);
 
-
 	resetList();
 	CString sTmp;
-	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("select * from bookmark where userID = ?"));
-	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
+	
+	sTmp.Format("select * from bookmark where userID = '%s'", userID);
+	char _sql[100];
+	dataClean(_sql, sTmp);
+
+	sqlite3_prepare_v2(_db, _sql, -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
 	
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
@@ -211,7 +212,7 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByUser(CString userID) {
 		CString _userID(sqlite3_column_text(_stmt, 1));
 		int _postID = sqlite3_column_int(_stmt, 2);
 
-		_bookMark->SetPostID(_bookMarkID);
+		_bookMark->SetBookMarkID(_bookMarkID);
 		_bookMark->SetUserID(_userID);
 		_bookMark->SetPostID(_postID);
 
@@ -330,16 +331,8 @@ BOOL CBookMarkDAO::deleteBookMark(int bookMarkID) {
 	// https://stackoverflow.com/a/61796041/14099774
 	BOOL result = true;
 
-	//_errmsg = NULL;
-	//char sql[255] = { 0 };
-	//sprintf_s(sql, "delete from user where userID = '%s';", userID);
 
-	//if (SQLITE_OK != sqlite3_exec(_db, sql, NULL, NULL, &_errmsg))
-	//{
-	//	printf("delete");
-	//}
-
-	sqlite3_prepare(_db, "delete from bookmark where bookMarkID = ?", -1, &_stmt, NULL);
+	sqlite3_prepare_v2(_db, "delete from bookmark where bookMarkID = ?", -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, bookMarkID);
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
@@ -357,7 +350,7 @@ BOOL CBookMarkDAO::deleteBookMark(int bookMarkID) {
 }
 
 
-void CBookMarkDAO::dataClean(char* dest, CString str, int* sLen) {
+void CBookMarkDAO::dataClean(char* dest, CString str) {
 	char* tmp;
 	//*sLen = WideCharToMultiByte(CP_ACP, 0, (LPCWCH)(LPCTSTR)str, -1, NULL, 0, NULL, NULL);
 	tmp = new char[str.GetLength() + 1];

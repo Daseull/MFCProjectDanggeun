@@ -73,7 +73,7 @@ BOOL CUserDAO::createUser(CUserDTO user) {
 	//sqlite3_finalize(_stmt);
 	char userID[100];
 	int sLen;
-	dataClean(userID, user.GetUserID(), &sLen);
+	dataClean(userID, user.GetUserID());
 
 
 
@@ -117,10 +117,10 @@ CUserDTO& CUserDAO::getUser(CString userID) {
 
 	// "from user"
 	CString sTmp;
-	sTmp.Format("select * from user where userID = ?");
+	sTmp.Format(_T("select * from user where userID = ?"));
 
-	sqlite3_prepare16_v2(_db, sTmp, -1, &_stmt, NULL);
-	sqlite3_bind_text16(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
+	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
+	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_TRANSIENT);
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		throw NULL;
@@ -339,7 +339,7 @@ BOOL CUserDAO::deleteUser(CString userID) {
 	//	printf("delete");
 	//}
 
-	sqlite3_prepare(_db, "delete from user where userID = ?", -1, &_stmt, NULL);
+	sqlite3_prepare_v2(_db, "delete from user where userID = ?", -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_TRANSIENT);
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
@@ -358,7 +358,7 @@ BOOL CUserDAO::deleteUser(CString userID) {
 }
 
 
-void CUserDAO::dataClean(char* dest, CString str, int* sLen) {
+void CUserDAO::dataClean(char* dest, CString str) {
 	char* tmp;
 	//*sLen = WideCharToMultiByte(CP_ACP, 0, (LPCWCH)(LPCTSTR)str, -1, NULL, 0, NULL, NULL);
 	tmp = new char[str.GetLength() + 1];
