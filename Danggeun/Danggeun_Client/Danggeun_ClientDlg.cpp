@@ -19,7 +19,7 @@
 #endif
 
 
-CString CurrentUser;
+CUserDTO* CurrentUser;
 CUserDB* userDB;
 CPostDB* postDB;
 CBookMarkDB* bookmarkDB;
@@ -104,15 +104,15 @@ END_MESSAGE_MAP()
 
 
 // CDanggeunClientDlg message handlers
-CLoginDlg dlg = new CLoginDlg;
 CString town[25] = { "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구",
 					"노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구",
 					"양천구", "영등포구", "용산구","은평구", "종로구", "중구", "중랑구" };
+CLoginDlg dlg = new CLoginDlg;
+
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// Add "About..." menu item to system menu.	
 	dlg.DoModal();
 
 	// IDM_ABOUTBOX must be in the system command range.
@@ -179,13 +179,15 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	pDlg3->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg3->ShowWindow(SW_SHOW);
 
-	for (CUserDTO* user : userDB->userList) {
-		if (user->GetUserID() == CurrentUser) {
-			pDlg1->m_strTown = town[user->GetTown()];
-			pDlg3->m_strTown = town[user->GetTown()];
-			UpdateData(FALSE);
-		}
-	}
+
+	//for (CUserDTO* user : userDB->userList) {
+	//	if (user->GetUserID() == CurrentUser) {
+	//		pDlg1->m_strTown = town[user->GetTown()];
+	//		pDlg3->m_strTown = town[user->GetTown()];
+	//		UpdateData(FALSE);
+	//	}
+	//}
+
 	pDlg4 = new CTab4;
 	pDlg4->Create(IDD_CTab4, &m_Tab);
 	pDlg4->MoveWindow(28, 0, rect.Width(), rect.Height());
@@ -196,25 +198,27 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 
 	m_Tab.ModifyStyle(0, TCS_OWNERDRAWFIXED);//tab 색상
 
-	//여기다가 login 창 생성하고 doModao == IDOK(또는 로그인 성공 메세지,else면은 창 닫히고)
-	//if (log.DoModal() == IDOK) 
-	if (TRUE) {
-		pDlg1->Init();
-		////내 글 목록
-		pDlg2->Init();
-		////관심글 록록
-		//pDlg3->LoadPost();
+	////여기다가 login 창 생성하고 doModao == IDOK(또는 로그인 성공 메세지,else면은 창 닫히고)
+	////if (log.DoModal() == IDOK) 
+	//if (TRUE) {
+	//	//pDlg1->Init();
+	//	////내 글 목록
+	//	pDlg2->Init();
+	//	////관심글 록록
+	//	//pDlg3->LoadPost();
 
-		//처음 켰을 땐 홈 탭이 보이게 설정
-		pDlg1->ShowWindow(SW_SHOW);
-		pDlg2->ShowWindow(SW_HIDE);
-		pDlg3->ShowWindow(SW_HIDE);
-		pDlg4->ShowWindow(SW_HIDE);
-	}
+	//	//처음 켰을 땐 홈 탭이 보이게 설정
+	//	pDlg1->ShowWindow(SW_SHOW);
+	//	pDlg2->ShowWindow(SW_HIDE);
+	//	pDlg3->ShowWindow(SW_HIDE);
+	//	pDlg4->ShowWindow(SW_HIDE);
+	//}
+
+	pDlg1->ShowWindow(SW_SHOW);
+	pDlg2->ShowWindow(SW_HIDE);
+	pDlg3->ShowWindow(SW_HIDE);
+	pDlg4->ShowWindow(SW_HIDE);
 	
-	/* DB Init
-
-	*/
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -344,32 +348,8 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 
 
 
-
-
-//BOOL CAboutDlg::OnInitDialog()
-//{
-//	CDialogEx::OnInitDialog();
-//
-//	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-//
-//	return TRUE;  // return TRUE unless you set the focus to a control
-//				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
-//}
-
-
-
-
-//void CAboutDlg::OnClose()
-//{
-//	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-//
-//	CDialogEx::OnClose();
-//}
-
-
 void CDanggeunClientDlg::OnClose()
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	AfxMessageBox("bye");
 	CDialogEx::OnClose();
 }

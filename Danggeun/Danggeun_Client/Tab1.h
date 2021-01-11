@@ -16,9 +16,7 @@ public:
 	CFont m_font;
 	virtual ~CTab1();
 	void LoadTownPost();
-	void SearchPost(CString Key);
-	void Init();
-	
+	void SearchPost(CString Key);	
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME
@@ -47,4 +45,5 @@ public:
 //	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult);
+	virtual BOOL OnInitDialog();
 };

@@ -45,37 +45,6 @@ CTab1::~CTab1()
 //	return strAmount;
 //}
 
-void CTab1::Init()
-{
-	//데베에서 동네
-	//m_strTown = getTown();
-
-	m_ImageList.Create(40, 40, ILC_COLORDDB| ILC_MASK, 8, 8);
-
-	/*CBitmap bmp;
-	CImage img;
-	img.Load("res\\1.PNG");
-	bmp.Attach(img);
-	m_ImageList.Add(&bmp, RGB(255,255,255));*/
-
-	m_list.SetImageList(&m_ImageList, LVSIL_SMALL);
-	
-
-	//스크롤 해도 글쓰기 버튼 안움직이게 하려고 
-	GetDlgItem(IDC_BUTTON_NEWPOST)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
-	GetDlgItem(IDC_LIST1)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
-	GetDlgItem(IDC_BUTTON_NEWPOST)->BringWindowToTop();
-
-	
-	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT);
-	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
-	m_list.InsertColumn(1, "가격", LVCFMT_CENTER, 80);
-	m_list.InsertColumn(2, "판매상태", LVCFMT_CENTER, 30);
-
-	LoadTownPost();
-}
-
-
 
 void CTab1::LoadTownPost()
 {
@@ -98,7 +67,7 @@ void CTab1::LoadTownPost()
 		CBitmap bmp;
 		CImage img;
 		//데이터베이스에서 가져올것
-		img.Load("res\\1.PNG");
+		img.Load("res\\testimage.png");
 		bmp.Attach(img);
 		m_ImageList.Add(&bmp, RGB(255, 255, 255));
 
@@ -296,4 +265,49 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	
 	*pResult = 0;
+}
+
+
+BOOL CTab1::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+	extern CString CurrentUser;
+	extern CPostDB* postDB;
+	CPostDTO test;
+	test.SetImgName("res\\testimage.png");
+	test.SetContent("커피 팔아요 다들 못자요 오늘");
+	test.SetTitle("커피 팔아요");
+	//test.SetTown();
+
+
+		//데베에서 동네
+	//m_strTown = getTown();
+	m_ImageList.Create(60, 60, ILC_COLORDDB | ILC_MASK, 8, 8);
+
+	/*CBitmap bmp;
+	CImage img;
+	img.Load("res\\1.PNG");
+	bmp.Attach(img);
+	m_ImageList.Add(&bmp, RGB(255,255,255));*/
+
+	m_list.SetImageList(&m_ImageList, LVSIL_SMALL);
+
+
+	//스크롤 해도 글쓰기 버튼 안움직이게 하려고 
+	GetDlgItem(IDC_BUTTON_NEWPOST)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
+	GetDlgItem(IDC_LIST1)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
+	GetDlgItem(IDC_BUTTON_NEWPOST)->BringWindowToTop();
+
+
+	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT);
+	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
+	m_list.InsertColumn(1, "가격", LVCFMT_CENTER, 80);
+	m_list.InsertColumn(2, "판매상태", LVCFMT_CENTER, 30);
+
+	LoadTownPost();
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }

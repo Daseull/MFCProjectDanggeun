@@ -33,13 +33,15 @@ public:
 	CRoundButton2 m_tMyButton2;
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 //	CString m_userId;
-	CStatic m_userid;
+//	CStatic m_userid;
 	virtual BOOL OnInitDialog();
 	CString m_strPhone;
 	CString m_strPW;
 	CComboBox m_Town;
 	afx_msg void OnClickedButtonChangeok();
 	afx_msg void OnClickedButtonWithdraw();
+	CString m_strID;
+	CStatic m_userid;
 };
 
 
