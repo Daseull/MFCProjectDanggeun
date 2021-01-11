@@ -15,6 +15,7 @@ CTab4::CTab4(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CTab4, pParent)
 	, m_strPhone(_T(""))
 	, m_strPW(_T(""))
+	, m_strID(_T(""))
 {
 	
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
@@ -33,10 +34,12 @@ void CTab4::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_PW2, m_tMyButton1);
 	DDX_Control(pDX, IDC_BUTTON_QUIT, m_tMyButton2);
 	//  DDX_Text(pDX, IDC_STATIC_ID, m_userId);
-	DDX_Control(pDX, IDC_STATIC_ID, m_userid);
+	//  DDX_Control(pDX, IDC_STATIC_ID, m_userid);
 	DDX_Text(pDX, IDC_EDIT_CHANGEPHONE, m_strPhone);
 	DDX_Text(pDX, IDC_EDIT_CHANGEPW, m_strPW);
 	DDX_Control(pDX, IDC_COMBO_CHANGETOWN, m_Town);
+	DDX_Text(pDX, IDC_STATIC_ID, m_strID);
+	DDX_Control(pDX, IDC_STATIC_ID, m_userid);
 }
 
 
@@ -111,18 +114,16 @@ BOOL CTab4::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-	extern CString CurrentUser;
+	extern CUserDTO* CurrentUser;
 	extern CUserDB* userDB;
 	
+
 	
-	for (CUserDTO* user : userDB->userList) {
-		if (CurrentUser == user->GetUserID()) {
-			CString CurrentUser = user->GetUserID();
-			m_strPhone = user->GetPhone();
-			m_strPW = user->GetUserPW();
-			m_Town.SetCurSel(user->GetTown());
-		}
-	}
+	// = CurrentUser->GetUserID();
+	m_strID - CurrentUser->GetUserID();
+	m_strPhone = CurrentUser->GetPhone();
+	m_strPW = CurrentUser->GetUserPW();
+	m_Town.SetCurSel(CurrentUser->GetTown());
 
 
 	UpdateData(FALSE);
@@ -136,12 +137,10 @@ void CTab4::OnClickedButtonChangeok()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
 	
+	extern CUserDB* userDB;	
 	CUserDTO user;
-	extern CString CurrentUser;
-	extern CUserDB* userDB;
-
 	user.SetTown(m_Town.GetCurSel());
-	user.SetUserID(CurrentUser);
+	user.SetUserID(m_strID);
 	user.SetUserPW(m_strPW);
 	user.SetPhone(m_strPhone);
 	userDB->dao.updateUser(user);
@@ -150,15 +149,13 @@ void CTab4::OnClickedButtonChangeok()
 }
 
 
-
-
 void CTab4::OnClickedButtonWithdraw()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	extern CString CurrentUser;
+	extern CUserDTO* CurrentUser;
 	extern CUserDB* userDB;
 
 	AfxMessageBox("회원 탈퇴 완료ㅠㅠ\n 다음에 또 이용해주세요!");
-	userDB->dao.deleteUser(CurrentUser);
+	userDB->dao.deleteUser(CurrentUser->GetUserID());
 	exit(0);
 }

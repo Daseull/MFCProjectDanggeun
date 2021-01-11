@@ -37,6 +37,7 @@ void JoinDlg::OnBnClickedButtonJoinOk()
 	extern CUserDB* userDB;
 	userDB = new CUserDB(); // new keyword -> pointer
 	userDB->InitDB();
+	
 	//아이디
 	CString id;
 	GetDlgItemText(IDC_EDIT_JOIN_ID, id);

@@ -13,6 +13,7 @@
 #include "UserDB.h"
 #include "PostDB.h"
 #include "BookMarkDB.h"
+#include "CreatePost.h"
 #pragma comment(lib, "sqlite3.lib")
 
 // CDanggeunClientDlg dialog
@@ -75,4 +76,7 @@ public:
 //	void OnClose();
 	/*afx_msg void OnClose();*/
 	afx_msg void OnClose();
+protected:
+	afx_msg LRESULT OnUwmCustom4(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnUwmCustom3(WPARAM wParam, LPARAM lParam);
 };

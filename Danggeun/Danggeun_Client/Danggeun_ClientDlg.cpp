@@ -19,8 +19,10 @@
 #endif
 
 
-CString CurrentUser;
+CUserDTO* CurrentUser;
 CUserDB* userDB;
+CPostDB* postDB;
+CBookMarkDB* bookmarkDB;
 
 // CAboutDlg dialog used for App About
 class CAboutDlg : public CDialogEx
@@ -73,7 +75,6 @@ CDanggeunClientDlg::CDanggeunClientDlg(CWnd* pParent /*=nullptr*/)
 	pDlg2 = NULL;
 	pDlg3 = NULL;
 	pDlg4 = NULL;
-
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
@@ -98,19 +99,21 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 //	ON_COMMAND(IDC_BUTTON_SEARCH, &CDanggeunClientDlg::OnButtonSearch)
 //  ON_WM_CLOSE()
 //ON_WM_CLOSE()
+ON_MESSAGE(UWM_CUSTOM4, &CDanggeunClientDlg::OnUwmCustom4)
+ON_MESSAGE(UWM_CUSTOM3, &CDanggeunClientDlg::OnUwmCustom3)
 END_MESSAGE_MAP()
 
 
 // CDanggeunClientDlg message handlers
-CLoginDlg dlg = new CLoginDlg;
 CString town[25] = { "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구",
 					"노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구",
 					"양천구", "영등포구", "용산구","은평구", "종로구", "중구", "중랑구" };
+CLoginDlg dlg = new CLoginDlg;
+
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// Add "About..." menu item to system menu.	
 	dlg.DoModal();
 
 	// IDM_ABOUTBOX must be in the system command range.
@@ -142,6 +145,15 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	CFont font_sel;
 	font_sel.CreateFont(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 0, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, _T("나눔고딕"));
 
+	postDB = new CPostDB;
+	postDB->InitDB();
+	postDB->postList = postDB->dao.getAll();
+
+	//bookmarkDB = new CBookMarkDB;
+	//bookmarkDB->InitDB();
+	//bookmarkDB->bookmarkList = bookmarkDB->dao.getAll();
+
+
 	m_Tab.SetFont(&font_sel);
 	m_Tab.InsertItem(0, "홈");
 	m_Tab.InsertItem(1, "내 글 목록");
@@ -168,13 +180,6 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	pDlg3->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg3->ShowWindow(SW_SHOW);
 
-	for (CUserDTO* user : userDB->userList) {
-		if (user->GetUserID() == CurrentUser) {
-			pDlg1->m_strTown = town[user->GetTown()];
-			pDlg3->m_strTown = town[user->GetTown()];
-			UpdateData(FALSE);
-		}
-	}
 	pDlg4 = new CTab4;
 	pDlg4->Create(IDD_CTab4, &m_Tab);
 	pDlg4->MoveWindow(28, 0, rect.Width(), rect.Height());
@@ -185,71 +190,11 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 
 	m_Tab.ModifyStyle(0, TCS_OWNERDRAWFIXED);//tab 색상
 
-	//여기다가 login 창 생성하고 doModao == IDOK(또는 로그인 성공 메세지,else면은 창 닫히고)
-	//if (log.DoModal() == IDOK) 
-	if (TRUE) {
-		pDlg1->Init();
-		////내 글 목록
-		pDlg2->Init();
-		////관심글 록록
-		//pDlg3->LoadPost();
-
-		//처음 켰을 땐 홈 탭이 보이게 설정
-		pDlg1->ShowWindow(SW_SHOW);
-		pDlg2->ShowWindow(SW_HIDE);
-		pDlg3->ShowWindow(SW_HIDE);
-		pDlg4->ShowWindow(SW_HIDE);
-	}
+	pDlg1->ShowWindow(SW_SHOW);
+	pDlg2->ShowWindow(SW_HIDE);
+	pDlg3->ShowWindow(SW_HIDE);
+	pDlg4->ShowWindow(SW_HIDE);
 	
-	//bookMarkDB->bookMarkList = bookMarkDB->dao.getAllByUser("아이디");
-	//for (CBookMarkDTO* bookMark : bookMarkDB->bookMarkList) {
-	//	bookMarkDB->dao.deleteBookMark(bookMark->GetBookMarkID());
-	//}
-	/* DB Init
-	userDB = new CUserDB(); // new keyword -> pointer
-	userDB->InitDB();
-	postDB = new CPostDB();
-	postDB->InitDB();
-	bookMarkDB = new CBookMarkDB();
-	bookMarkDB->InitDB();
-
-	// create/update
-	CUserDTO user;
-	user.SetUserID("2");
-	user.SetUserPW("3");
-	user.SetTown(2);
-	user.SetPhone("44444");
-	user.SetIsAdim(FALSE);
-
-	userDB->dao.updateUser(user);
-	//userDB->dao.createUser(user);
-
-	CBookMarkDTO bookmark;
-	bookmark.SetUserID("1");
-	bookmark.SetPostID(1);
-
-	bookMarkDB->dao.createBookMark(bookmark);
-	// get test
-	CUserDTO user = userDB->dao.getUser("아이디");
-	user.SetPhone("111");
-	userDB->dao.updateUser(user);
-	
-	CBookMarkDTO bookmark = bookMarkDB->dao.getBookMark(3);
-	bookMarkDB->dao.deleteBookMark(bookmark.GetBookMarkID());
-
-	// search test
-	postDB->postList = postDB->dao.getAllByTitleSearch("치킨");
-	for (CPostDTO* post : postDB->postList) {
-		post->SetContent("이 치킨은 냠!");
-		postDB->dao.updatePost(*post);
-	}
-
-	bookMarkDB->bookMarkList = bookMarkDB->dao.getAllByUser("1");
-	for (CBookMarkDTO* bookMark : bookMarkDB->bookMarkList) {
-		bookMarkDB->dao.deleteBookMark(bookMark->GetBookMarkID());
-	}
-
-	*/
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -379,32 +324,23 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 
 
 
-
-
-//BOOL CAboutDlg::OnInitDialog()
-//{
-//	CDialogEx::OnInitDialog();
-//
-//	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-//
-//	return TRUE;  // return TRUE unless you set the focus to a control
-//				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
-//}
-
-
-
-
-//void CAboutDlg::OnClose()
-//{
-//	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-//
-//	CDialogEx::OnClose();
-//}
-
-
 void CDanggeunClientDlg::OnClose()
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	AfxMessageBox("bye");
 	CDialogEx::OnClose();
+}
+
+CCreatePost cDlg;
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
+{
+	cDlg.DoModal();
+	return 0;
+}
+
+
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom3(WPARAM wParam, LPARAM lParam)
+{
+	cDlg.EndDialog(IDOK);
+	pDlg1->LoadTownPost();
+	return 0;
 }

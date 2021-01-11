@@ -13,7 +13,7 @@
 // CLoginDlg 대화 상자
 
 IMPLEMENT_DYNAMIC(CLoginDlg, CDialogEx)
-extern CString CurrentUser;
+extern CUserDTO* CurrentUser;
 extern CUserDB* userDB;
 
 CLoginDlg::CLoginDlg(CWnd* pParent /*=nullptr*/)
@@ -50,6 +50,7 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_LOGIN, &CLoginDlg::OnBnClickedButtonLogin)
 	ON_MESSAGE(UWM_CUSTOM2, &CLoginDlg::OnUwmCustom2)
 	ON_WM_CTLCOLOR()
+	ON_COMMAND(IDOK, &CLoginDlg::OnIdok)
 END_MESSAGE_MAP()
 
 
@@ -78,7 +79,7 @@ void CLoginDlg::OnBnClickedButtonLogin()
 	for (CUserDTO* user : userDB->userList) {
 		if (m_strID == user->GetUserID()) {
 			if (m_strPW == user->GetUserPW()) {
-				CurrentUser = m_strID;
+				CurrentUser = user;
 				MessageBox("Login Success!");
 				chk = 2;
 			}
@@ -121,4 +122,11 @@ HBRUSH CLoginDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
+}
+
+
+void CLoginDlg::OnIdok()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	OnBnClickedButtonLogin();
 }

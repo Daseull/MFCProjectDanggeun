@@ -63,7 +63,6 @@
 #define IDC_STATIC_PW_EDIT              1100
 #define IDC_STATIC_INFO                 1101
 
-
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
