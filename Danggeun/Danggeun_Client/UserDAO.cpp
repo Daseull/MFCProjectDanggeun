@@ -282,9 +282,9 @@ BOOL CUserDAO::updateUser(CUserDTO user) {
 	}
 
 	//sqlite3_finalize(_stmt);
-	sqlite3_prepare(_db, "UPDATE user SET userPw = ?"
-										 "town = ?"
-										 "phone = ?"
+	sqlite3_prepare_v2(_db, "UPDATE user SET userPw = ?,"
+										 "town = ?,"
+										 "phone = ?,"
 										 "isAdmin = ?"
 										 "WHERE userID = ? ", -1, &_stmt, NULL);
 

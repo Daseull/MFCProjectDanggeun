@@ -351,9 +351,9 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 	//sqlite3_finalize(_stmt);
 
 	// userID´Â ºÒº¯
-	sqlite3_prepare_v2(_db, "UPDATE user SET town = ?"
-										 "title = ?"
-										 "content = ?"
+	sqlite3_prepare_v2(_db, "UPDATE post SET town = ?,"
+										 "title = ?,"
+										 "content = ?,"
 										 "imgName = ?"
 										 "WHERE postID = ?", -1, &_stmt, NULL);
 

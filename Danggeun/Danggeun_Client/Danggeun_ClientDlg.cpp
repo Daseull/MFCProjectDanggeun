@@ -185,13 +185,23 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		pDlg4->ShowWindow(SW_HIDE);
 	}
 	
+	userDB = new CUserDB(); // new keyword -> pointer
+	userDB->InitDB();
+
+	/* DB Init
 	postDB = new CPostDB();
 	postDB->InitDB();
 
+	// create/update
+	CUserDTO user;
+	user.SetUserID("2");
+	user.SetUserPW("3");
+	user.SetTown(2);
+	user.SetPhone("44444");
+	user.SetIsAdim(FALSE);
 
-	/* DB Init
-	userDB = new CUserDB(); // new keyword -> pointer
-	userDB->InitDB();
+	userDB->dao.updateUser(user);
+	//userDB->dao.createUser(user);
 	*/
 
 

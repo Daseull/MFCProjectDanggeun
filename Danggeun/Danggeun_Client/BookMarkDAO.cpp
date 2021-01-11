@@ -282,11 +282,11 @@ BOOL CBookMarkDAO::updateUser(CBookMarkDTO user) {
 	}
 
 	sqlite3_finalize(_stmt);
-	sqlite3_prepare(_db, "UPDATE user SET userID = ?"
-										 "userPw = ?"
-										 "town = ?"
-										 "phone = ?"
-										 "isAdmin = ? ? WHERE userID = ? ", -1, &_stmt, NULL);
+	sqlite3_prepare(_db, "UPDATE user SET userID = ?,"
+										 "userPw = ?,"
+										 "town = ?,"
+										 "phone = ?,"
+										 "isAdmin = WHERE userID = ? ", -1, &_stmt, NULL);
 
 
 	// https://stackoverflow.com/a/61796041/14099774
