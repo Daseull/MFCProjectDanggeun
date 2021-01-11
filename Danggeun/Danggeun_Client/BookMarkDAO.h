@@ -13,24 +13,25 @@ public:
 	sqlite3_stmt* _stmt;
 	char* _errmsg;
 private:
-	std::vector<CBookMarkDTO*> _userList;
-	CBookMarkDTO* _user;
+	std::vector<CBookMarkDTO*> _bookMarkList;
+	CBookMarkDTO* _bookMark;
 
 public:
 	int AnsiToUTF8(char* szSrc, char* strDest, int destSize);
 	int UTF8ToAnsi(char* szSrc, char* strDest, int destSize);
-	void dataClean(char* dest, CString str, int* sLen);
-	void resetList(){ _userList.clear(); }
+	void dataClean(char* dest, CString str);
+	void resetList(){ _bookMarkList.clear(); }
 	// C
-	BOOL createUser(CBookMarkDTO);
+	BOOL createBookMark(CBookMarkDTO);
 	// R
-	CBookMarkDTO& getUser(CString userID);
+	CBookMarkDTO& getBookMark(int bookMarkID);
 	std::vector<CBookMarkDTO*> getAll();
-	std::vector<CBookMarkDTO*> getAllByTown(int townID);
+	std::vector<CBookMarkDTO*> getAllByUser(CString userID);
+	std::vector<CBookMarkDTO*> getAllByPost(int postID);
 	// U
-	BOOL updateUser(CBookMarkDTO);
+	//BOOL updateBookMark(CBookMarkDTO);
 	// D
-	BOOL deleteUser(CString userID);
+	BOOL deleteBookMark(int bookMarkID);
 };
 
 

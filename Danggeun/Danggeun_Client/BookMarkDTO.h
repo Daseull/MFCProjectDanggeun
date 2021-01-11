@@ -7,24 +7,18 @@ class CBookMarkDTO {
 public:
 	CBookMarkDTO();
 private:
+	int bookMarkID;
 	CString userID;
-	CString userPw;
-	int town;
-	CString phone;
-	BOOL isAdmin;
+	int postID;
 
 public:
 	// Getter
+	int CBookMarkDTO::GetBookMarkID() { return bookMarkID; }
 	CString CBookMarkDTO::GetUserID() { return userID; }
-	CString CBookMarkDTO::GetUserPW() { return userPw; }
-	int CBookMarkDTO::GetTown() { return town; }
-	CString CBookMarkDTO::GetPhone() { return phone; }
-	BOOL CBookMarkDTO::GetIsAdim() { return isAdmin; }
-
+	int CBookMarkDTO::GetPostID() { return postID; }
+	
 	// Setter
-	void SetUserID(CString userID);
-	void SetUserPW(CString userPw);
-	void SetTown(int nTown);
-	void SetPhone(CString phone);
-	void SetIsAdim(BOOL isAdmin);
+	void CBookMarkDTO::SetBookMarkID(int bookMarkID);
+	void CBookMarkDTO::SetUserID(CString userID);
+	void CBookMarkDTO::SetPostID(int postID);
 };

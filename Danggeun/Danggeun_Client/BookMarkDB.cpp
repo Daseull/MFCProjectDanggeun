@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "BookMarkDB.h"
-#include "Danggeun_ClientDlg.h"
+
 
 // SQLite는 UTF8을 사용하기 때문에 코드 변환이 필요합니다.
 // 출처 - http://dolphin.ivyro.net/file/algorithm/SQLite/tutoria03.html
@@ -24,13 +24,13 @@ void CBookMarkDB::InitDB() {
 
 	//SQL 테이블 생성
 	char* sql;
-	sql = "CREATE TABLE IF NOT EXISTS user("
-			"userID	TEXT NOT NULL,"
-			"userPw	TEXT NOT NULL,"
-			"town	INTEGER DEFAULT - 1,"
-			"phone	TEXT NOT NULL,"
-			"isAdmin	INTEGER DEFAULT 0,"
-			"PRIMARY KEY(\"userID\"));";
+	sql = "CREATE TABLE IF NOT EXISTS bookmark("
+		 	"bookMarkID	INTEGER,"
+		 	"userID	TEXT NOT NULL,"
+		 	"postID	INTEGER NOT NULL,"
+		 	"FOREIGN KEY(\"postID\") REFERENCES \"post\"(\"postID\") ON DELETE CASCADE,"
+		 	"FOREIGN KEY(\"userID\") REFERENCES \"user\"(\"userID\") ON DELETE CASCADE,"
+		 	"PRIMARY KEY(\"bookMarkID\" AUTOINCREMENT));";
 
 	rc = sqlite3_exec(dao._db, sql, NULL, NULL, &(dao._errmsg));
 

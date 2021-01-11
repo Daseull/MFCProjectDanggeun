@@ -3,27 +3,18 @@
 
 
 CBookMarkDTO::CBookMarkDTO() {
-	SetUserID("");
-	SetUserPW("");
-	SetTown(-1);
-	SetPhone("");
-	SetIsAdim(FALSE);
+	CBookMarkDTO::SetBookMarkID(-1);
+	CBookMarkDTO::SetPostID(-1);
+	CBookMarkDTO::SetUserID("");
 }
 
 // Setter
+void CBookMarkDTO::SetBookMarkID(int bookMarkID) {
+	this->bookMarkID = bookMarkID;
+}
+void CBookMarkDTO::SetPostID(int postID) {
+	this->postID = postID;
+}
 void CBookMarkDTO::SetUserID(CString userID) {
 	this->userID = userID;
-}
-void CBookMarkDTO::SetUserPW(CString userPw) {
-	this->userPw = userPw;
-}
-void CBookMarkDTO::SetTown(int nTown) {
-	this->town = nTown;
-}
-void CBookMarkDTO::SetPhone(CString phone) {
-	this->phone = phone;
-
-}
-void CBookMarkDTO::SetIsAdim(BOOL isAdmin) {
-	this->isAdmin = isAdmin;
 }

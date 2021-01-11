@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "PostDTO.h"
 
-
 CPostDTO::CPostDTO() {
 	CPostDTO::SetPostID(-1);
 	CPostDTO::SetUserID("");

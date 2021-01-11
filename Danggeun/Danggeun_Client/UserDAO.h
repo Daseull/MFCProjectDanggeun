@@ -19,7 +19,7 @@ private:
 public:
 	int AnsiToUTF8(char* szSrc, char* strDest, int destSize);
 	int UTF8ToAnsi(char* szSrc, char* strDest, int destSize);
-	void dataClean(char* dest, CString str, int* sLen);
+	void dataClean(char* dest, CString str);
 	void resetList(){ _userList.clear(); }
 	// C
 	BOOL createUser(CUserDTO);
@@ -32,9 +32,6 @@ public:
 	// D
 	BOOL deleteUser(CString userID);
 };
-
-
-
 
 // -C-
 // createUser(UserDTO)
