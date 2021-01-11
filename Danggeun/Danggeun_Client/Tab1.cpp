@@ -66,7 +66,7 @@ void CTab1::LoadTownPost()
 		if (post->GetTown() == CurrentUser->GetTown()) {
 			CBitmap bmp;
 			CImage img;
-			img.Load(post->GetImgName());
+			img.Load("res\\" + post->GetImgName());
 			bmp.Attach(img);
 			m_ImageList.Add(&bmp, RGB(255, 255, 255));
 			int i = m_list.GetItemCount();
@@ -114,7 +114,7 @@ void CTab1::SearchPost(CString Key)
 		if (title.MakeUpper().Find(Key) != -1) {
 			CBitmap bmp;
 			CImage img;
-			img.Load(post->GetImgName());
+			img.Load("res\\" + post->GetImgName());
 			bmp.Attach(img);
 			m_ImageList.Add(&bmp, RGB(255, 255, 255));
 
@@ -257,6 +257,7 @@ BOOL CTab1::OnInitDialog()
 	CDialogEx::OnInitDialog();
 	m_ImageList.Create(60, 60, ILC_COLORDDB | ILC_MASK, 8, 8);
 
+	
 	/*CBitmap bmp;
 	CImage img;
 	img.Load("res\\1.PNG");
