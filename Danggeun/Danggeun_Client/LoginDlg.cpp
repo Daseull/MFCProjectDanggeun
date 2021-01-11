@@ -13,6 +13,7 @@
 // CLoginDlg 대화 상자
 
 IMPLEMENT_DYNAMIC(CLoginDlg, CDialogEx)
+extern CString CurrentUser;
 
 CLoginDlg::CLoginDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOG_LOGIN, pParent)
@@ -69,12 +70,15 @@ void CLoginDlg::OnBnClickedButtonLogin()
 	int chk = 0;
 	UpdateData(TRUE);
 
-	CUserDB* userDB = new CUserDB(); // new keyword -> pointer
+	CUserDB* userDB = new CUserDB;
 	userDB->InitDB();
 	userDB->userList = userDB->dao.getAll();
 
 	for (CUserDTO* user : userDB->userList) {
 		if (m_strID == user->GetUserID() || m_strPW == user->GetUserPW()) {
+
+			CurrentUser = m_strID;
+			//MessageBox((m_strPW == user->GetUserPW()));
 			MessageBox("Login Success!");
 			chk = 2;
 		}

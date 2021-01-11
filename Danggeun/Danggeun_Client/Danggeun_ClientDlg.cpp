@@ -18,9 +18,9 @@
 #define new DEBUG_NEW
 #endif
 
+CString CurrentUser;
 
 // CAboutDlg dialog used for App About
-
 class CAboutDlg : public CDialogEx
 {
 public:
@@ -96,7 +96,7 @@ END_MESSAGE_MAP()
 
 
 // CDanggeunClientDlg message handlers
-CLoginDlg dlg = new CLoginDlg;
+extern CLoginDlg dlg = new CLoginDlg;
 
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
@@ -315,6 +315,8 @@ HBRUSH CDanggeunClientDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 {
 	dlg.EndDialog(IDOK);
+	MessageBox(CurrentUser);
+	//pDlg1->m_strTown = CurrentUser;
 	return 0;
 }
 
