@@ -18,9 +18,10 @@
 #define new DEBUG_NEW
 #endif
 
+CString CurrentUser;
+CUserDB* userDB;
 
 // CAboutDlg dialog used for App About
-
 class CAboutDlg : public CDialogEx
 {
 public:
@@ -43,6 +44,7 @@ protected:
 public:
 //	virtual BOOL OnInitDialog();
 //	virtual BOOL OnInitDialog();
+	void OnClose();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -56,6 +58,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 
+	//ON_UM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -91,7 +94,10 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 
 	ON_WM_DESTROY()
 	ON_WM_CTLCOLOR()
+	ON_COMMAND(UM_CLOSE, &CDanggeunClientDlg::OnClose)
 //	ON_COMMAND(IDC_BUTTON_SEARCH, &CDanggeunClientDlg::OnButtonSearch)
+//  ON_WM_CLOSE()
+//ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -102,8 +108,7 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// Add "About..." menu item to system menu.
-
+	// Add "About..." menu item to system menu.	
 	dlg.DoModal();
 
 	// IDM_ABOUTBOX must be in the system command range.
@@ -185,36 +190,10 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		pDlg4->ShowWindow(SW_HIDE);
 	}
 	
-
-	postDB = new CPostDB();
-	postDB->InitDB();
-
 	
 	/* DB Init
-	userDB = new CUserDB(); // new keyword -> pointer
-	userDB->InitDB();
-
-	// create/update
-	CUserDTO user;
-	user.SetUserID("2");
-	user.SetUserPW("3");
-	user.SetTown(2);
-	user.SetPhone("44444");
-	user.SetIsAdim(FALSE);
-
-	userDB->dao.updateUser(user);
-	//userDB->dao.createUser(user);
-
-	search test
-	postDB->postList = postDB->dao.getAllByTitleSearch("치킨");
-	for (CPostDTO* post : postDB->postList) {
-		post->SetContent("이 치킨은 냠!");
-		postDB->dao.updatePost(*post);
-	}
 
 	*/
-
-
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -339,6 +318,8 @@ HBRUSH CDanggeunClientDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 {
 	dlg.EndDialog(IDOK);
+	MessageBox(CurrentUser);
+	//pDlg1->m_strTown = CurrentUser;
 	return 0;
 }
 
@@ -355,3 +336,21 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 //	return TRUE;  // return TRUE unless you set the focus to a control
 //				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 //}
+
+
+
+
+//void CAboutDlg::OnClose()
+//{
+//	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+//
+//	CDialogEx::OnClose();
+//}
+
+
+void CDanggeunClientDlg::OnClose()
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	AfxMessageBox("bye");
+	CDialogEx::OnClose();
+}

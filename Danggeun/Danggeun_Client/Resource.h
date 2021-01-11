@@ -30,6 +30,7 @@
 #define IDC_EDIT_JOIN_PHONE             1014
 #define IDC_COMBO1                      1015
 #define IDC_COMBO_JOIN_TOWN             1015
+#define IDC_COMBO_CHANGETOWN            1015
 #define IDC_COMBO_STATE                 1016
 #define IDC_STATIC_TEL                  1017
 #define IDC_STATIC_TOWN                 1018
@@ -40,7 +41,9 @@
 #define IDC_LIST_POST                   1027
 #define IDC_LIST_HEART                  1028
 #define IDC_BUTTON_QUIT                 1030
+#define IDC_BUTTON_WITHDRAW             1030
 #define IDC_BUTTON_PW2                  1031
+#define IDC_BUTTON_CHANGEOK             1031
 #define IDC_BUTTON_NEWPOST              1032
 #define IDC_CHATBOX                     1033
 #define IDC_BUTTON_SEND                 1034
@@ -53,16 +56,21 @@
 #define IDC_STATIC_TITLE                1041
 #define IDC_STATIC_PRICE                1042
 #define IDC_STATIC_ADDPIC               1044
+#define IDC_STATIC_TOWNCHANGE           1045
+#define IDC_STATIC_PHONECHANGE          1046
+#define IDC_EDIT_CHANGEPHONE            1047
+#define IDC_EDIT_CHANGEPW               1048
 #define IDC_STATIC_PW_EDIT              1100
 #define IDC_STATIC_INFO                 1101
+
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        148
+#define _APS_NEXT_RESOURCE_VALUE        149
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1045
+#define _APS_NEXT_CONTROL_VALUE         1049
 #define _APS_NEXT_SYMED_VALUE           108
 #endif
 #endif

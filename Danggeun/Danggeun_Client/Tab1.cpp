@@ -8,6 +8,7 @@
 #include "ChatBox.h"
 #include "CreatePost.h"
 #include "afxwin.h" //비트맵때문에 넣은거
+#include "LoginDlg.h"
 
 
 // CTab1 대화 상자
@@ -217,6 +218,7 @@ void CTab1::OnClickedButtonSearch()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
 	SearchPost(m_strSearch);
+	
 
 }
 

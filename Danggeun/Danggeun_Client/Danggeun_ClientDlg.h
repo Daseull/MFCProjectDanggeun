@@ -21,15 +21,16 @@ class CTab2;
 class CTab3;
 class CTab4;
 
+
+
 class CDanggeunClientDlg : public CDialogEx
 {
 private:
 	CBrush m_bk_brush;
-
 // Construction
 public:
 	CDanggeunClientDlg(CWnd* pParent = nullptr);	// standard constructor
-
+	//CString CurrentUser;
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_DANGGEUN_CLIENT_DIALOG };
@@ -54,17 +55,21 @@ public:
 //	CTabCtrl m_Tab;
 	afx_msg void OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult);
 
-	CUserDB* userDB;
-	CPostDB* postDB;
+	
 
 	CTab1* pDlg1;
 	CTab2* pDlg2;
 	CTab3* pDlg3;
 	CTab4* pDlg4;	
+	CUserDB* userDB;
 //	CTabCtrl m_Tab;
 	CMainTabCtrl m_Tab;
 	afx_msg void OnDestroy();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 protected:
 	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
+public:
+//	void OnClose();
+	/*afx_msg void OnClose();*/
+	afx_msg void OnClose();
 };
