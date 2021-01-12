@@ -325,7 +325,7 @@ void CDetailPage::OnClickedButtonPostedit()
 	dlg->DoModal();
 
 	LoadDetailPage();
-	((CDanggeunClientDlg*)GetParent())->pDlg1->LoadTownPost();
+	((CDanggeunClientDlg*)GetParent())->pDlg1->LoadTownPost(); 
 }
 
 void CDetailPage::LoadDetailPage()

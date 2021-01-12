@@ -77,7 +77,6 @@ HBRUSH CCreatePost::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 }
 
 
-CString img_path = "";
 BOOL CCreatePost::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -144,6 +143,13 @@ void CCreatePost::OnClickedButtonComedit()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
+	m_post->SetTitle(m_strTitle);
+	m_post->SetImgName(img_path);
+	m_post->SetContent(m_strText);
+	extern CUserDTO* CurrentUser;
+	m_post->SetTown(CurrentUser->GetTown());
+	m_post->SetPrice(m_strPrice);
+	m_post->SetStauts(m_state.GetCurSel());
 
 	CPostDTO newpost;
 	newpost.SetPostID(m_post->GetPostID());
@@ -155,13 +161,14 @@ void CCreatePost::OnClickedButtonComedit()
 	newpost.SetPrice(m_strPrice);
 	newpost.SetStauts(m_state.GetCurSel());
 	extern CPostDB* postDB;
-	postDB->dao.updatePost(newpost);
-	AfxMessageBox("수정 완료!");
+
+	postDB->dao.updatePost(newpost); 
+	postDB->postList = postDB->dao.getAll();
 	//SendMessage(IDCLOSE);
 
 }
 
-
+/*
 void CCreatePost::OnClickedButtonComedit()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -184,7 +191,7 @@ void CCreatePost::OnClickedButtonComedit()
 
 }
 
-
+*/
 void CCreatePost::OnStnClickedStaticAddpic()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
