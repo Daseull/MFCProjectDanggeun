@@ -48,6 +48,7 @@ public:
 //	virtual BOOL OnInitDialog();
 	void OnClose();
 //	virtual BOOL OnInitDialog();
+//	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -153,9 +154,9 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	postDB->InitDB();
 	postDB->postList = postDB->dao.getAll();
 
-	//bookmarkDB = new CBookMarkDB;
-	//bookmarkDB->InitDB();
-	//bookmarkDB->bookmarkList = bookmarkDB->dao.getAll();
+	bookmarkDB = new CBookMarkDB;
+	bookmarkDB->InitDB();
+	bookmarkDB->bookMarkList = bookmarkDB->dao.getAll();
 
 
 	m_Tab.SetFont(&font_sel);

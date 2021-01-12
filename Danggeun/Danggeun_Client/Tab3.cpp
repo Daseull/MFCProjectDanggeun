@@ -33,6 +33,8 @@ void CTab3::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton1);
 	DDX_Text(pDX, IDC_STATIC_TOWN, m_strTown);
 	DDX_Control(pDX, IDC_BUTTON_BACK, m_tMyButton2);
+	//  DDX_Control(pDX, IDC_LIST_HEART, m_list);
+	DDX_Control(pDX, IDC_LIST_HEART, m_list);
 }
 
 
@@ -42,6 +44,8 @@ BEGIN_MESSAGE_MAP(CTab3, CDialogEx)
 //	ON_LBN_SELCHANGE(IDC_LIST_HEART, &CTab3::OnLbnSelchangeListHeart)
 ON_WM_CTLCOLOR()
 ON_STN_CLICKED(IDCANCEL, &CTab3::OnStnClickedCancel)
+ON_BN_CLICKED(IDC_BUTTON_SEARCH, &CTab3::OnBnClickedButtonSearch)
+ON_BN_CLICKED(IDC_BUTTON_BACK, &CTab3::OnBnClickedButtonBack)
 END_MESSAGE_MAP()
 
 
@@ -83,6 +87,87 @@ HBRUSH CTab3::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 
 
 void CTab3::OnStnClickedCancel()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+BOOL CTab3::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+
+	extern CString town[];
+	extern CUserDTO* CurrentUser;
+	m_strTown = town[CurrentUser->GetTown()];
+	UpdateData(FALSE);
+
+	m_ImageList.Create(60, 60, ILC_COLORDDB | ILC_MASK, 8, 8);
+	m_list.SetImageList(&m_ImageList, LVSIL_SMALL);
+
+	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT);
+	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
+	m_list.InsertColumn(1, "가격", LVCFMT_RIGHT, 100);
+	m_list.InsertColumn(2, "판매상태", LVCFMT_RIGHT, 100);
+
+	LoadBookmarkPost();
+	/*
+	extern CBookMarkDB *bookmarkDB;
+	extern CPostDB* postDB;
+	CBookMarkDTO bm;
+	for (CPostDTO* post : postDB->postList) {
+		if (post->GetUserID() == CurrentUser->GetUserID()) {
+			bm.SetPostID(post->GetPostID());
+			break;
+		}
+	}
+	bm.SetUserID(CurrentUser->GetUserID());
+
+	bookmarkDB->dao.createBookMark(bm);
+	*/
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+void CTab3::LoadBookmarkPost() {
+	//초기화
+	int n = m_list.GetItemCount();
+	while (n--)
+		m_ImageList.Remove(0);
+	m_list.DeleteAllItems();
+
+	extern CUserDTO* CurrentUser;
+	extern CPostDB* postDB;
+	extern CBookMarkDB* bookmarkDB;
+	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
+		if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
+			for (CPostDTO* post : postDB->postList) {
+				if (bookmark->GetPostID() == post->GetPostID()) {
+					CBitmap bmp;
+					CImage img;
+					img.Load("res\\" + post->GetImgName());
+					if (img.IsNull()) {
+						img.Load("res\\LoadError.png");
+					}
+					bmp.Attach(img);
+					m_ImageList.Add(&bmp, RGB(255, 255, 255));
+					int i = m_list.GetItemCount();
+					m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+					m_list.AddItem("7000", i, 1);
+					m_list.AddItem("판매중", i, 2);
+				}
+			}
+		}
+	}
+}
+
+void CTab3::OnBnClickedButtonSearch()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+}
+
+
+void CTab3::OnBnClickedButtonBack()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

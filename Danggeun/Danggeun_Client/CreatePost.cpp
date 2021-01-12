@@ -90,6 +90,7 @@ void CCreatePost::OnBnClickedButtonPost()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	extern CPostDB* postDB;
+	extern CBookMarkDB* bookmarkDB;
 	UpdateData(TRUE);
 	if (m_strTitle == "글 제목을 작성해주세요" || m_strPrice == "\\가격을 입력해주세요"
 		|| m_strText == "동네에 올릴 게시글 내용을 작성해주세요(가품 및 판매금지품목은 게시가 제한 될 수 있어요.)"
@@ -105,6 +106,7 @@ void CCreatePost::OnBnClickedButtonPost()
 		postDB->dao.createPost(post);
 		MessageBox("작성 완료 !");
 		postDB->postList = postDB->dao.getAll();
+		bookmarkDB->bookMarkList = bookmarkDB->dao.getAll();
 		::SendMessage(((CCreatePost*)GetParent())->GetSafeHwnd(), UWM_CUSTOM3, 0, 0);
 	}
 }
