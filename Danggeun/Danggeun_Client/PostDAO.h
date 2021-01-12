@@ -29,14 +29,13 @@ public:
 	std::vector<CPostDTO*> getAllByUser(CString userID);
 	std::vector<CPostDTO*> getAllByTown(int townID);
 	std::vector<CPostDTO*> getAllByBookMark(CString userID);
+	std::vector<CPostDTO*> getAllByBookMarkAndSearch(CString userID, CString q);
 	std::vector<CPostDTO*> getAllByTitleSearch(CString q, int townID);
 	// U
 	BOOL updatePost(CPostDTO);
 	// D
 	BOOL deletePost(int postID);
 };
-
-
 
 
 // -C-

@@ -87,7 +87,7 @@ BOOL CPostDAO::createPost(CPostDTO post) {
 	sqlite3_finalize(_stmt);*/
 
 
-	if (sqlite3_step(_stmt) != SQLITE_DONE) {
+	if (sqlite3_step(_stmt) == SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
@@ -153,6 +153,9 @@ CPostDTO* CPostDAO::getPost(int postID) {
 		_post->SetImgName(_imgName);
 		_post->SetStauts(_status);
 		_post->SetPrice(_price);
+	}
+	else {
+		_post = NULL;
 	}
 
 
@@ -375,7 +378,7 @@ std::vector<CPostDTO*> CPostDAO::getAllByBookMark(CString userID) {
 	_postList.clear();
 	CString sTmp;
 	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("select * from post where postID = (select postID from bookmark where userID = '?')"));
+	sTmp.Format(_T("select * from post where postID = (select postID from bookmark where userID = ?)"));
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
@@ -420,6 +423,82 @@ std::vector<CPostDTO*> CPostDAO::getAllByBookMark(CString userID) {
 	sqlite3_close(_db);
 	return _postList;
 }
+
+std::vector<CPostDTO*> CPostDAO::getAllByBookMarkAndSearch(CString userID, CString q) {
+	// 테이블을 읽어와 리스트 컨트롤에 보여주기
+
+	int rc = sqlite3_open("test.db", &_db);
+	if (rc != SQLITE_OK)
+	{
+		printf("Failed to open DB\n");
+		sqlite3_close(_db);
+		exit(1);
+	}
+
+	//sqlite3_finalize(_stmt);
+	//sqlite3_prepare(_db, "INSERT ... (?,?)", -1, &_stmt, NULL);
+	//sqlite3_bind_int(_stmt, 1, 123);
+	//sqlite3_bind_int(_stmt, 2, 456);
+	//sqlite3_step(_stmt);
+	//sqlite3_finalize(_stmt);
+
+
+	// "from user"
+	_postList.clear();
+	CString sTmp;
+	//sTmp.Format(_T("select * from db where "));
+
+	char _q[130];
+	dataClean(_q, q);
+	sTmp.Format("select * from post where postID = (select postID from bookmark where userID = ?) and title like '%%%s%%'", q);
+
+	char _sql[100];
+	dataClean(_sql, sTmp);
+
+	sqlite3_prepare_v2(_db, _sql, -1, &_stmt, NULL);
+	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
+
+	while (sqlite3_step(_stmt) != SQLITE_DONE) {
+		int i;
+		int num_cols = sqlite3_column_count(_stmt);
+
+		char szAnsi[300];
+		_post = new CPostDTO();
+
+		int _postID = sqlite3_column_int(_stmt, 0);
+		CString _userID(sqlite3_column_text(_stmt, 1));
+		int _town = sqlite3_column_int(_stmt, 2);
+
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300);
+		CString _title(szAnsi);
+
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 4), szAnsi, 300);
+		CString _content(szAnsi);
+
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 5), szAnsi, 300);
+		CString _imgName(szAnsi);
+
+		int _status = sqlite3_column_int(_stmt, 6);
+		CString _price(sqlite3_column_text(_stmt, 7));
+
+		_post->SetPostID(_postID);
+		_post->SetUserID(_userID);
+		_post->SetTown(_town);
+		_post->SetTitle(_title);
+		_post->SetContent(_content);
+		_post->SetImgName(_imgName);
+		_post->SetStauts(_status);
+		_post->SetPrice(_price);
+
+		_postList.push_back(_post);
+	}
+
+	sqlite3_finalize(_stmt);
+
+	sqlite3_close(_db);
+	return _postList;
+}
+
 std::vector<CPostDTO*> CPostDAO::getAllByTitleSearch(CString q, int townID) {
 	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
@@ -497,8 +576,6 @@ std::vector<CPostDTO*> CPostDAO::getAllByTitleSearch(CString q, int townID) {
 
 // U
 BOOL CPostDAO::updatePost(CPostDTO post) {
-
-
 	int rc = sqlite3_open("test.db", &_db);
 	if (rc != SQLITE_OK)
 	{
@@ -527,7 +604,7 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 	char content[100];
 	dataClean(content, post.GetContent());
 
-	//sqlite3_prepare_v2(_db, "insert into post(userID, town, title, content, imgName) values(?,?,?,?,?)", -1, &_stmt, NULL);
+	//sqlite3_prepare_v2(_db, "insert into post(userID, town, title, content, imgName, status, price) values(?,?,?,?,?,?,?)", -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, post.GetTown());
 	sqlite3_bind_text(_stmt, 2, title, strlen(title), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 3, content, strlen(content), SQLITE_STATIC);
@@ -536,7 +613,7 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 	sqlite3_bind_text(_stmt, 6, post.GetPrice(), post.GetPrice().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 7, post.GetPostID());
 
-	if (sqlite3_step(_stmt) != SQLITE_DONE) {
+	if (sqlite3_step(_stmt) == SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
@@ -582,7 +659,7 @@ BOOL CPostDAO::deletePost(int postID) {
 	sqlite3_prepare(_db, "delete from post where postID = ?", -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, postID);
 
-	if (sqlite3_step(_stmt) != SQLITE_DONE) {
+	if (sqlite3_step(_stmt) == SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}

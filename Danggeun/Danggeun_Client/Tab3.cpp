@@ -120,6 +120,7 @@ BOOL CTab3::OnInitDialog()
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
 
+
 void CTab3::LoadBookmarkPost() {
 
 	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_HIDE);
@@ -135,10 +136,9 @@ void CTab3::LoadBookmarkPost() {
 	extern CString status[3];
 
 	//1/12 수정필요 관심목록 찾을 때
-
+	/*
 	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 		if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
-
 			for (CPostDTO* post : postDB->postList) {
 				if (bookmark->GetPostID() == post->GetPostID()) {
 					CBitmap bmp;
@@ -163,6 +163,29 @@ void CTab3::LoadBookmarkPost() {
 			}
 		}
 	}
+	*/
+
+	for (CPostDTO* post : postDB->dao.getAllByBookMark(CurrentUser->GetUserID())) {
+		CBitmap bmp;
+		CImage img;
+		img.Load("res\\small_" + post->GetImgName());
+		if (img.IsNull()) {
+			img.Load("res\\LoadError.png");
+		}
+		bmp.Attach(img);
+		m_ImageList.Add(&bmp, RGB(255, 255, 255));
+
+		int i = m_list.GetItemCount();	// 이미지 순서 맞는지 확인하기
+		m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+		m_list.AddItem(post->GetPrice(), i, 1);
+		m_list.AddItem(status[post->GetStatus()], i, 2);
+
+		int postid = post->GetPostID();
+		CString postID;
+		postID.Format("%d", postid);
+		m_list.AddItem(postID, i, 3);
+	}
+
 	UpdateData(FALSE);
 }
 
