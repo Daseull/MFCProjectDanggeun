@@ -77,7 +77,7 @@ void CTab2::LoadMyPost() {
 
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
-
+	extern CString status[3];
 	for (CPostDTO* post : postDB->postList) {
 		if (post->GetUserID() == CurrentUser->GetUserID()) {
 			CBitmap bmp;
@@ -91,8 +91,8 @@ void CTab2::LoadMyPost() {
 
 			int i = m_list.GetItemCount();
 			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-			m_list.AddItem("124800", i, 1);
-			m_list.AddItem("거래완료", i, 2);
+			m_list.AddItem(post->GetPrice(), i, 1);
+			m_list.AddItem(status[post->GetStatus()], i, 2);
 			//m_list.AddItem(post->GetPrice(), i, 1);
 			//m_list.AddItem(post->GetState(), i, 2);
 

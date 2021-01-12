@@ -113,20 +113,7 @@ BOOL CTab3::OnInitDialog()
 	m_list.InsertColumn(2, "판매상태", LVCFMT_RIGHT, 100);
 
 	LoadBookmarkPost();
-	/*
-	extern CBookMarkDB *bookmarkDB;
-	extern CPostDB* postDB;
-	CBookMarkDTO bm;
-	for (CPostDTO* post : postDB->postList) {
-		if (post->GetUserID() == CurrentUser->GetUserID()) {
-			bm.SetPostID(post->GetPostID());
-			break;
-		}
-	}
-	bm.SetUserID(CurrentUser->GetUserID());
 
-	bookmarkDB->dao.createBookMark(bm);
-	*/
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -141,6 +128,7 @@ void CTab3::LoadBookmarkPost() {
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
 	extern CBookMarkDB* bookmarkDB;
+	extern CString status[3];
 	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 		if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
 			for (CPostDTO* post : postDB->postList) {
@@ -155,8 +143,8 @@ void CTab3::LoadBookmarkPost() {
 					m_ImageList.Add(&bmp, RGB(255, 255, 255));
 					int i = m_list.GetItemCount();	// 이미지 순서 맞는지 확인하기
 					m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-					m_list.AddItem("7000", i, 1);
-					m_list.AddItem("판매중", i, 2);
+					m_list.AddItem(post->GetPrice(), i, 1);
+					m_list.AddItem(status[post->GetStatus()], i, 2);
 				}
 			}
 		}
@@ -185,6 +173,7 @@ void CTab3::SearchPost(CString Key)
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
 	extern CBookMarkDB* bookmarkDB;
+	extern CString status[3];
 	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 		if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
 			for (CPostDTO* post : postDB->postList) {
@@ -202,8 +191,8 @@ void CTab3::SearchPost(CString Key)
 
 						int i = m_list.GetItemCount();
 						m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-						m_list.AddItem("8000", i, 1);
-						m_list.AddItem("거래완료", i, 2);
+						m_list.AddItem(post->GetPrice(), i, 1);
+						m_list.AddItem(status[post->GetStatus()], i, 2);
 					}
 				}
 			}

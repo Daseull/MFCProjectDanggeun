@@ -65,6 +65,7 @@ void CTab1::LoadTownPost()
 
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
+	extern CString status[3];
 	for (CPostDTO* post : postDB->postList) {
 		if (post->GetTown() == CurrentUser->GetTown()) {
 			CBitmap bmp;
@@ -77,8 +78,8 @@ void CTab1::LoadTownPost()
 			m_ImageList.Add(&bmp, RGB(255, 255, 255));
 			int i = m_list.GetItemCount();
 			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-			m_list.AddItem("7000", i, 1);
-			m_list.AddItem("판매중", i, 2);
+			m_list.AddItem(post->GetPrice(), i, 1);
+			m_list.AddItem(status[post->GetStatus()], i, 2);
 			//m_list.AddItem(post->GetPrice(), i, 1);
 			//m_list.AddItem(post->GetState(), i, 2);
 		}
@@ -114,7 +115,7 @@ void CTab1::SearchPost(CString Key)
 	Key = Key.MakeUpper();
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
-
+	extern CString status[3];
 	for (CPostDTO* post : postDB->postList) {
 		CString title = post->GetTitle();
 		if (title.MakeUpper().Find(Key) != -1) {
@@ -132,8 +133,8 @@ void CTab1::SearchPost(CString Key)
 			//m_list.AddItem(post->GetPrice(), i, 1);
 			//m_list.AddItem(post->GetState(), i, 2);
 			
-			m_list.AddItem("8000", i, 1);
-			m_list.AddItem("거래완료", i, 2);
+			m_list.AddItem(post->GetPrice(), i, 1);
+			m_list.AddItem(status[post->GetStatus()], i, 2);
 		}
 
 	}
