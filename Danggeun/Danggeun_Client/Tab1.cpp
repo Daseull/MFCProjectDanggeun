@@ -297,13 +297,11 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 		CString sIndexPostID;
 		sIndexPostID = m_list.GetItemText(idx, 3);
 		int PostID = _ttoi(sIndexPostID);
-		
 		extern CPostDB* postDB;
-		for (CPostDTO* post : postDB->dao.getPost(PostID)) {
-			CDetailPage dlg(post);
-			dlg.DoModal();
-			break;
-		}
+		CDetailPage dlg(postDB->dao.getPost(PostID));
+		
+		dlg.DoModal();
+	
 		/*
 		for (CPostDTO* post : postDB->postList) {
 			if (post->GetPostID() == PostID) {
