@@ -145,15 +145,17 @@ BOOL CDetailPage::OnInitDialog()
 	HBITMAP h_bmp = (HBITMAP)m_image;
 	CBitmap bmp;
 	m_stcPicture.SetBitmap(h_bmp);
-	m_stcUserID.SetWindowText(m_post->GetUserID());
-	m_stcState.SetWindowText("테스트중");
+	m_stcUserID.SetWindowText("판매자\t" + m_post->GetUserID());
 	m_stcTitle.SetWindowText(m_post->GetTitle());
 	m_stcText.SetWindowText(m_post->GetContent());
-	//m_stcPrice.SetWindowText(m_post->GetPrice());
+	CString price;
+	price.Format("%d원", m_post->GetPrice());
+	m_stcPrice.SetWindowText(price);
 
 	extern CString town[];
 	m_stcTown.SetWindowText(town[m_post->GetTown()]);
-
+	extern CString status[];
+	m_stcState.SetWindowText(status[m_post->GetStatus()]);
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.

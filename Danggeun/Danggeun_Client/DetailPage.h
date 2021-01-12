@@ -8,10 +8,10 @@ class CDetailPage : public CDialogEx
 	DECLARE_DYNAMIC(CDetailPage)
 private:
 	CBrush m_bk_brush;
-	CPostDTO* m_post = nullptr;
 	CImage m_image;
 	CRect m_rect; //사진 위치 조정용
 public:
+	CPostDTO* m_post = nullptr;
 	CDetailPage(CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	CDetailPage(CPostDTO* post, CWnd* pParent = nullptr);
 	virtual ~CDetailPage();
