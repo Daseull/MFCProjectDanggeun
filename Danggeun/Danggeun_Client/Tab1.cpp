@@ -68,7 +68,26 @@ void CTab1::LoadTownPost()
 
 
 	//1/12 수정필요
+	for (CPostDTO* post : postDB->dao.getAllByTown(CurrentUser->GetTown())) {
+		CBitmap bmp;
+		CImage img;
+		img.Load("res\\small_" + post->GetImgName());
+		if (img.IsNull()) {
+			img.Load("res\\LoadError.png");
+		}
+		bmp.Attach(img);
+		m_ImageList.Add(&bmp, RGB(255, 255, 255));
+		int i = m_list.GetItemCount();
+		m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+		m_list.AddItem(post->GetPrice(), i, 1);
+		m_list.AddItem(status[post->GetStatus()], i, 2);
 
+		int postid = post->GetPostID();
+		CString postID;
+		postID.Format("%d", postid);
+		m_list.AddItem(postID, i, 3);
+	}
+	/*
 	for (CPostDTO* post : postDB->postList) {
 		if (post->GetTown() == CurrentUser->GetTown()) {
 			CBitmap bmp;
@@ -90,6 +109,7 @@ void CTab1::LoadTownPost()
 			m_list.AddItem(postID, i, 3);
 		}
 	}
+	*/
 
 	extern CString town[];
 	m_strTown = town[CurrentUser->GetTown()];
@@ -121,10 +141,28 @@ void CTab1::SearchPost(CString Key)
 	Key = Key.MakeUpper();
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
+	//postDB->postList
 	extern CString status[3];
-
+	//CPostDB* post;
+	//post->postList = post->dao.getAllByTitleSearch(Key, CurrentUser->GetTown());
 	//1/12 수정필요
 
+	for (CPostDTO *post : postDB->dao.getAllByTitleSearch(Key, CurrentUser->GetTown())) {
+			CBitmap bmp;
+			CImage img;
+			img.Load("res\\small_" + post->GetImgName());
+			if (img.IsNull()) {
+				img.Load("res\\LoadError.png");
+			}
+			bmp.Attach(img);
+			m_ImageList.Add(&bmp, RGB(255, 255, 255));
+
+			int i = m_list.GetItemCount();
+			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+			m_list.AddItem(post->GetPrice(), i, 1);
+			m_list.AddItem(status[post->GetStatus()], i, 2);
+	}
+	/*
 	for (CPostDTO* post : postDB->postList) {
 		CString title = post->GetTitle();
 		if (title.MakeUpper().Find(Key) != -1) {
@@ -143,6 +181,7 @@ void CTab1::SearchPost(CString Key)
 			m_list.AddItem(status[post->GetStatus()], i, 2);
 		}
 	}
+	*/
 
 
 	UpdateData(FALSE);
@@ -258,10 +297,14 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 		CString sIndexPostID;
 		sIndexPostID = m_list.GetItemText(idx, 3);
 		int PostID = _ttoi(sIndexPostID);
-
-		//1/12 수정필요
-
+		
 		extern CPostDB* postDB;
+		for (CPostDTO* post : postDB->dao.getPost(PostID)) {
+			CDetailPage dlg(post);
+			dlg.DoModal();
+			break;
+		}
+		/*
 		for (CPostDTO* post : postDB->postList) {
 			if (post->GetPostID() == PostID) {
 				CDetailPage dlg(post);
@@ -269,6 +312,7 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 				break;
 			}
 		}
+		*/
 	}
 	
 	*pResult = 0;

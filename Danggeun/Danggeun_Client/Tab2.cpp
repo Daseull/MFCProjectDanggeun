@@ -83,6 +83,10 @@ void CTab2::LoadMyPost() {
 	extern CString status[3];
 
 	//1/12 수정필요
+	//for (CPostDTO* post : postDB->dao.get
+
+
+
 
 	for (CPostDTO* post : postDB->postList) {
 		if (post->GetUserID() == CurrentUser->GetUserID()) {
@@ -166,14 +170,17 @@ void CTab2::OnDblclkListMyPost(NMHDR* pNMHDR, LRESULT* pResult)
 		extern CPostDB* postDB;
 
 		//1/12 수정필요
-
+		CDetailPage dlg(&postDB->dao.getPost(PostID));
+		dlg.DoModal();
+		/*
 		for (CPostDTO* post : postDB->postList) {
 			if (post->GetPostID() == PostID) {
-				CDetailPage dlg(post);
+				CDetailPage dlg(postDB->dao.getPost(PostID));
 				dlg.DoModal();
 				break;
 			}
 		}
+		*/
 	}
 	*pResult = 0;
 

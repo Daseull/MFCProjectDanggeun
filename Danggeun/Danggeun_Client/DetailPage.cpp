@@ -325,7 +325,6 @@ void CDetailPage::OnBnClickedButtonHeart()
 		heartstate = 0;
 
 		//1/12 수정필요
-
 		for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 			if (bookmark->GetPostID() == m_post->GetPostID()) {
 				//MessageBox("찾았다");
