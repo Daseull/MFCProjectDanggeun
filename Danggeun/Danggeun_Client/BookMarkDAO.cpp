@@ -113,24 +113,23 @@ CBookMarkDTO& CBookMarkDAO::getBookMark(int bookMarkID) {
 	sqlite3_bind_int(_stmt, 1, bookMarkID);
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
-		throw NULL;
+		int i;
+		int num_cols = sqlite3_column_count(_stmt);
+
+		_bookMark = new CBookMarkDTO();
+
+		int _bookMarkID = sqlite3_column_int(_stmt, 0);
+		CString _userID(sqlite3_column_text(_stmt, 1));
+		int _postID = sqlite3_column_int(_stmt, 2);
+
+		_bookMark->SetPostID(_bookMarkID);
+		_bookMark->SetUserID(_userID);
+		_bookMark->SetPostID(_postID);
+
+		sqlite3_finalize(_stmt);
+		sqlite3_close(_db);
 	}
 
-	int i;
-	int num_cols = sqlite3_column_count(_stmt);
-
-	_bookMark = new CBookMarkDTO();
-
-	int _bookMarkID = sqlite3_column_int(_stmt, 0);
-	CString _userID(sqlite3_column_text(_stmt, 1));
-	int _postID = sqlite3_column_int(_stmt, 2);
-
-	_bookMark->SetPostID(_bookMarkID);
-	_bookMark->SetUserID(_userID);
-	_bookMark->SetPostID(_postID);
-
-	sqlite3_finalize(_stmt);
-	sqlite3_close(_db);
 	return *_bookMark;
 }
 
@@ -161,7 +160,7 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAll() {
 		CString _userID(sqlite3_column_text(_stmt, 1));
 		int _postID = sqlite3_column_int(_stmt, 2);
 
-		_bookMark->SetPostID(_bookMarkID);
+		_bookMark->SetBookMarkID(_bookMarkID);
 		_bookMark->SetUserID(_userID);
 		_bookMark->SetPostID(_postID);
 
