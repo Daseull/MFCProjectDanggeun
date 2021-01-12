@@ -201,8 +201,6 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	
 
 	
-
-
 	//C/R/U/D
 	
 	/*CUserDB* _userDB = new CUserDB();
@@ -249,7 +247,6 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		//_book.SetUserID(str);
 		//_bookDB->dao.createBookMark(_book);
 
-		//_book.SetPostID()
 	//}
 
 
@@ -261,11 +258,12 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		AfxMessageBox(str);
 	}*/
 
-	////_postDB->postList = _postDB->dao.getAll(); good
+	//_postDB->postList = _postDB->dao.getAll(); good
 	//_postDB->postList = _postDB->dao.getAllByTitleSearch("제");
 	//for (CPostDTO* post : _postDB->postList) {
 	//	str.Format(post->GetUserID());
 	//	AfxMessageBox(str);
+	//	_postDB->dao.deletePost(post->GetPostID());
 	//}
 
 	//_postDB->postList = _postDB->dao.getAll(); good
