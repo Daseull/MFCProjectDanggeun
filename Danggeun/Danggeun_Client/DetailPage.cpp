@@ -6,7 +6,7 @@
 #include "DetailPage.h"
 #include "afxdialogex.h"
 #include "ChatBox.h"
-
+#include "afxwin.h"
 
 // CDetailPage 대화 상자
 
@@ -14,11 +14,24 @@ IMPLEMENT_DYNAMIC(CDetailPage, CDialogEx)
 
 CDetailPage::CDetailPage(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOG_DETAIL, pParent)
+
 {
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
+	
+}
 
+CDetailPage::CDetailPage(CPostDTO* post, CWnd* pParent) 
+	: CDialogEx(IDD_DIALOG_DETAIL, pParent)
+	,m_post(post) 
+
+{
+	
+	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
+	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
+	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
+	
 }
 
 CDetailPage::~CDetailPage()
@@ -29,14 +42,17 @@ void CDetailPage::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_BUTTON_CHAT, m_tMyButton1);
-	DDX_Control(pDX, IDC_STATIC_ID, m_userid);
-	DDX_Control(pDX, IDC_STATIC_TOWN, m_usertown);
-	DDX_Control(pDX, IDC_STATIC_STATE, m_state);
-	DDX_Control(pDX, IDC_STATIC_PRICE, m_price);
 	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
 	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
 	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
 	DDX_Control(pDX, IDC_BUTTON_HEART, m_tMyButton2);
+	DDX_Control(pDX, IDC_STATIC_ID, m_stcUserID);
+	DDX_Control(pDX, IDC_STATIC_PICTURE, m_stcPicture);
+	DDX_Control(pDX, IDC_STATIC_PRICE, m_stcPrice);
+	DDX_Control(pDX, IDC_STATIC_STATE, m_stcState);
+	DDX_Control(pDX, IDC_STATIC_TEXT, m_stcText);
+	DDX_Control(pDX, IDC_STATIC_TITLE, m_stcTitle);
+	DDX_Control(pDX, IDC_STATIC_TOWN, m_stcTown);
 }
 
 
@@ -68,22 +84,22 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		return m_bk_brush;
 	}
 
-	if (m_userid.m_hWnd == pWnd->m_hWnd) {
+	if (m_stcUserID.m_hWnd == pWnd->m_hWnd) {
 		pDC->SetBkColor(RGB(253, 212, 129));
-		pDC->SetTextColor(RGB(255, 133, 0));
+		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
-	else if (m_usertown.m_hWnd == pWnd->m_hWnd) {
+	else if (m_stcTown.m_hWnd == pWnd->m_hWnd) {
 		pDC->SetBkColor(RGB(253, 212, 129));
-		pDC->SetTextColor(RGB(255, 133, 0));
+		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
-	else if (m_state.m_hWnd == pWnd->m_hWnd) {
+	else if (m_stcState.m_hWnd == pWnd->m_hWnd) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(0, 169, 76));
 		return m_bk_brush;
 	}
-	else if (m_price.m_hWnd == pWnd->m_hWnd) {
+	else if (m_stcPrice.m_hWnd == pWnd->m_hWnd) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(61, 149, 255));
 		return m_bk_brush;
@@ -116,8 +132,29 @@ BOOL CDetailPage::OnInitDialog()
 	GetDlgItem(IDC_STATIC_TOWN)->SetFont(&font);
 	GetDlgItem(IDC_STATIC_STATE)->SetFont(&font);
 	GetDlgItem(IDC_STATIC_PRICE)->SetFont(&font2);
+	
+	AfxMessageBox(m_post->GetImgName());
+	GetDlgItem(IDC_STATIC_PICTURE)->GetWindowRect(m_rect); //현재 위치
+
+	m_image.Load("res\\" + m_post->GetImgName());
+	if (m_image.IsNull()) {
+		m_image.Load("res\\LoadError.png");
+	}
 
 
+	HBITMAP h_bmp = (HBITMAP)m_image;
+	CBitmap bmp;
+	m_stcPicture.SetBitmap(h_bmp);
+	m_stcUserID.SetWindowText(m_post->GetUserID());
+	m_stcState.SetWindowText("테스트중");
+	m_stcTitle.SetWindowText(m_post->GetTitle());
+	m_stcText.SetWindowText(m_post->GetContent());
+	//m_stcPrice.SetWindowText(m_post->GetPrice());
+
+	extern CString town[];
+	m_stcTown.SetWindowText(town[m_post->GetTown()]);
+
+	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }

@@ -64,6 +64,7 @@ void CTab1::LoadTownPost()
 
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
+
 	for (CPostDTO* post : postDB->postList) {
 		if (post->GetTown() == CurrentUser->GetTown()) {
 			CBitmap bmp;
@@ -80,6 +81,11 @@ void CTab1::LoadTownPost()
 			m_list.AddItem("판매중", i, 2);
 			//m_list.AddItem(post->GetPrice(), i, 1);
 			//m_list.AddItem(post->GetState(), i, 2);
+			
+			int postid = post->GetPostID();
+			CString postID;
+			postID.Format("%d", postid);
+			m_list.AddItem(postID, i, 3);
 		}
 	}
 
@@ -133,6 +139,7 @@ void CTab1::SearchPost(CString Key)
 			
 			m_list.AddItem("8000", i, 1);
 			m_list.AddItem("거래완료", i, 2);
+		
 		}
 
 	}
@@ -239,7 +246,7 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	ChatBox dlg = new ChatBox;
+	//ChatBox dlg = new ChatBox;
 	*pResult = 0;
 
 	// 행 클릭시 행 넘버값 받아오기
@@ -247,13 +254,21 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 	int idx = pNMListView->iItem;
 
 	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
-	CString sIndexValue;
-	sIndexValue = m_list.GetItemText(idx, 1);
-
+	
+	
 	if (idx != -1) {
+		CString sIndexPostID;
+		sIndexPostID = m_list.GetItemText(idx, 3);
+		int PostID = _ttoi(sIndexPostID);
 
-		CDetailPage dlg = new CDetailPage;
-		dlg.DoModal();
+		extern CPostDB* postDB;
+		for (CPostDTO* post : postDB->postList) {
+			if (post->GetPostID() == PostID) {
+				CDetailPage dlg(post);
+				dlg.DoModal();
+				break;
+			}
+		}
 	}
 	
 	*pResult = 0;
@@ -285,6 +300,7 @@ BOOL CTab1::OnInitDialog()
 	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
 	m_list.InsertColumn(1, "가격", LVCFMT_RIGHT, 100);
 	m_list.InsertColumn(2, "판매상태", LVCFMT_RIGHT, 100);
+	m_list.InsertColumn(3, "postID", LVCFMT_RIGHT, 0);
 	
 	LoadTownPost();
 
