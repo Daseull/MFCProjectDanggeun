@@ -133,8 +133,12 @@ void CTab3::LoadBookmarkPost() {
 	extern CPostDB* postDB;
 	extern CBookMarkDB* bookmarkDB;
 	extern CString status[3];
+
+	//1/12 수정필요 관심목록 찾을 때
+
 	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 		if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
+
 			for (CPostDTO* post : postDB->postList) {
 				if (bookmark->GetPostID() == post->GetPostID()) {
 					CBitmap bmp;
@@ -186,6 +190,9 @@ void CTab3::SearchPost(CString Key)
 	extern CPostDB* postDB;
 	extern CBookMarkDB* bookmarkDB;
 	extern CString status[3];
+
+	//1/12 수정필요
+
 	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 		if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
 			for (CPostDTO* post : postDB->postList) {
@@ -257,6 +264,9 @@ void CTab3::OnDblclkListHeart(NMHDR* pNMHDR, LRESULT* pResult)
 		sIndexPostID = m_list.GetItemText(idx, 3);
 		int PostID = _ttoi(sIndexPostID);
 		extern CPostDB* postDB;
+
+		//1/12 수정필요
+
 		for (CPostDTO* post : postDB->postList) {
 			if (post->GetPostID() == PostID) {
 				CDetailPage dlg(post);

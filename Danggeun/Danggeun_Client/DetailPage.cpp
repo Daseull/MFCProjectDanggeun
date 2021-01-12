@@ -238,11 +238,14 @@ BOOL CDetailPage::OnInitDialog()
 		GetDlgItem(IDC_BUTTON_HEART)->ShowWindow(SW_SHOW);
 		GetDlgItem(IDC_BUTTON_CHAT)->ShowWindow(SW_SHOW);
 
+		// 1/12 수정 필요
+
 		for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 			if (bookmark->GetPostID() == m_post->GetPostID()) {
 				heartstate = 1; break;	// 관심목록에 있음
 			}
 		}
+
 		if (heartstate != 1) {
 			m_btnheart.LoadBitmaps(IDB_HEART, NULL, NULL, NULL);
 			m_btnheart.SizeToContent();
@@ -320,6 +323,9 @@ void CDetailPage::OnBnClickedButtonHeart()
 		m_btnheart.SizeToContent();
 		MessageBox("관심리스트 삭제!");
 		heartstate = 0;
+
+		//1/12 수정필요
+
 		for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 			if (bookmark->GetPostID() == m_post->GetPostID()) {
 				//MessageBox("찾았다");
@@ -327,6 +333,7 @@ void CDetailPage::OnBnClickedButtonHeart()
 				break;
 			}
 		}
+
 	}
 	bookmarkDB->bookMarkList = bookmarkDB->dao.getAll();
 	::SendMessage(((CDetailPage*)GetParent())->GetSafeHwnd(), UWM_CUSTOM5, 0, 0);

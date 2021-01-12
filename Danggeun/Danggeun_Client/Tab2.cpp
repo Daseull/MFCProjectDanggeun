@@ -1,6 +1,8 @@
 ﻿// Tab2.cpp: 구현 파일
 //
 
+//내 글 목록
+
 #include "pch.h"
 #include "Danggeun_Client.h"
 #include "Tab2.h"
@@ -79,6 +81,9 @@ void CTab2::LoadMyPost() {
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
 	extern CString status[3];
+
+	//1/12 수정필요
+
 	for (CPostDTO* post : postDB->postList) {
 		if (post->GetUserID() == CurrentUser->GetUserID()) {
 			CBitmap bmp;
@@ -159,6 +164,9 @@ void CTab2::OnDblclkListMyPost(NMHDR* pNMHDR, LRESULT* pResult)
 		sIndexPostID = m_list.GetItemText(idx, 3);
 		int PostID = _ttoi(sIndexPostID);
 		extern CPostDB* postDB;
+
+		//1/12 수정필요
+
 		for (CPostDTO* post : postDB->postList) {
 			if (post->GetPostID() == PostID) {
 				CDetailPage dlg(post);

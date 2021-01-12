@@ -1,5 +1,5 @@
 ﻿// Tab1.cpp: 구현 파일
-//
+//홈 
 
 #include "pch.h"
 #include "Danggeun_Client.h"
@@ -65,6 +65,10 @@ void CTab1::LoadTownPost()
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
 	extern CString status[3];
+
+
+	//1/12 수정필요
+
 	for (CPostDTO* post : postDB->postList) {
 		if (post->GetTown() == CurrentUser->GetTown()) {
 			CBitmap bmp;
@@ -118,6 +122,9 @@ void CTab1::SearchPost(CString Key)
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
 	extern CString status[3];
+
+	//1/12 수정필요
+
 	for (CPostDTO* post : postDB->postList) {
 		CString title = post->GetTitle();
 		if (title.MakeUpper().Find(Key) != -1) {
@@ -135,13 +142,11 @@ void CTab1::SearchPost(CString Key)
 			m_list.AddItem(post->GetPrice(), i, 1);
 			m_list.AddItem(status[post->GetStatus()], i, 2);
 		}
-
 	}
 
 
 	UpdateData(FALSE);
 }
-
 
 
 void CTab1::DoDataExchange(CDataExchange* pDX)
@@ -253,6 +258,8 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 		CString sIndexPostID;
 		sIndexPostID = m_list.GetItemText(idx, 3);
 		int PostID = _ttoi(sIndexPostID);
+
+		//1/12 수정필요
 
 		extern CPostDB* postDB;
 		for (CPostDTO* post : postDB->postList) {
