@@ -70,10 +70,6 @@ void CTab4::OnBnClickedCancel()
 }
 
 
-
-
-
-
 HBRUSH CTab4::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
@@ -111,14 +107,25 @@ BOOL CTab4::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
+
+	//아이디
+	CFont font3;
+	LOGFONT lf3;
+	::ZeroMemory(&lf3, sizeof(lf3));
+	lf3.lfHeight = 25;
+	lf3.lfWeight = FW_NORMAL;
+	::lstrcpy(lf3.lfFaceName, "나눔고딕");
+
+	font3.CreateFontIndirectA(&lf3);
+	GetDlgItem(IDC_STATIC_ID)->SetFont(&font3);
+	font3.Detach();
+	
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 	extern CUserDTO* CurrentUser;
 	extern CUserDB* userDB;
 	
-
-	
 	// = CurrentUser->GetUserID();
-	m_strID - CurrentUser->GetUserID();
+	m_strID = CurrentUser->GetUserID();//여기 수정
 	m_strPhone = CurrentUser->GetPhone();
 	m_strPW = CurrentUser->GetUserPW();
 	m_Town.SetCurSel(CurrentUser->GetTown());
