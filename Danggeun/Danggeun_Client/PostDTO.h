@@ -12,6 +12,8 @@ private:
 	CString title;
 	CString content; // content
 	CString imgName; // img
+	int status; // 0, 1, 2
+	CString price;
 
 public:
 	// Getter
@@ -21,6 +23,8 @@ public:
 	CString CPostDTO::GetTitle() { return title; }
 	CString CPostDTO::GetContent() { return content; }
 	CString CPostDTO::GetImgName() { return imgName; }
+	int CPostDTO::GetStatus() { return status; }
+	CString CPostDTO::GetPrice() { return price; }
 
 	// Setter
 	void CPostDTO::SetPostID(int postID);
@@ -29,4 +33,6 @@ public:
 	void CPostDTO::SetTitle(CString title);
 	void CPostDTO::SetContent(CString content);
 	void CPostDTO::SetImgName(CString imgName);
+	void CPostDTO::SetStauts(int status);
+	void CPostDTO::SetPrice(CString  price);
 };

@@ -8,6 +8,8 @@ CPostDTO::CPostDTO() {
 	CPostDTO::SetTitle("");
 	CPostDTO::SetContent("");
 	CPostDTO::SetImgName("");
+	CPostDTO::SetStauts(0);
+	CPostDTO::SetPrice(0);
 }
 
 // Setter
@@ -28,4 +30,10 @@ void CPostDTO::SetContent(CString content) {
 }
 void CPostDTO::SetImgName(CString imgName) {
 	this->imgName = imgName;
+}
+void CPostDTO::SetStauts(int status) {
+	this->status = status;
+}
+void CPostDTO::SetPrice(CString price) {
+	this->price = price;
 }
