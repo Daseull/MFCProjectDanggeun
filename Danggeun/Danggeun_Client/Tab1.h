@@ -49,4 +49,6 @@ public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:
 	CRoundButton2 m_tMyButton3;
+public:
+	afx_msg void OnClickedButtonBack();
 };

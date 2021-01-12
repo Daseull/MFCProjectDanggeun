@@ -135,7 +135,7 @@ void CTab3::LoadBookmarkPost() {
 				if (bookmark->GetPostID() == post->GetPostID()) {
 					CBitmap bmp;
 					CImage img;
-					img.Load("res\\" + post->GetImgName());
+					img.Load("res\\small_" + post->GetImgName());
 					if (img.IsNull()) {
 						img.Load("res\\LoadError.png");
 					}
@@ -182,7 +182,7 @@ void CTab3::SearchPost(CString Key)
 					if (title.MakeUpper().Find(Key) != -1) {
 						CBitmap bmp;
 						CImage img;
-						img.Load("res\\" + post->GetImgName());
+						img.Load("res\\small_" + post->GetImgName());
 						if (img.IsNull()) {
 							img.Load("res\\LoadError.png");
 						}

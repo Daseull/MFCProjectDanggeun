@@ -26,7 +26,7 @@ ChatBox::ChatBox(CPostDTO* post, CWnd* pParent)
 
 	CBitmap bmp;
 	CImage img;
-	img.Load("res\\" + m_post->GetImgName());
+	img.Load("res\\small_" + m_post->GetImgName());
 	HBITMAP h_bmp = img;
 	CStatic* p_static = (CStatic*)GetDlgItem(IDC_STATIC_PICTURE);
 	p_static->SetBitmap(h_bmp);

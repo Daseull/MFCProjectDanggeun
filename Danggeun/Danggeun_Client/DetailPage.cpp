@@ -160,6 +160,7 @@ BOOL CDetailPage::OnInitDialog()
 	HBITMAP h_bmp = (HBITMAP)m_image;
 	CBitmap bmp;
 	m_stcPicture.SetBitmap(h_bmp);
+
 	m_stcUserID.SetWindowText("판매자\t" + m_post->GetUserID());
 	m_stcTitle.SetWindowText(m_post->GetTitle());
 	m_stcText.SetWindowText(m_post->GetContent());
