@@ -49,4 +49,5 @@ public:
 	afx_msg void OnStnClickedStaticState();
 	afx_msg void OnStnClickedStaticTitle();
 	afx_msg void OnBnClickedButtonHeart();
+	afx_msg void OnStnClickedStaticText();
 };

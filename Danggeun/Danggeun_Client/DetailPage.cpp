@@ -61,6 +61,7 @@ BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
 	ON_STN_CLICKED(IDC_STATIC_STATE, &CDetailPage::OnStnClickedStaticState)
 	ON_STN_CLICKED(IDC_STATIC_TITLE, &CDetailPage::OnStnClickedStaticTitle)
 	ON_BN_CLICKED(IDC_BUTTON_HEART, &CDetailPage::OnBnClickedButtonHeart)
+	ON_STN_CLICKED(IDC_STATIC_TEXT, &CDetailPage::OnStnClickedStaticText)
 END_MESSAGE_MAP()
 
 
@@ -85,7 +86,7 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 
 	if (m_stcUserID.m_hWnd == pWnd->m_hWnd) {
-		pDC->SetBkColor(RGB(253, 212, 129));
+		pDC->SetBkColor(RGB(253,212,129));
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
@@ -99,6 +100,11 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		pDC->SetTextColor(RGB(0, 169, 76));
 		return m_bk_brush;
 	}
+	else if (m_stcText.m_hWnd == pWnd->m_hWnd) {
+		pDC->SetBkColor(RGB(255,255,255));
+		pDC->SetTextColor(RGB(0, 0, 0));
+		return m_bk_brush;
+	}
 	else if (m_stcPrice.m_hWnd == pWnd->m_hWnd) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(61, 149, 255));
@@ -109,7 +115,7 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
-	
+
 	if (nCtlColor == CTLCOLOR_BTN) {
 		pDC->SetBkColor(RGB(0, 200, 255));
 		return (HBRUSH)::GetStockObject(NULL_BRUSH);
@@ -143,7 +149,7 @@ BOOL CDetailPage::OnInitDialog()
 	CFont font1;
 	LOGFONT lf1;
 	::ZeroMemory(&lf1, sizeof(lf1));
-	lf1.lfHeight = 28;
+	lf1.lfHeight = 22;
 	lf1.lfWeight = FW_EXTRABOLD;
 	::lstrcpy(lf1.lfFaceName,"나눔고딕");
 	font1.CreateFontIndirectA(&lf1); 
@@ -154,7 +160,7 @@ BOOL CDetailPage::OnInitDialog()
 	CFont font2;
 	LOGFONT lf2;
 	::ZeroMemory(&lf2, sizeof(lf2));
-	lf2.lfHeight = 21;
+	lf2.lfHeight = 18;
 	lf2.lfWeight = FW_NORMAL;
 	::lstrcpy(lf2.lfFaceName, "나눔고딕");
 
@@ -166,7 +172,7 @@ BOOL CDetailPage::OnInitDialog()
 	CFont font3;
 	LOGFONT lf3;
 	::ZeroMemory(&lf3, sizeof(lf3));
-	lf3.lfHeight = 22;
+	lf3.lfHeight = 19;
 	lf3.lfWeight = FW_SEMIBOLD;
 	::lstrcpy(lf3.lfFaceName, "나눔고딕");
 
@@ -178,7 +184,7 @@ BOOL CDetailPage::OnInitDialog()
 	CFont font4;
 	LOGFONT lf4;
 	::ZeroMemory(&lf4, sizeof(lf4));
-	lf4.lfHeight = 20;
+	lf4.lfHeight = 16;
 	lf4.lfWeight = FW_LIGHT;
 	::lstrcpy(lf4.lfFaceName, "나눔고딕");
 
@@ -190,7 +196,7 @@ BOOL CDetailPage::OnInitDialog()
 	CFont font5;
 	LOGFONT lf5;
 	::ZeroMemory(&lf5, sizeof(lf5));
-	lf5.lfHeight = 25;
+	lf5.lfHeight = 18;
 	lf5.lfWeight = FW_EXTRABOLD;
 	::lstrcpy(lf5.lfFaceName, "나눔고딕");
 
@@ -202,7 +208,7 @@ BOOL CDetailPage::OnInitDialog()
 	CFont font6;
 	LOGFONT lf6;
 	::ZeroMemory(&lf6, sizeof(lf6));
-	lf6.lfHeight = 28;
+	lf6.lfHeight = 20;
 	lf6.lfWeight = FW_EXTRABOLD;
 	::lstrcpy(lf6.lfFaceName, "나눔고딕");
 
@@ -298,4 +304,10 @@ void CDetailPage::OnBnClickedButtonHeart()
 	}
 	bookmarkDB->bookMarkList = bookmarkDB->dao.getAll();
 	::SendMessage(((CDetailPage*)GetParent())->GetSafeHwnd(), UWM_CUSTOM5, 0, 0);
+}
+
+
+void CDetailPage::OnStnClickedStaticText()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
