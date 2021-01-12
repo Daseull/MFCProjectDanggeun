@@ -18,7 +18,9 @@
 #define IDD_DIALOG_CREATE_POST          142
 #define IDD_DIALOG_DETAIL               149
 #define IDB_BITMAP1                     154
-#define IDB_HEART                       157
+#define IDB_HEART                       162
+#define IDB_HEART2                      163
+#define IDB_BITMAP2                     164
 #define IDC_BUTTON_LOGIN                1005
 #define IDC_BUTTON_JOIN                 1006
 #define IDC_EDIT_ID                     1007
@@ -76,9 +78,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        158
+#define _APS_NEXT_RESOURCE_VALUE        165
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1056
+#define _APS_NEXT_CONTROL_VALUE         1058
 #define _APS_NEXT_SYMED_VALUE           108
 #endif
 #endif

@@ -23,6 +23,11 @@ CUserDTO* CurrentUser;
 CUserDB* userDB;
 CPostDB* postDB;
 CBookMarkDB* bookmarkDB;
+CString town[25] = { "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구",
+					"노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구",
+					"양천구", "영등포구", "용산구","은평구", "종로구", "중구", "중랑구" };
+CString status[3] = { "판매중", "예약중", "거래완료" };
+
 
 // CAboutDlg dialog used for App About
 class CAboutDlg : public CDialogEx
@@ -107,10 +112,7 @@ END_MESSAGE_MAP()
 
 
 // CDanggeunClientDlg message handlers
-CString town[25] = { "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구",
-					"노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구",
-					"양천구", "영등포구", "용산구","은평구", "종로구", "중구", "중랑구" };
-CString status[3] = { "판매중", "예약중", "거래완료" };
+
 CLoginDlg dlg = new CLoginDlg;
 
 BOOL CDanggeunClientDlg::OnInitDialog()

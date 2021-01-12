@@ -136,13 +136,20 @@ void CTab4::OnClickedButtonChangeok()
 	UpdateData(TRUE);
 	extern CUserDTO* CurrentUser;
 	extern CUserDB* userDB;	
-	CUserDTO user;
-	user.SetTown(m_Town.GetCurSel());
-	user.SetUserID(CurrentUser->GetUserID());
-	user.SetUserPW(m_strPW);
-	user.SetPhone(m_strPhone);
-	userDB->dao.updateUser(user);
+	
+	CUserDTO newuser;
+	newuser.SetTown(m_Town.GetCurSel());
+	newuser.SetUserID(CurrentUser->GetUserID());
+	newuser.SetUserPW(m_strPW);
+	newuser.SetPhone(m_strPhone);
+	userDB->dao.updateUser(newuser);
 	AfxMessageBox("변경 완료!");
+
+	/*userDB->userList = userDB->dao.getAll();
+
+	for (CUserDTO* user : userDB->userList) {
+		if (m_strID == user->GetUserID())
+			CurrentUser = user;*/
 
 }
 

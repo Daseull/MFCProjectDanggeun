@@ -264,9 +264,12 @@
     <None Include="res\DanggeunClient.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\resized\filled_1.bmp" />
+    <Image Include="..\..\..\..\resized\not_filled_2.bmp" />
     <Image Include="res\bitmap1.bmp" />
-    <Image Include="res\bitmap2.bmp" />
     <Image Include="res\Danggeun_Client.ico" />
+    <Image Include="res\filled_1.bmp" />
+    <Image Include="res\not_filled_2.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
