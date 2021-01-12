@@ -24,10 +24,12 @@ public:
 	// C
 	BOOL createPost(CPostDTO);
 	// R
-	CPostDTO& getPost(int postID);
+	CPostDTO* getPost(int postID);
 	std::vector<CPostDTO*> getAll();
+	std::vector<CPostDTO*> getAllByUser(CString userID);
 	std::vector<CPostDTO*> getAllByTown(int townID);
-	std::vector<CPostDTO*> getAllByTitleSearch(CString q);
+	std::vector<CPostDTO*> getAllByBookMark(CString userID);
+	std::vector<CPostDTO*> getAllByTitleSearch(CString q, int townID);
 	// U
 	BOOL updatePost(CPostDTO);
 	// D
