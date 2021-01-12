@@ -343,6 +343,7 @@ void CDetailPage::LoadDetailPage()
 
 	CImage itemimage;
 	itemimage.Load("res\\" + m_post->GetImgName());
+	
 	if (itemimage.IsNull()) {
 		itemimage.Load("res\\LoadError.png");
 	}
@@ -352,6 +353,7 @@ void CDetailPage::LoadDetailPage()
 	HBITMAP h_bmp = (HBITMAP)itemimage;
 	CBitmap bmp;
 	m_stcPicture.SetBitmap(h_bmp);
+	itemimage.Detach();
 
 	m_stcUserID.SetWindowText("판매자\t" + m_post->GetUserID());
 	m_stcTitle.SetWindowText(m_post->GetTitle());
