@@ -132,9 +132,6 @@ void CTab1::SearchPost(CString Key)
 
 			int i = m_list.GetItemCount();
 			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-			//m_list.AddItem(post->GetPrice(), i, 1);
-			//m_list.AddItem(post->GetState(), i, 2);
-			
 			m_list.AddItem(post->GetPrice(), i, 1);
 			m_list.AddItem(status[post->GetStatus()], i, 2);
 		}

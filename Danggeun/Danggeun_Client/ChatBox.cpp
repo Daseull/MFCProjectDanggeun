@@ -88,7 +88,7 @@ BOOL ChatBox::OnInitDialog()
 	CFont font6;
 	LOGFONT lf6;
 	::ZeroMemory(&lf6, sizeof(lf6));
-	lf6.lfHeight = 18;
+	lf6.lfHeight = 16;
 	lf6.lfWeight = FW_BOLD;
 	::lstrcpy(lf6.lfFaceName, "나눔고딕");
 
