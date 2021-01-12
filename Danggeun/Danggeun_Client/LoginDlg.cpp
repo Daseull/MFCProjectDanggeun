@@ -77,7 +77,7 @@ void CLoginDlg::OnBnClickedButtonLogin()
 	userDB->userList = userDB->dao.getAll();
 
 	//1/12 수정필요
-
+//	extern CUserDB* userDB;
 	for (CUserDTO* user : userDB->userList) {
 		if (m_strID == user->GetUserID()) {
 			if (m_strPW == user->GetUserPW()) {

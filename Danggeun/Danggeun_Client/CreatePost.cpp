@@ -108,11 +108,6 @@ void CCreatePost::OnBnClickedButtonPost()
 		MessageBox("작성 완료 !");
 		postDB->postList = postDB->dao.getAll();
 
-		
-
-
-
-
 		::SendMessage(((CCreatePost*)GetParent())->GetSafeHwnd(), UWM_CUSTOM3, 0, 0);
 	}
 }

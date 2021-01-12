@@ -103,7 +103,7 @@ BOOL CUserDAO::createUser(CUserDTO user) {
 }
 
 // R
-CUserDTO& CUserDAO::getUser(CString userID) {
+CUserDTO* CUserDAO::getUser(CString userID) {
 	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
 	int rc = sqlite3_open("test.db", &_db);
@@ -155,7 +155,61 @@ CUserDTO& CUserDAO::getUser(CString userID) {
 	sqlite3_finalize(_stmt);
 
 	sqlite3_close(_db);
-	return *_user;
+	return _user;
+}
+
+CUserDTO* CUserDAO::getUserByPw(CString userID, CString userPw) {
+	// 테이블을 읽어와 리스트 컨트롤에 보여주기
+
+	int rc = sqlite3_open("test.db", &_db);
+	if (rc != SQLITE_OK)
+	{
+		printf("Failed to open DB\n");
+		sqlite3_close(_db);
+		exit(1);
+	}
+
+	// "from user"
+	CString sTmp;
+	sTmp.Format(_T("select * from user where userID = ? and userPw = ?"));
+
+
+	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
+	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
+	sqlite3_bind_text(_stmt, 2, userPw, userPw.GetLength(), SQLITE_STATIC);
+
+	if (sqlite3_step(_stmt) != SQLITE_DONE) {
+		int num_cols = sqlite3_column_count(_stmt);
+
+		_user = new CUserDTO();
+
+		char szAnsi[300];
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 0), szAnsi, 300);
+		CString _userID(szAnsi);
+
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 1), szAnsi, 300);
+		CString userPw(szAnsi);
+
+		int town = sqlite3_column_int(_stmt, 2);
+
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300);
+		CString phone(szAnsi);
+
+		bool isAdmin = sqlite3_column_int(_stmt, 4);
+
+		_user->SetUserID(_userID);
+		_user->SetUserPW(userPw);
+		_user->SetTown(town);
+		_user->SetPhone(phone);
+		_user->SetIsAdim(isAdmin);
+	}
+
+	int i;
+
+	sqlite3_finalize(_stmt);
+
+	sqlite3_close(_db);
+	return _user;
 }
 
 std::vector<CUserDTO*> CUserDAO::getAll() {
