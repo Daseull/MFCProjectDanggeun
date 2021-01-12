@@ -108,6 +108,7 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 //ON_WM_CLOSE()
 ON_MESSAGE(UWM_CUSTOM4, &CDanggeunClientDlg::OnUwmCustom4)
 ON_MESSAGE(UWM_CUSTOM3, &CDanggeunClientDlg::OnUwmCustom3)
+ON_MESSAGE(UWM_CUSTOM5, &CDanggeunClientDlg::OnUwmCustom5)
 END_MESSAGE_MAP()
 
 
@@ -460,5 +461,12 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom3(WPARAM wParam, LPARAM lParam)
 	UpdateData(FALSE);
 	cDlg.EndDialog(IDOK);
 	pDlg1->LoadTownPost();
+	return 0;
+}
+
+
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom5(WPARAM wParam, LPARAM lParam)
+{
+	pDlg3->LoadBookmarkPost();
 	return 0;
 }

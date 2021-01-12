@@ -60,6 +60,7 @@ BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
 	ON_WM_CTLCOLOR()
 	ON_STN_CLICKED(IDC_STATIC_STATE, &CDetailPage::OnStnClickedStaticState)
 	ON_STN_CLICKED(IDC_STATIC_TITLE, &CDetailPage::OnStnClickedStaticTitle)
+	ON_BN_CLICKED(IDC_BUTTON_HEART, &CDetailPage::OnBnClickedButtonHeart)
 END_MESSAGE_MAP()
 
 
@@ -119,31 +120,42 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	return hbr;
 }
 
+int heartstate = 0;	// 관심목록에 없음
+
 BOOL CDetailPage::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-	CFont font,font1,font2;
-	font.CreateFontA(25, 0, 0, 0, 1000, 0, 0, 0, 0, OUT_DEFAULT_PRECIS, 0, DEFAULT_QUALITY, DEFAULT_PITCH , "나눔 고딕");
+	CFont font, font1, font2;
+	font.CreateFontA(25, 0, 0, 0, 1000, 0, 0, 0, 0, OUT_DEFAULT_PRECIS, 0, DEFAULT_QUALITY, DEFAULT_PITCH, "나눔 고딕");
 	font1.CreateFontA(30, 0, 0, 0, 1000, 0, 0, 0, 0, OUT_DEFAULT_PRECIS, 0, DEFAULT_QUALITY, DEFAULT_PITCH, "나눔 고딕");
-	font2.CreateFontA(35, 8, 0, 0, 1000, 0, 1, 0, 0, OUT_DEFAULT_PRECIS, 0, DEFAULT_QUALITY, DEFAULT_PITCH|FF_DONTCARE, "나눔 고딕");
+	font2.CreateFontA(35, 8, 0, 0, 1000, 0, 1, 0, 0, OUT_DEFAULT_PRECIS, 0, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "나눔 고딕");
 
 	GetDlgItem(IDC_STATIC_ID)->SetFont(&font1);
 	GetDlgItem(IDC_STATIC_TOWN)->SetFont(&font);
 	GetDlgItem(IDC_STATIC_STATE)->SetFont(&font);
 	GetDlgItem(IDC_STATIC_PRICE)->SetFont(&font2);
-	
-	AfxMessageBox(m_post->GetImgName());
 	GetDlgItem(IDC_STATIC_PICTURE)->GetWindowRect(m_rect); //현재 위치
 
-	m_btnheart.LoadBitmaps(IDB_HEART, IDB_HEART2, IDB_HEART2, IDB_HEART);
-	m_btnheart.SizeToContent();
+	extern CBookMarkDB* bookmarkDB;
+	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
+		if (bookmark->GetPostID() == m_post->GetPostID()) {
+			heartstate = 1; break;	// 관심목록에 있음
+		}
+	}
+	if (!heartstate) {
+		m_btnheart.LoadBitmaps(IDB_HEART, NULL, NULL, NULL);
+		m_btnheart.SizeToContent();
+	}
+	else {
+		m_btnheart.LoadBitmaps(IDB_HEART2, NULL, NULL, NULL);
+		m_btnheart.SizeToContent();
+	}
 	m_image.Load("res\\" + m_post->GetImgName());
 	if (m_image.IsNull()) {
 		m_image.Load("res\\LoadError.png");
 	}
-
 
 	HBITMAP h_bmp = (HBITMAP)m_image;
 	CBitmap bmp;
@@ -151,9 +163,7 @@ BOOL CDetailPage::OnInitDialog()
 	m_stcUserID.SetWindowText("판매자\t" + m_post->GetUserID());
 	m_stcTitle.SetWindowText(m_post->GetTitle());
 	m_stcText.SetWindowText(m_post->GetContent());
-	CString price;
-	price.Format("%d원", m_post->GetPrice());
-	m_stcPrice.SetWindowText(price);
+	m_stcPrice.SetWindowText(m_post->GetPrice());
 
 	extern CString town[];
 	m_stcTown.SetWindowText(town[m_post->GetTown()]);
@@ -164,8 +174,6 @@ BOOL CDetailPage::OnInitDialog()
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
 
-
-
 void CDetailPage::OnStnClickedStaticState()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -175,4 +183,39 @@ void CDetailPage::OnStnClickedStaticState()
 void CDetailPage::OnStnClickedStaticTitle()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+
+void CDetailPage::OnBnClickedButtonHeart()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	extern CUserDTO* CurrentUser;
+	extern CPostDB* postDB;
+	extern CBookMarkDB* bookmarkDB;
+	CBookMarkDTO book;
+	if (!heartstate) {
+		m_btnheart.LoadBitmaps(IDB_HEART2, NULL, NULL, NULL);
+		m_btnheart.SizeToContent();
+		MessageBox("관심리스트 추가!");
+		heartstate = 1;
+		book.SetPostID(m_post->GetPostID());
+		book.SetUserID(CurrentUser->GetUserID());
+		bookmarkDB->dao.createBookMark(book);
+	}
+	else {
+		m_btnheart.LoadBitmaps(IDB_HEART, NULL, NULL, NULL);
+		m_btnheart.SizeToContent();
+		MessageBox("관심리스트 삭제!");
+		heartstate = 0;
+		for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
+			if (bookmark->GetPostID() == m_post->GetPostID()) {
+				//MessageBox("찾았다");
+				bookmarkDB->dao.deleteBookMark(bookmark->GetBookMarkID());
+				break;
+			}
+		}
+	}
+	bookmarkDB->bookMarkList = bookmarkDB->dao.getAll();
+	::SendMessage(((CDetailPage*)GetParent())->GetSafeHwnd(), UWM_CUSTOM5, 0, 0);
 }

@@ -48,4 +48,5 @@ public:
 	CBitmapButton m_btnheart;
 	afx_msg void OnStnClickedStaticState();
 	afx_msg void OnStnClickedStaticTitle();
+	afx_msg void OnBnClickedButtonHeart();
 };
