@@ -7,7 +7,8 @@
 #include "afxdialogex.h"
 #include "ChatBox.h"
 #include "afxwin.h"
-
+#include "CreatePost.h"
+#include "Danggeun_ClientDlg.h"
 // CDetailPage 대화 상자
 
 IMPLEMENT_DYNAMIC(CDetailPage, CDialogEx)
@@ -62,6 +63,8 @@ BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
 	ON_STN_CLICKED(IDC_STATIC_TITLE, &CDetailPage::OnStnClickedStaticTitle)
 	ON_BN_CLICKED(IDC_BUTTON_HEART, &CDetailPage::OnBnClickedButtonHeart)
 	ON_STN_CLICKED(IDC_STATIC_TEXT, &CDetailPage::OnStnClickedStaticText)
+	ON_BN_CLICKED(IDC_BUTTON_POSTEDIT, &CDetailPage::OnClickedButtonPostedit)
+	//ON_MESSAGE(UM_CUSTOM6, &CDetailPage::OnUmCustom6)
 END_MESSAGE_MAP()
 
 
@@ -257,34 +260,11 @@ BOOL CDetailPage::OnInitDialog()
 
 	}
 
+	LoadDetailPage();
 
 
 
 
-	m_image.Load("res\\" + m_post->GetImgName());
-	if (m_image.IsNull()) {
-		m_image.Load("res\\LoadError.png");
-	}
-
-
-	//페이지 내용 처리
-	HBITMAP h_bmp = (HBITMAP)m_image;
-	CBitmap bmp;
-	m_stcPicture.SetBitmap(h_bmp);
-
-	m_stcUserID.SetWindowText("판매자\t" + m_post->GetUserID());
-	m_stcTitle.SetWindowText(m_post->GetTitle());
-	m_stcText.SetWindowText(m_post->GetContent());
-	m_stcPrice.SetWindowText(m_post->GetPrice());
-
-	extern CString town[];
-	m_stcTown.SetWindowText(town[m_post->GetTown()]);
-	extern CString status[];
-	m_stcState.SetWindowText(status[m_post->GetStatus()]);
-	
-
-	
-	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -343,4 +323,56 @@ void CDetailPage::OnStnClickedStaticText()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
+}
+
+CCreatePost* dlg;
+
+void CDetailPage::OnClickedButtonPostedit()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	
+	dlg = new CCreatePost(m_post);
+	dlg->DoModal();
+
+	LoadDetailPage();
+	((CDanggeunClientDlg*)GetParent())->pDlg1->LoadTownPost();
+}
+
+void CDetailPage::LoadDetailPage()
+{
+
+	CImage itemimage;
+	itemimage.Load("res\\" + m_post->GetImgName());
+	
+	if (itemimage.IsNull()) {
+		itemimage.Load("res\\LoadError.png");
+	}
+
+
+	//페이지 내용 처리
+	HBITMAP h_bmp = (HBITMAP)itemimage;
+	CBitmap bmp;
+	m_stcPicture.SetBitmap(h_bmp);
+	itemimage.Detach();
+
+	m_stcUserID.SetWindowText("판매자\t" + m_post->GetUserID());
+	m_stcTitle.SetWindowText(m_post->GetTitle());
+	m_stcText.SetWindowText(m_post->GetContent());
+	m_stcPrice.SetWindowText(m_post->GetPrice());
+
+	extern CString town[];
+	m_stcTown.SetWindowText(town[m_post->GetTown()]);
+	extern CString status[];
+	m_stcState.SetWindowText(status[m_post->GetStatus()]);
+
+
+
+	UpdateData(FALSE);
+}
+
+afx_msg LRESULT CDetailPage::OnUmCustom6(WPARAM wParam, LPARAM lParam)
+{
+	
+	//EndDialog(IDOK); 
+	return 0;
 }

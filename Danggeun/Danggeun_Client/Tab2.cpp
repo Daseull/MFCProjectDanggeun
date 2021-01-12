@@ -81,13 +81,7 @@ void CTab2::LoadMyPost() {
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
 	extern CString status[3];
-
-	//1/12 수정필요
-	//for (CPostDTO* post : postDB->dao.get
-
-
-
-
+	
 	for (CPostDTO* post : postDB->postList) {
 		if (post->GetUserID() == CurrentUser->GetUserID()) {
 			CBitmap bmp;
