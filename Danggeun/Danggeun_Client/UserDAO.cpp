@@ -86,7 +86,7 @@ BOOL CUserDAO::createUser(CUserDTO user) {
 	sqlite3_finalize(_stmt);*/
 
 
-	if (sqlite3_step(_stmt) != SQLITE_DONE) {
+	if (sqlite3_step(_stmt) == SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
@@ -147,6 +147,9 @@ CUserDTO* CUserDAO::getUser(CString userID) {
 		_user->SetPhone(phone);
 		_user->SetIsAdim(isAdmin);
 	}
+	else {
+		_user = NULL;
+	}
 
 	int i;
 
@@ -203,6 +206,9 @@ CUserDTO* CUserDAO::getUserByPw(CString userID, CString userPw) {
 		_user->SetPhone(phone);
 		_user->SetIsAdim(isAdmin);
 	}
+	else {
+		_user = NULL;
+	}
 
 	int i;
 
@@ -223,9 +229,13 @@ std::vector<CUserDTO*> CUserDAO::getAll() {
 		exit(1);
 	}
 
-	// "from user"
+	
+	
+	
+	_userList.clear();
 	CString sTmp;
 	sTmp.Format("select * from user");
+
 
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
@@ -281,7 +291,7 @@ std::vector<CUserDTO*> CUserDAO::getAllByTown(int townID) {
 	//sqlite3_step(_stmt);
 	//sqlite3_finalize(_stmt);
 
-
+	_userList.clear();
 	// "from user"
 	CString sTmp;
 	//sTmp.Format(_T("select * from db where "));
@@ -354,7 +364,7 @@ BOOL CUserDAO::updateUser(CUserDTO user) {
 	
 	
 
-	if (sqlite3_step(_stmt) != SQLITE_DONE) {
+	if (sqlite3_step(_stmt) == SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
@@ -406,7 +416,7 @@ BOOL CUserDAO::deleteUser(CString userID) {
 	sqlite3_prepare_v2(_db, "delete from user where userID = ?", -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_TRANSIENT);
 
-	if (sqlite3_step(_stmt) != SQLITE_DONE) {
+	if (sqlite3_step(_stmt) == SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}

@@ -20,11 +20,10 @@ public:
 	int AnsiToUTF8(char* szSrc, char* strDest, int destSize);
 	int UTF8ToAnsi(char* szSrc, char* strDest, int destSize);
 	void dataClean(char* dest, CString str);
-	void resetList(){ _bookMarkList.clear(); }
 	// C
 	BOOL createBookMark(CBookMarkDTO);
 	// R
-	CBookMarkDTO& getBookMark(int bookMarkID);
+	CBookMarkDTO* getBookMark(int bookMarkID);
 	CBookMarkDTO* getBookMarkByUserAndPost(CString& userID, int postID);
 	std::vector<CBookMarkDTO*> getAll();
 	std::vector<CBookMarkDTO*> getAllByUser(CString userID);

@@ -78,7 +78,7 @@ BOOL CBookMarkDAO::createBookMark(CBookMarkDTO bookMark) {
 	sqlite3_finalize(_stmt);*/
 
 
-	if (sqlite3_step(_stmt) != SQLITE_DONE) {
+	if (sqlite3_step(_stmt) == SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
@@ -95,7 +95,7 @@ BOOL CBookMarkDAO::createBookMark(CBookMarkDTO bookMark) {
 }
 
 // R
-CBookMarkDTO& CBookMarkDAO::getBookMark(int bookMarkID) {
+CBookMarkDTO* CBookMarkDAO::getBookMark(int bookMarkID) {
 	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
 	int rc = sqlite3_open("test.db", &_db);
@@ -129,8 +129,11 @@ CBookMarkDTO& CBookMarkDAO::getBookMark(int bookMarkID) {
 		sqlite3_finalize(_stmt);
 		sqlite3_close(_db);
 	}
+	else {
+		_bookMark = NULL;
+	}
 
-	return *_bookMark;
+	return _bookMark;
 }
 CBookMarkDTO* CBookMarkDAO::getBookMarkByUserAndPost(CString& userID, int postID){
 	// 테이블을 읽어와 리스트 컨트롤에 보여주기
@@ -187,7 +190,7 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAll() {
 	}
 
 	
-	resetList();
+	_bookMarkList.clear();
 	CString sTmp;
 	sTmp.Format("select * from bookmark");
 
@@ -233,7 +236,7 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByUser(CString userID) {
 	//sqlite3_step(_stmt);
 	//sqlite3_finalize(_stmt);
 
-	resetList();
+	_bookMarkList.clear();
 	CString sTmp;
 	
 	sTmp.Format("select * from bookmark where userID = '%s'", userID);
@@ -286,7 +289,7 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByPost(int postID) {
 
 
 	// "from user"
-	resetList();
+	_bookMarkList.clear();
 	CString sTmp;
 	//sTmp.Format(_T("select * from db where "));
 	sTmp.Format(_T("select * from bookmark where postID = ?"));
@@ -376,7 +379,7 @@ BOOL CBookMarkDAO::deleteBookMark(int bookMarkID) {
 	sqlite3_prepare_v2(_db, "delete from bookmark where bookMarkID = ?", -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, bookMarkID);
 
-	if (sqlite3_step(_stmt) != SQLITE_DONE) {
+	if (sqlite3_step(_stmt) == SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
