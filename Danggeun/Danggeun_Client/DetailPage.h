@@ -8,7 +8,7 @@ class CDetailPage : public CDialogEx
 	DECLARE_DYNAMIC(CDetailPage)
 private:
 	CBrush m_bk_brush;
-	CImage m_image;
+	//CImage m_image;
 	CRect m_rect; //사진 위치 조정용
 public:
 	CPostDTO* m_post = nullptr;
@@ -51,6 +51,7 @@ public:
 	afx_msg void OnBnClickedButtonHeart();
 	afx_msg void OnStnClickedStaticText();
 	afx_msg void OnClickedButtonPostedit();
+	void LoadDetailPage();
 protected:
 	afx_msg LRESULT OnUmCustom6(WPARAM wParam, LPARAM lParam);
 };
