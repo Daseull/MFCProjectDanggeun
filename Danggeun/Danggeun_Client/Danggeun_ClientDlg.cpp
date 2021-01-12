@@ -387,6 +387,7 @@ void CDanggeunClientDlg::OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult)
 			pDlg1->ShowWindow(SW_HIDE);
 			pDlg2->ShowWindow(SW_HIDE);
 			pDlg4->ShowWindow(SW_HIDE);
+			pDlg3->LoadBookmarkPost();
 			break;
 		case 3:
 			pDlg4->ShowWindow(SW_SHOW);
