@@ -26,7 +26,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedButtonChat();
+//	afx_msg void OnBnClickedButtonChat();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	CRoundButtonStyle m_tMyButtonStyle;
 	CRoundButton2 m_tMyButton1;
@@ -50,4 +50,7 @@ public:
 	afx_msg void OnStnClickedStaticTitle();
 	afx_msg void OnBnClickedButtonHeart();
 	afx_msg void OnStnClickedStaticText();
+	afx_msg void OnClickedButtonPostedit();
+protected:
+	afx_msg LRESULT OnUmCustom6(WPARAM wParam, LPARAM lParam);
 };

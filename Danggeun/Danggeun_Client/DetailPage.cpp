@@ -7,7 +7,8 @@
 #include "afxdialogex.h"
 #include "ChatBox.h"
 #include "afxwin.h"
-
+#include "CreatePost.h"
+#include "Danggeun_ClientDlg.h"
 // CDetailPage 대화 상자
 
 IMPLEMENT_DYNAMIC(CDetailPage, CDialogEx)
@@ -56,24 +57,17 @@ void CDetailPage::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
-	ON_BN_CLICKED(IDC_BUTTON_CHAT, &CDetailPage::OnBnClickedButtonChat)
+//	ON_BN_CLICKED(IDC_BUTTON_CHAT, &CDetailPage::OnBnClickedButtonChat)
 	ON_WM_CTLCOLOR()
 	ON_STN_CLICKED(IDC_STATIC_STATE, &CDetailPage::OnStnClickedStaticState)
 	ON_STN_CLICKED(IDC_STATIC_TITLE, &CDetailPage::OnStnClickedStaticTitle)
 	ON_BN_CLICKED(IDC_BUTTON_HEART, &CDetailPage::OnBnClickedButtonHeart)
 	ON_STN_CLICKED(IDC_STATIC_TEXT, &CDetailPage::OnStnClickedStaticText)
+	ON_BN_CLICKED(IDC_BUTTON_POSTEDIT, &CDetailPage::OnClickedButtonPostedit)
 END_MESSAGE_MAP()
 
 
 // CDetailPage 메시지 처리기
-
-
-void CDetailPage::OnBnClickedButtonChat()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	ChatBox dlg = new ChatBox;
-	dlg.DoModal();
-}
 
 
 HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
@@ -257,10 +251,6 @@ BOOL CDetailPage::OnInitDialog()
 
 	}
 
-
-
-
-
 	m_image.Load("res\\" + m_post->GetImgName());
 	if (m_image.IsNull()) {
 		m_image.Load("res\\LoadError.png");
@@ -344,3 +334,18 @@ void CDetailPage::OnStnClickedStaticText()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 }
+
+CCreatePost* dlg;
+
+void CDetailPage::OnClickedButtonPostedit()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	
+	AfxMessageBox("닫히다");
+	dlg = new CCreatePost(m_post);
+	((CDanggeunClientDlg*)GetParent())->pDlg1->LoadTownPost();
+	//dlg->EndDialog(IDOK);
+	dlg->DoModal();
+}
+
+

@@ -9,8 +9,9 @@ class CCreatePost : public CDialogEx
 private:
 	CBrush m_bk_brush;
 	CImage m_img;
+	CPostDTO* m_post;
 public:
-	CCreatePost(CWnd* pParent = nullptr);   // 표준 생성자입니다.
+	CCreatePost(CPostDTO* post = nullptr , CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	virtual ~CCreatePost();
 
 // 대화 상자 데이터입니다.
@@ -23,6 +24,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	
 	CRoundButton2 m_tMyButton1;
 	CRoundButtonStyle m_tMyButtonStyle;
 	CString m_strTitle;
@@ -35,4 +37,7 @@ public:
 	afx_msg void OnBnClickedButtonPost();
 	afx_msg void OnStnClickedStaticAddpic();
 	CStatic m_stcImg;
+	afx_msg void OnClickedButtonComedit();
+//	afx_msg void OnIdok();
+	virtual void OnOK();
 };
