@@ -417,6 +417,9 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 // D
 BOOL CPostDAO::deletePost(int postID) {
 	int rc = sqlite3_open("test.db", &_db);
+	char* sql = "PRAGMA foreign_keys = ON;";
+
+	rc = sqlite3_exec(_db, sql, NULL, 0, &_errmsg);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");

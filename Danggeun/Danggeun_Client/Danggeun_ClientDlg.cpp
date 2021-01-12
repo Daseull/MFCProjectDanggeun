@@ -200,9 +200,7 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	pDlg4->ShowWindow(SW_HIDE);
 	
 
-
-
-
+	
 
 
 	//C/R/U/D
