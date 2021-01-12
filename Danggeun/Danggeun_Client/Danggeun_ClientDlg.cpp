@@ -247,7 +247,7 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		//_postDB->dao.createPost(_post);
 
 
-		//_book.SetPostID(8 + i);
+		//_book.SetPostID(i + 1);
 		//str.Format("id%d", i);
 		//_book.SetUserID(str);
 		//_bookDB->dao.createBookMark(_book);
