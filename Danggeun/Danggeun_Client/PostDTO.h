@@ -13,7 +13,7 @@ private:
 	CString content; // content
 	CString imgName; // img
 	int status; // 0, 1, 2
-	int price;
+	CString price;
 
 public:
 	// Getter
@@ -24,7 +24,7 @@ public:
 	CString CPostDTO::GetContent() { return content; }
 	CString CPostDTO::GetImgName() { return imgName; }
 	int CPostDTO::GetStatus() { return status; }
-	int CPostDTO::GetPrice() { return price; }
+	CString CPostDTO::GetPrice() { return price; }
 
 	// Setter
 	void CPostDTO::SetPostID(int postID);
@@ -34,5 +34,5 @@ public:
 	void CPostDTO::SetContent(CString content);
 	void CPostDTO::SetImgName(CString imgName);
 	void CPostDTO::SetStauts(int status);
-	void CPostDTO::SetPrice(int price);
+	void CPostDTO::SetPrice(CString  price);
 };
