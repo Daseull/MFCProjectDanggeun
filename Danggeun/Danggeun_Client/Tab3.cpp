@@ -48,6 +48,7 @@ ON_WM_CTLCOLOR()
 ON_STN_CLICKED(IDCANCEL, &CTab3::OnStnClickedCancel)
 ON_BN_CLICKED(IDC_BUTTON_SEARCH, &CTab3::OnBnClickedButtonSearch)
 ON_BN_CLICKED(IDC_BUTTON_BACK, &CTab3::OnBnClickedButtonBack)
+//ON_NOTIFY(NM_RDBLCLK, IDC_LIST_HEART, &CTab3::OnRdblclkListHeart)
 END_MESSAGE_MAP()
 
 
@@ -159,7 +160,8 @@ void CTab3::SearchPost(CString Key)
 {
 	//TO DO: 뒤로가기 버튼 보이기는 여기에 해주세요
 	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_SHOW);
-
+	m_strSearch = "";
+	UpdateData(FALSE);
 	//초기화
 	int n = m_list.GetItemCount();
 	while (n--)
@@ -219,3 +221,14 @@ void CTab3::OnBnClickedButtonBack()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	LoadBookmarkPost();
 }
+
+
+BOOL CTab3::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
+		OnBnClickedButtonSearch();
+	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
