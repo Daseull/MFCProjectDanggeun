@@ -62,6 +62,7 @@ BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
 	ON_STN_CLICKED(IDC_STATIC_TITLE, &CDetailPage::OnStnClickedStaticTitle)
 	ON_BN_CLICKED(IDC_BUTTON_HEART, &CDetailPage::OnBnClickedButtonHeart)
 	ON_STN_CLICKED(IDC_STATIC_TEXT, &CDetailPage::OnStnClickedStaticText)
+	ON_BN_CLICKED(IDC_BUTTON_POSTEDIT, &CDetailPage::OnClickedButtonPostedit)
 END_MESSAGE_MAP()
 
 
@@ -336,4 +337,11 @@ void CDetailPage::OnBnClickedButtonHeart()
 void CDetailPage::OnStnClickedStaticText()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void CDetailPage::OnClickedButtonPostedit()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
 }
