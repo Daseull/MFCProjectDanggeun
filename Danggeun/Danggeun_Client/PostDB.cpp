@@ -30,7 +30,7 @@ void CPostDB::InitDB() {
 		   "status	INTEGER NOT NULL DEFAULT 0,"
 		   "price	TEXT NOT NULL,"
 	  	   "PRIMARY KEY(\"postID\" AUTOINCREMENT),"
-	  	   "FOREIGN KEY(\"userID\") REFERENCES \"user\"(\"userID\") ON DELETE CASCADE)";
+	  	   "FOREIGN KEY(\"userID\") REFERENCES \"user\"(\"userID\") ON DELETE NO ACTION)";
 
 
 

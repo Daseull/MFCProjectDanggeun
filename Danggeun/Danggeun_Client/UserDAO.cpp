@@ -117,6 +117,7 @@ CUserDTO& CUserDAO::getUser(CString userID) {
 	// "from user"
 	CString sTmp;
 	sTmp.Format(_T("select * from user where userID = ?"));
+	
 
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_TRANSIENT);
@@ -325,9 +326,19 @@ BOOL CUserDAO::deleteUser(CString userID) {
 
 	//sqlite3_finalize(_stmt);
 
+	char* sql = "PRAGMA foreign_keys = ON";
+	rc = sqlite3_exec(_db, sql, NULL, 0, &_errmsg);
+
+	BOOL result = true;
+	//sqlite3_prepare_v2(_db, sql, -1, &_stmt, NULL);
+	//if (sqlite3_step(_stmt) != SQLITE_DONE) {
+	//	// 제대로 동작하지 않은 경우
+	//	result = false;
+	//}
+	//sqlite3_reset(_stmt);
+	
 
 	// https://stackoverflow.com/a/61796041/14099774
-	BOOL result = true;
 
 	//_errmsg = NULL;
 	//char sql[255] = { 0 };
