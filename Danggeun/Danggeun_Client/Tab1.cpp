@@ -52,9 +52,8 @@ void CTab1::LoadTownPost()
 {
 	
 	GetDlgItem(IDC_BUTTON_NEWPOST)->ShowWindow(SW_SHOW);
-	//TO DO: 뒤로가기 버튼 숨기기는 여기에 추가해 주세요.
+	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_HIDE);
 
-	
 	//초기화
 	int n = m_list.GetItemCount();
 
@@ -80,8 +79,6 @@ void CTab1::LoadTownPost()
 			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
 			m_list.AddItem(post->GetPrice(), i, 1);
 			m_list.AddItem(status[post->GetStatus()], i, 2);
-			//m_list.AddItem(post->GetPrice(), i, 1);
-			//m_list.AddItem(post->GetState(), i, 2);
 			
 			int postid = post->GetPostID();
 			CString postID;
@@ -100,7 +97,7 @@ void CTab1::LoadTownPost()
 void CTab1::SearchPost(CString Key)
 {
 	GetDlgItem(IDC_BUTTON_NEWPOST)->ShowWindow(SW_HIDE);
-	//TO DO: 뒤로가기 버튼 보이기는 여기에 해주세요.
+	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_SHOW);
 
 
 	//초기화
@@ -174,6 +171,7 @@ BEGIN_MESSAGE_MAP(CTab1, CDialogEx)
 //	ON_WM_CTLCOLOR()
 ON_WM_CTLCOLOR()
 ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CTab1::OnDblclkList1)
+ON_BN_CLICKED(IDC_BUTTON_BACK, &CTab1::OnClickedButtonBack)
 END_MESSAGE_MAP()
 
 
@@ -317,4 +315,11 @@ BOOL CTab1::PreTranslateMessage(MSG* pMsg)
 		OnClickedButtonSearch();
 
 	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
+void CTab1::OnClickedButtonBack()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	LoadTownPost();
 }
