@@ -145,17 +145,17 @@ BOOL CDetailPage::OnInitDialog()
 		FW_HEAVY
 		*/
 
-	//제목 okay
+		//제목 okay
 	CFont font1;
 	LOGFONT lf1;
 	::ZeroMemory(&lf1, sizeof(lf1));
 	lf1.lfHeight = 22;
 	lf1.lfWeight = FW_EXTRABOLD;
-	::lstrcpy(lf1.lfFaceName,"나눔고딕");
-	font1.CreateFontIndirectA(&lf1); 
+	::lstrcpy(lf1.lfFaceName, "나눔고딕");
+	font1.CreateFontIndirectA(&lf1);
 	GetDlgItem(IDC_STATIC_TITLE)->SetFont(&font1);
 	font1.Detach();
-	
+
 	//내용 okay
 	CFont font2;
 	LOGFONT lf2;
@@ -217,31 +217,54 @@ BOOL CDetailPage::OnInitDialog()
 	font6.Detach();
 
 
-	AfxMessageBox(m_post->GetImgName());
-	GetDlgItem(IDC_STATIC_PICTURE)->GetWindowRect(m_rect); //현재 위치
-
 	m_btnheart.LoadBitmaps(IDB_HEART, IDB_HEART2, IDB_HEART2, IDB_HEART);
 	m_btnheart.SizeToContent();
 
+
+	//관심 처리
+	extern CUserDTO* CurrentUser;
 	extern CBookMarkDB* bookmarkDB;
-	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
-		if (bookmark->GetPostID() == m_post->GetPostID()) {
-			heartstate = 1; break;	// 관심목록에 있음
-		}
+
+	//글 작성자인 경우 수정버튼 활성화, 채팅/관심 버튼 비활성화
+	if (m_post->GetUserID() == CurrentUser->GetUserID()) {
+		GetDlgItem(IDC_BUTTON_POSTEDIT)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_BUTTON_HEART)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_BUTTON_CHAT)->ShowWindow(SW_HIDE);
+
 	}
-	if (!heartstate) {
-		m_btnheart.LoadBitmaps(IDB_HEART, NULL, NULL, NULL);
-		m_btnheart.SizeToContent();
-	}
+	//글 작성자 아닌경우
 	else {
-		m_btnheart.LoadBitmaps(IDB_HEART2, NULL, NULL, NULL);
-		m_btnheart.SizeToContent();
+		GetDlgItem(IDC_BUTTON_POSTEDIT)->ShowWindow(SW_HIDE);
+		GetDlgItem(IDC_BUTTON_HEART)->ShowWindow(SW_SHOW);
+		GetDlgItem(IDC_BUTTON_CHAT)->ShowWindow(SW_SHOW);
+
+		for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
+			if (bookmark->GetPostID() == m_post->GetPostID()) {
+				heartstate = 1; break;	// 관심목록에 있음
+			}
+		}
+		if (heartstate != 1) {
+			m_btnheart.LoadBitmaps(IDB_HEART, NULL, NULL, NULL);
+			m_btnheart.SizeToContent();
+		}
+		else {
+			m_btnheart.LoadBitmaps(IDB_HEART2, NULL, NULL, NULL);
+			m_btnheart.SizeToContent();
+		}
+
 	}
+
+
+
+
+
 	m_image.Load("res\\" + m_post->GetImgName());
 	if (m_image.IsNull()) {
 		m_image.Load("res\\LoadError.png");
 	}
 
+
+	//페이지 내용 처리
 	HBITMAP h_bmp = (HBITMAP)m_image;
 	CBitmap bmp;
 	m_stcPicture.SetBitmap(h_bmp);
@@ -255,6 +278,9 @@ BOOL CDetailPage::OnInitDialog()
 	m_stcTown.SetWindowText(town[m_post->GetTown()]);
 	extern CString status[];
 	m_stcState.SetWindowText(status[m_post->GetStatus()]);
+	
+
+	
 	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
