@@ -28,7 +28,7 @@ void CPostDB::InitDB() {
 	  	   "content	TEXT NOT NULL,"
 		   "imgName	TEXT NOT NULL,"
 		   "status	INTEGER NOT NULL DEFAULT 0,"
-		   "price	INTEGER NOT NULL DEFAULT 0,"
+		   "price	TEXT NOT NULL,"
 	  	   "PRIMARY KEY(\"postID\" AUTOINCREMENT),"
 	  	   "FOREIGN KEY(\"userID\") REFERENCES \"user\"(\"userID\") ON DELETE CASCADE)";
 

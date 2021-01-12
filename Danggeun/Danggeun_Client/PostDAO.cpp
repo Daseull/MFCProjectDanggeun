@@ -81,7 +81,8 @@ BOOL CPostDAO::createPost(CPostDTO post) {
 	sqlite3_bind_text(_stmt, 4, content, strlen(content), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 5, post.GetImgName(), post.GetImgName().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 6, post.GetStatus());
-	sqlite3_bind_int(_stmt, 7, post.GetPrice());
+	sqlite3_bind_text(_stmt, 7, post.GetPrice(), post.GetPrice().GetLength(), SQLITE_STATIC);
+
 	/*sqlite3_step(_stmt);
 	sqlite3_finalize(_stmt);*/
 
@@ -144,7 +145,7 @@ CPostDTO& CPostDAO::getPost(int postID) {
 	CString _imgName(szAnsi);
 
 	int _status = sqlite3_column_int(_stmt, 6);
-	int _price = sqlite3_column_int(_stmt, 7);
+	CString _price(sqlite3_column_text(_stmt, 7));
 
 	_post->SetPostID(_postID);
 	_post->SetUserID(_userID);
@@ -197,7 +198,7 @@ std::vector<CPostDTO*> CPostDAO::getAll() {
 		CString _imgName(szAnsi);
 
 		int _status = sqlite3_column_int(_stmt, 6);
-		int _price = sqlite3_column_int(_stmt, 7);
+		CString _price(sqlite3_column_text(_stmt, 7));
 
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
@@ -263,7 +264,7 @@ std::vector<CPostDTO*> CPostDAO::getAllByTown(int townID) {
 		CString _imgName(szAnsi);
 
 		int _status = sqlite3_column_int(_stmt, 6);
-		int _price = sqlite3_column_int(_stmt, 7);
+		CString _price(sqlite3_column_text(_stmt, 7));
 
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
@@ -337,7 +338,7 @@ std::vector<CPostDTO*> CPostDAO::getAllByTitleSearch(CString q) {
 		CString _imgName(szAnsi);
 
 		int _status = sqlite3_column_int(_stmt, 6);
-		int _price = sqlite3_column_int(_stmt, 7);
+		CString _price(sqlite3_column_text(_stmt, 7));
 
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
@@ -395,7 +396,7 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 	sqlite3_bind_text(_stmt, 3, content, strlen(content), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 4, post.GetImgName(), post.GetImgName().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 5, post.GetStatus());
-	sqlite3_bind_int(_stmt, 6, post.GetPrice());
+	sqlite3_bind_text(_stmt, 6, post.GetPrice(), post.GetPrice().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 7, post.GetPostID());
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {

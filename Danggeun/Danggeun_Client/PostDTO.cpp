@@ -34,6 +34,6 @@ void CPostDTO::SetImgName(CString imgName) {
 void CPostDTO::SetStauts(int status) {
 	this->status = status;
 }
-void CPostDTO::SetPrice(int price) {
+void CPostDTO::SetPrice(CString price) {
 	this->price = price;
 }
