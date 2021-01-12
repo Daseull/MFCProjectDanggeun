@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include "pch.h"
 
 // CDetailPage 대화 상자
 
@@ -8,8 +8,12 @@ class CDetailPage : public CDialogEx
 	DECLARE_DYNAMIC(CDetailPage)
 private:
 	CBrush m_bk_brush;
+	CImage m_image;
+	CRect m_rect; //사진 위치 조정용
 public:
+	CPostDTO* m_post = nullptr;
 	CDetailPage(CWnd* pParent = nullptr);   // 표준 생성자입니다.
+	CDetailPage(CPostDTO* post, CWnd* pParent = nullptr);
 	virtual ~CDetailPage();
 
 // 대화 상자 데이터입니다.
@@ -26,15 +30,24 @@ public:
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	CRoundButtonStyle m_tMyButtonStyle;
 	CRoundButton2 m_tMyButton1;
-	CStatic m_userid;
-	CStatic m_usertown;
-	CStatic m_state;
 	virtual BOOL OnInitDialog();
-	CStatic m_price;
 	CBitmap m_bitmap;
+	CRoundButton2 m_tMyButton2;
 
+	CStatic m_stcUserID;
+	CStatic m_stcPicture;
+	CStatic m_stcPrice;
+	CStatic m_stcState;
+	CStatic m_stcText;
+	CStatic m_stcTitle;
+	CStatic m_stcTown;
 //	CBitmapButton m_heart;
 //	CButton m_heart;
 //	CBitmapButton m_heart;
-	CRoundButton2 m_tMyButton2;
+//	CRoundButton2 m_tMyButton2;
+	CBitmapButton m_btnheart;
+	afx_msg void OnStnClickedStaticState();
+	afx_msg void OnStnClickedStaticTitle();
+	afx_msg void OnBnClickedButtonHeart();
+	afx_msg void OnStnClickedStaticText();
 };

@@ -52,11 +52,11 @@ void CTab1::LoadTownPost()
 {
 	
 	GetDlgItem(IDC_BUTTON_NEWPOST)->ShowWindow(SW_SHOW);
-	//TO DO: 뒤로가기 버튼 숨기기는 여기에 추가해 주세요.
+	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_HIDE);
 
-	
 	//초기화
 	int n = m_list.GetItemCount();
+
 	while (n--)
 		m_ImageList.Remove(0);
 	m_list.DeleteAllItems();
@@ -64,11 +64,12 @@ void CTab1::LoadTownPost()
 
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
+	extern CString status[3];
 	for (CPostDTO* post : postDB->postList) {
 		if (post->GetTown() == CurrentUser->GetTown()) {
 			CBitmap bmp;
 			CImage img;
-			img.Load("res\\" + post->GetImgName());
+			img.Load("res\\small_" + post->GetImgName());
 			if (img.IsNull()) {
 				img.Load("res\\LoadError.png");
 			}
@@ -76,10 +77,13 @@ void CTab1::LoadTownPost()
 			m_ImageList.Add(&bmp, RGB(255, 255, 255));
 			int i = m_list.GetItemCount();
 			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-			m_list.AddItem("7000", i, 1);
-			m_list.AddItem("판매중", i, 2);
-			//m_list.AddItem(post->GetPrice(), i, 1);
-			//m_list.AddItem(post->GetState(), i, 2);
+			m_list.AddItem(post->GetPrice(), i, 1);
+			m_list.AddItem(status[post->GetStatus()], i, 2);
+			
+			int postid = post->GetPostID();
+			CString postID;
+			postID.Format("%d", postid);
+			m_list.AddItem(postID, i, 3);
 		}
 	}
 
@@ -93,7 +97,7 @@ void CTab1::LoadTownPost()
 void CTab1::SearchPost(CString Key)
 {
 	GetDlgItem(IDC_BUTTON_NEWPOST)->ShowWindow(SW_HIDE);
-	//TO DO: 뒤로가기 버튼 보이기는 여기에 해주세요.
+	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_SHOW);
 
 
 	//초기화
@@ -113,13 +117,13 @@ void CTab1::SearchPost(CString Key)
 	Key = Key.MakeUpper();
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
-
+	extern CString status[3];
 	for (CPostDTO* post : postDB->postList) {
 		CString title = post->GetTitle();
 		if (title.MakeUpper().Find(Key) != -1) {
 			CBitmap bmp;
 			CImage img;
-			img.Load("res\\" + post->GetImgName());
+			img.Load("res\\small_" + post->GetImgName());
 			if (img.IsNull()) {
 				img.Load("res\\LoadError.png");
 			}
@@ -131,8 +135,8 @@ void CTab1::SearchPost(CString Key)
 			//m_list.AddItem(post->GetPrice(), i, 1);
 			//m_list.AddItem(post->GetState(), i, 2);
 			
-			m_list.AddItem("8000", i, 1);
-			m_list.AddItem("거래완료", i, 2);
+			m_list.AddItem(post->GetPrice(), i, 1);
+			m_list.AddItem(status[post->GetStatus()], i, 2);
 		}
 
 	}
@@ -147,7 +151,6 @@ void CTab1::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_EDIT_SEARCH, m_strSearch);
-	//  DDX_Control(pDX, IDC_LIST1, m_list);
 	DDX_Text(pDX, IDC_STATIC_TOWN, m_strTown);
 	DDX_Control(pDX, IDC_LIST1, m_list);
 	DDX_Control(pDX, IDC_BUTTON_NEWPOST, m_tMyButton1);
@@ -168,6 +171,7 @@ BEGIN_MESSAGE_MAP(CTab1, CDialogEx)
 //	ON_WM_CTLCOLOR()
 ON_WM_CTLCOLOR()
 ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CTab1::OnDblclkList1)
+ON_BN_CLICKED(IDC_BUTTON_BACK, &CTab1::OnClickedButtonBack)
 END_MESSAGE_MAP()
 
 
@@ -239,7 +243,7 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	ChatBox dlg = new ChatBox;
+	//ChatBox dlg = new ChatBox;
 	*pResult = 0;
 
 	// 행 클릭시 행 넘버값 받아오기
@@ -247,13 +251,21 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 	int idx = pNMListView->iItem;
 
 	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
-	CString sIndexValue;
-	sIndexValue = m_list.GetItemText(idx, 1);
-
+	
+	
 	if (idx != -1) {
+		CString sIndexPostID;
+		sIndexPostID = m_list.GetItemText(idx, 3);
+		int PostID = _ttoi(sIndexPostID);
 
-		CDetailPage dlg = new CDetailPage;
-		dlg.DoModal();
+		extern CPostDB* postDB;
+		for (CPostDTO* post : postDB->postList) {
+			if (post->GetPostID() == PostID) {
+				CDetailPage dlg(post);
+				dlg.DoModal();
+				break;
+			}
+		}
 	}
 	
 	*pResult = 0;
@@ -285,6 +297,7 @@ BOOL CTab1::OnInitDialog()
 	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
 	m_list.InsertColumn(1, "가격", LVCFMT_RIGHT, 100);
 	m_list.InsertColumn(2, "판매상태", LVCFMT_RIGHT, 100);
+	m_list.InsertColumn(3, "postID", LVCFMT_RIGHT, 0);
 	
 	LoadTownPost();
 
@@ -302,4 +315,11 @@ BOOL CTab1::PreTranslateMessage(MSG* pMsg)
 		OnClickedButtonSearch();
 
 	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
+void CTab1::OnClickedButtonBack()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	LoadTownPost();
 }

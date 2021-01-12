@@ -8,6 +8,7 @@ class CCreatePost : public CDialogEx
 	DECLARE_DYNAMIC(CCreatePost)
 private:
 	CBrush m_bk_brush;
+	CImage m_img;
 public:
 	CCreatePost(CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	virtual ~CCreatePost();
@@ -33,5 +34,5 @@ public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedButtonPost();
 	afx_msg void OnStnClickedStaticAddpic();
-	CStatic m_img;
+	CStatic m_stcImg;
 };

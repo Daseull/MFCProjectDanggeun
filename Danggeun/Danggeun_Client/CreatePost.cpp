@@ -34,7 +34,7 @@ void CCreatePost::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_POST_PRICE, m_strPrice);
 	DDX_Text(pDX, IDC_EDIT_POST_TEXT, m_strText);
 	DDX_Control(pDX, IDC_COMBO_STATE, m_state);
-	DDX_Control(pDX, IDC_STATIC_ADDPIC, m_img);
+	DDX_Control(pDX, IDC_STATIC_ADDPIC, m_stcImg);
 }
 
 
@@ -102,9 +102,17 @@ void CCreatePost::OnBnClickedButtonPost()
 		post.SetImgName(img_path);
 		post.SetUserID(CurrentUser->GetUserID());
 		post.SetTown(CurrentUser->GetTown());
+		post.SetPrice(m_strPrice+"원");
+		post.SetStauts(m_state.GetCurSel());
 		postDB->dao.createPost(post);
 		MessageBox("작성 완료 !");
 		postDB->postList = postDB->dao.getAll();
+
+		
+
+
+
+
 		::SendMessage(((CCreatePost*)GetParent())->GetSafeHwnd(), UWM_CUSTOM3, 0, 0);
 	}
 }
@@ -121,9 +129,29 @@ void CCreatePost::OnStnClickedStaticAddpic()
 		img_path = dlg.GetPathName();
 		CImage img;
 		img.Load(img_path);
-		HBITMAP h_bmp = (HBITMAP)img;
-		m_img.SetBitmap(h_bmp);
-		img_path = img_path.Mid(img_path.Find("res\\") + 4);
+		
+		while (img_path.Find("\\") != -1) {
+			img_path = img_path.Mid(img_path.Find("\\") + 1);
+		}
+
+		CImage copyImg;
+		copyImg.Create(60, 60, 24);
+		img.StretchBlt(copyImg.GetDC(), 0, 0, 60, 60, 0, 0, 200,200, SRCCOPY);
+
+		img.Save("res\\" + img_path);	
+		copyImg.Save("res\\small_" + img_path);
+		copyImg.ReleaseDC();
+		img.Detach();
+
+		
+		CImage addpicresult;
+		addpicresult.Load("res\\small_" + img_path);
+		HBITMAP h_bmp = (HBITMAP)addpicresult;
+		m_stcImg.SetBitmap(h_bmp);
+
+
+		
+		addpicresult.Detach();
 	}
 }
 

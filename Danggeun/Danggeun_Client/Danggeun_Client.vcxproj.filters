@@ -212,7 +212,16 @@
     <Image Include="res\bitmap1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\bitmap2.bmp">
+    <Image Include="..\..\..\..\resized\not_filled_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\resized\filled_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\filled_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\not_filled_2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

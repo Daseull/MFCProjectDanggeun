@@ -70,10 +70,6 @@ void CTab4::OnBnClickedCancel()
 }
 
 
-
-
-
-
 HBRUSH CTab4::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
@@ -111,14 +107,40 @@ BOOL CTab4::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
+
+	//아이디
+	CFont font3;
+	LOGFONT lf3;
+	::ZeroMemory(&lf3, sizeof(lf3));
+	lf3.lfHeight = 30;
+	lf3.lfWeight = FW_BOLD;
+	::lstrcpy(lf3.lfFaceName, "나눔고딕");
+
+	font3.CreateFontIndirectA(&lf3);
+	GetDlgItem(IDC_STATIC_ID)->SetFont(&font3);
+	font3.Detach();
+
+	// 변경하기
+	CFont font4;
+	LOGFONT lf4;
+	::ZeroMemory(&lf4, sizeof(lf4));
+	lf4.lfHeight = 18;
+	lf4.lfWeight = FW_SEMIBOLD;
+	::lstrcpy(lf4.lfFaceName, "나눔고딕");
+
+	font4.CreateFontIndirectA(&lf4);
+	GetDlgItem(IDC_STATIC_PHONECHANGE)->SetFont(&font4);
+	GetDlgItem(IDC_STATIC_PW_EDIT)->SetFont(&font4);
+	GetDlgItem(IDC_STATIC_TOWNCHANGE)->SetFont(&font4);
+
+	font4.Detach();
+	
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 	extern CUserDTO* CurrentUser;
 	extern CUserDB* userDB;
 	
-
-	
 	// = CurrentUser->GetUserID();
-	m_strID - CurrentUser->GetUserID();
+	m_strID = CurrentUser->GetUserID();//여기 수정
 	m_strPhone = CurrentUser->GetPhone();
 	m_strPW = CurrentUser->GetUserPW();
 	m_Town.SetCurSel(CurrentUser->GetTown());
@@ -136,13 +158,20 @@ void CTab4::OnClickedButtonChangeok()
 	UpdateData(TRUE);
 	extern CUserDTO* CurrentUser;
 	extern CUserDB* userDB;	
-	CUserDTO user;
-	user.SetTown(m_Town.GetCurSel());
-	user.SetUserID(CurrentUser->GetUserID());
-	user.SetUserPW(m_strPW);
-	user.SetPhone(m_strPhone);
-	userDB->dao.updateUser(user);
+	
+	CUserDTO newuser;
+	newuser.SetTown(m_Town.GetCurSel());
+	newuser.SetUserID(CurrentUser->GetUserID());
+	newuser.SetUserPW(m_strPW);
+	newuser.SetPhone(m_strPhone);
+	userDB->dao.updateUser(newuser);
 	AfxMessageBox("변경 완료!");
+
+	/*userDB->userList = userDB->dao.getAll();
+
+	for (CUserDTO* user : userDB->userList) {
+		if (m_strID == user->GetUserID())
+			CurrentUser = user;*/
 
 }
 
