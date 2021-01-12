@@ -117,6 +117,7 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	return hbr;
 }
 
+
 BOOL CDetailPage::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
