@@ -102,6 +102,7 @@ void CLoginDlg::OnBnClickedButtonLogin()
 	user = userDB->dao.getUserByPw(m_strID, m_strPW);
 
 	if(user){
+		CurrentUser = user;
 		MessageBox("Login Success!");
 		::SendMessage(((CLoginDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
 	}
