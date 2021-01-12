@@ -17,7 +17,7 @@ CDetailPage::CDetailPage(CWnd* pParent /*=nullptr*/)
 {
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
-	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
+	//m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
 
 }
 
@@ -36,7 +36,8 @@ void CDetailPage::DoDataExchange(CDataExchange* pDX)
 	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
 	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
 	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
-	DDX_Control(pDX, IDC_BUTTON_HEART, m_tMyButton2);
+	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_tMyButton2);
+	DDX_Control(pDX, IDC_BUTTON_HEART, m_btnheart);
 }
 
 
@@ -117,7 +118,10 @@ BOOL CDetailPage::OnInitDialog()
 	GetDlgItem(IDC_STATIC_STATE)->SetFont(&font);
 	GetDlgItem(IDC_STATIC_PRICE)->SetFont(&font2);
 
+	m_btnheart.LoadBitmaps(IDB_HEART, IDB_HEART2, IDB_HEART2, IDB_HEART);
+	m_btnheart.SizeToContent();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
+

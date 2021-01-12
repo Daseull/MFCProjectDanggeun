@@ -10,6 +10,7 @@ private:
 	CBrush m_bk_brush;
 public:
 	CDetailPage(CWnd* pParent = nullptr);   // 표준 생성자입니다.
+	CPostDTO* m_post;
 	virtual ~CDetailPage();
 
 // 대화 상자 데이터입니다.
@@ -36,5 +37,6 @@ public:
 //	CBitmapButton m_heart;
 //	CButton m_heart;
 //	CBitmapButton m_heart;
-	CRoundButton2 m_tMyButton2;
+//	CRoundButton2 m_tMyButton2;
+	CBitmapButton m_btnheart;
 };

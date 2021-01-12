@@ -14,12 +14,25 @@ IMPLEMENT_DYNAMIC(ChatBox, CDialogEx)
 ChatBox::ChatBox(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CHATBOX, pParent)
 	, m_strSend(_T(""))
+	, m_strTitle(_T(""))
 {
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
+}
 
+ChatBox::ChatBox(CPostDTO* post, CWnd* pParent)
+{
+	m_strTitle = ((CDetailPage*)GetParent())->m_post->GetTitle();
+
+	CBitmap bmp;
+	CImage img;
+	img.Load("res\\" + m_post->GetImgName());
+	HBITMAP h_bmp = img;
+	CStatic* p_static = (CStatic*)GetDlgItem(IDC_STATIC_PICTURE);
+	p_static->SetBitmap(h_bmp);
 
 }
+
 
 ChatBox::~ChatBox()
 {
@@ -31,6 +44,9 @@ void ChatBox::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_SEND, m_strSend);
 	DDX_Control(pDX, IDC_CHATBOX, m_list);
 	DDX_Control(pDX, IDC_BUTTON_SEND, m_tMyButton1);
+	//  DDX_Control(pDX, IDC_STATIC_TITLE, m_strTitle);
+	DDX_Control(pDX, IDC_STATIC_PICTURE, m_picture);
+	DDX_Text(pDX, IDC_STATIC_TITLE, m_strTitle);
 }
 
 
@@ -68,6 +84,9 @@ BOOL ChatBox::OnInitDialog()
 	m_socCom.Init(this->m_hWnd);
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+	
+	
+
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
