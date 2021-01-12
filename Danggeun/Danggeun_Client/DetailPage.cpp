@@ -79,8 +79,6 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
 	// TODO:  여기서 DC의 특성을 변경합니다.
-	CFont font;
-	font.CreateFont(16, 9, 0, 0,FW_HEAVY, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, OUT_DEFAULT_PRECIS,DEFAULT_QUALITY, DEFAULT_PITCH,"나눔고딕");
 
 	if (nCtlColor == CTLCOLOR_DLG) {
 		return m_bk_brush;
@@ -127,16 +125,97 @@ BOOL CDetailPage::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-	CFont font, font1, font2;
-	font.CreateFontA(25, 0, 0, 0, 1000, 0, 0, 0, 0, OUT_DEFAULT_PRECIS, 0, DEFAULT_QUALITY, DEFAULT_PITCH, "나눔 고딕");
-	font1.CreateFontA(30, 0, 0, 0, 1000, 0, 0, 0, 0, OUT_DEFAULT_PRECIS, 0, DEFAULT_QUALITY, DEFAULT_PITCH, "나눔 고딕");
-	font2.CreateFontA(35, 8, 0, 0, 1000, 0, 1, 0, 0, OUT_DEFAULT_PRECIS, 0, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "나눔 고딕");
 
-	GetDlgItem(IDC_STATIC_ID)->SetFont(&font1);
-	GetDlgItem(IDC_STATIC_TOWN)->SetFont(&font);
-	GetDlgItem(IDC_STATIC_STATE)->SetFont(&font);
-	GetDlgItem(IDC_STATIC_PRICE)->SetFont(&font2);
+	/*
+		FW_DONTCARE         상관 안함
+		FW_THIN             얇은
+		FW_EXTRALIGHT
+		FW_LIGHT
+		FW_NORMAL           보통
+		FW_MEDIUM
+		FW_SEMIBOLD         조금 굵기
+		FW_BOLD             굵게
+		FW_EXTRABOLD        매우 굵게
+		FW_HEAVY
+		*/
+
+	//제목 okay
+	CFont font1;
+	LOGFONT lf1;
+	::ZeroMemory(&lf1, sizeof(lf1));
+	lf1.lfHeight = 28;
+	lf1.lfWeight = FW_EXTRABOLD;
+	::lstrcpy(lf1.lfFaceName,"나눔고딕");
+	font1.CreateFontIndirectA(&lf1); 
+	GetDlgItem(IDC_STATIC_TITLE)->SetFont(&font1);
+	font1.Detach();
+	
+	//내용 okay
+	CFont font2;
+	LOGFONT lf2;
+	::ZeroMemory(&lf2, sizeof(lf2));
+	lf2.lfHeight = 21;
+	lf2.lfWeight = FW_NORMAL;
+	::lstrcpy(lf2.lfFaceName, "나눔고딕");
+
+	font2.CreateFontIndirectA(&lf2);
+	GetDlgItem(IDC_STATIC_TEXT)->SetFont(&font2);
+	font2.Detach();
+
+	//아이디 okay
+	CFont font3;
+	LOGFONT lf3;
+	::ZeroMemory(&lf3, sizeof(lf3));
+	lf3.lfHeight = 22;
+	lf3.lfWeight = FW_SEMIBOLD;
+	::lstrcpy(lf3.lfFaceName, "나눔고딕");
+
+	font3.CreateFontIndirectA(&lf3);
+	GetDlgItem(IDC_STATIC_ID)->SetFont(&font3);
+	font3.Detach();
+
+	//동네 okay
+	CFont font4;
+	LOGFONT lf4;
+	::ZeroMemory(&lf4, sizeof(lf4));
+	lf4.lfHeight = 20;
+	lf4.lfWeight = FW_LIGHT;
+	::lstrcpy(lf4.lfFaceName, "나눔고딕");
+
+	font4.CreateFontIndirectA(&lf4);
+	GetDlgItem(IDC_STATIC_TOWN)->SetFont(&font4);
+	font4.Detach();
+
+	//상태 okay
+	CFont font5;
+	LOGFONT lf5;
+	::ZeroMemory(&lf5, sizeof(lf5));
+	lf5.lfHeight = 25;
+	lf5.lfWeight = FW_EXTRABOLD;
+	::lstrcpy(lf5.lfFaceName, "나눔고딕");
+
+	font5.CreateFontIndirectA(&lf5);
+	GetDlgItem(IDC_STATIC_STATE)->SetFont(&font5);
+	font5.Detach();
+
+	//가격 okay
+	CFont font6;
+	LOGFONT lf6;
+	::ZeroMemory(&lf6, sizeof(lf6));
+	lf6.lfHeight = 28;
+	lf6.lfWeight = FW_EXTRABOLD;
+	::lstrcpy(lf6.lfFaceName, "나눔고딕");
+
+	font6.CreateFontIndirectA(&lf6);
+	GetDlgItem(IDC_STATIC_PRICE)->SetFont(&font6);
+	font6.Detach();
+
+
+	AfxMessageBox(m_post->GetImgName());
 	GetDlgItem(IDC_STATIC_PICTURE)->GetWindowRect(m_rect); //현재 위치
+
+	m_btnheart.LoadBitmaps(IDB_HEART, IDB_HEART2, IDB_HEART2, IDB_HEART);
+	m_btnheart.SizeToContent();
 
 	extern CBookMarkDB* bookmarkDB;
 	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {

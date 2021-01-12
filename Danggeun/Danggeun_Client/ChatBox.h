@@ -8,9 +8,10 @@ class ChatBox : public CDialogEx
 	DECLARE_DYNAMIC(ChatBox)
 private:
 	CBrush m_bk_brush;
+	CImage m_image;
+	CRect m_rect;
 public:
 	ChatBox(CWnd* pParent = nullptr);   // 표준 생성자입니다.
-	ChatBox(CPostDTO* post, CWnd* pParent);
 	virtual ~ChatBox();
 
 // 대화 상자 데이터입니다.
@@ -35,6 +36,7 @@ public:
 	afx_msg void OnIdok();
 //	CStatic m_strTitle;
 	CStatic m_picture;
-	CString m_strTitle;
-	CPostDTO* m_post;
+//	CString m_strTitle;
+	CStatic m_title;
+	CStatic m_price;
 };
