@@ -139,8 +139,7 @@ BOOL CTab4::OnInitDialog()
 	extern CUserDTO* CurrentUser;
 	extern CUserDB* userDB;
 	
-	// = CurrentUser->GetUserID();
-	m_strID = CurrentUser->GetUserID();//여기 수정
+	m_strID = CurrentUser->GetUserID();
 	m_strPhone = CurrentUser->GetPhone();
 	m_strPW = CurrentUser->GetUserPW();
 	m_Town.SetCurSel(CurrentUser->GetTown());
@@ -168,11 +167,14 @@ void CTab4::OnClickedButtonChangeok()
 	AfxMessageBox("변경 완료!");
 	::SendMessage(((CTab4*)GetParent()->GetParent())->GetSafeHwnd(), UWM_CUSTOM6, 0, 0);
 	
+	
+	
 	/*userDB->userList = userDB->dao.getAll();
 
 	for (CUserDTO* user : userDB->userList) {
 		if (m_strID == user->GetUserID())
 			CurrentUser = user;*/
+
 
 }
 
