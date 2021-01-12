@@ -205,7 +205,9 @@ std::vector<CPostDTO*> CPostDAO::getAll() {
 		CString _imgName(szAnsi);
 
 		int _status = sqlite3_column_int(_stmt, 6);
-		CString _price(sqlite3_column_text(_stmt, 7));
+
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 7), szAnsi, 300);
+		CString _price(szAnsi);
 
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
@@ -271,7 +273,8 @@ std::vector<CPostDTO*> CPostDAO::getAllByUser(CString userID) {
 		CString _imgName(szAnsi);
 
 		int _status = sqlite3_column_int(_stmt, 6);
-		CString _price(sqlite3_column_text(_stmt, 7));
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 7), szAnsi, 300);
+		CString _price(szAnsi);
 
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
@@ -338,7 +341,8 @@ std::vector<CPostDTO*> CPostDAO::getAllByTown(int townID) {
 		CString _imgName(szAnsi);
 
 		int _status = sqlite3_column_int(_stmt, 6);
-		CString _price(sqlite3_column_text(_stmt, 7));
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 7), szAnsi, 300);
+		CString _price(szAnsi);
 
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
@@ -482,7 +486,8 @@ std::vector<CPostDTO*> CPostDAO::getAllByBookMarkAndSearch(CString userID, CStri
 		CString _imgName(szAnsi);
 
 		int _status = sqlite3_column_int(_stmt, 6);
-		CString _price(sqlite3_column_text(_stmt, 7));
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 7), szAnsi, 300);
+		CString _price(szAnsi);
 
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
@@ -557,7 +562,9 @@ std::vector<CPostDTO*> CPostDAO::getAllByTitleSearch(CString q, int townID) {
 		CString _imgName(szAnsi);
 
 		int _status = sqlite3_column_int(_stmt, 6);
-		CString _price(sqlite3_column_text(_stmt, 7));
+
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 7), szAnsi, 300);
+		CString _price(szAnsi);
 
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
