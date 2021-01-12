@@ -10,6 +10,7 @@
 // CCreatePost 대화 상자
 
 IMPLEMENT_DYNAMIC(CCreatePost, CDialogEx)
+CString img_path = "";
 
 CCreatePost::CCreatePost(CPostDTO* post, CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOG_CREATE_POST, pParent)
@@ -110,7 +111,6 @@ BOOL CCreatePost::OnInitDialog()
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
 
-CString img_path = "";
 void CCreatePost::OnBnClickedButtonPost()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -155,6 +155,7 @@ void CCreatePost::OnClickedButtonComedit()
 	extern CPostDB* postDB;
 	postDB->dao.updatePost(newpost);
 	AfxMessageBox("수정 완료!");
+
 	//SendMessage(IDCLOSE);
 
 }

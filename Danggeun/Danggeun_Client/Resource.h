@@ -35,7 +35,7 @@
 #define IDC_EDIT_JOIN_PHONE             1014
 #define IDC_COMBO1                      1015
 #define IDC_COMBO_JOIN_TOWN             1015
-#define IDC_COMBO_CHANGETOWN            1015
+#define IDC_COMBO_CHANGETOWN            1200
 #define IDC_COMBO_STATE                 1016
 #define IDC_STATIC_TEL                  1017
 #define IDC_STATIC_TOWN                 1018

@@ -64,7 +64,7 @@ BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_HEART, &CDetailPage::OnBnClickedButtonHeart)
 	ON_STN_CLICKED(IDC_STATIC_TEXT, &CDetailPage::OnStnClickedStaticText)
 	ON_BN_CLICKED(IDC_BUTTON_POSTEDIT, &CDetailPage::OnClickedButtonPostedit)
-	ON_MESSAGE(UM_CUSTOM6, &CDetailPage::OnUmCustom6)
+	//ON_MESSAGE(UM_CUSTOM6, &CDetailPage::OnUmCustom6)
 END_MESSAGE_MAP()
 
 
@@ -354,11 +354,11 @@ void CDetailPage::OnClickedButtonPostedit()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	
-	AfxMessageBox("닫히다");
 	dlg = new CCreatePost(m_post);
-	((CDanggeunClientDlg*)GetParent())->pDlg1->LoadTownPost();
-	//dlg->EndDialog(IDOK);
 	dlg->DoModal();
+
+	AfxMessageBox("종료");
+	((CDanggeunClientDlg*)GetParent())->pDlg1->LoadTownPost();
 }
 
 afx_msg LRESULT CDetailPage::OnUmCustom6(WPARAM wParam, LPARAM lParam)
