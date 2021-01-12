@@ -119,6 +119,8 @@ BOOL CTab3::OnInitDialog()
 }
 
 void CTab3::LoadBookmarkPost() {
+
+	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_HIDE);
 	//초기화
 	int n = m_list.GetItemCount();
 	while (n--)
@@ -155,7 +157,8 @@ void CTab3::LoadBookmarkPost() {
 
 void CTab3::SearchPost(CString Key)
 {
-	//TO DO: 뒤로가기 버튼 보이기는 여기에 해주세요.
+	//TO DO: 뒤로가기 버튼 보이기는 여기에 해주세요
+	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_SHOW);
 
 	//초기화
 	int n = m_list.GetItemCount();
@@ -214,4 +217,5 @@ void CTab3::OnBnClickedButtonSearch()
 void CTab3::OnBnClickedButtonBack()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	LoadBookmarkPost();
 }

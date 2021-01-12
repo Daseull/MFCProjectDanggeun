@@ -19,19 +19,6 @@ ChatBox::ChatBox(CWnd* pParent /*=nullptr*/)
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 }
 
-ChatBox::ChatBox(CPostDTO* post, CWnd* pParent)
-{
-	m_strTitle = ((CDetailPage*)GetParent())->m_post->GetTitle();
-
-	CBitmap bmp;
-	CImage img;
-	img.Load("res\\small_" + m_post->GetImgName());
-	HBITMAP h_bmp = img;
-	CStatic* p_static = (CStatic*)GetDlgItem(IDC_STATIC_PICTURE);
-	p_static->SetBitmap(h_bmp);
-
-}
-
 
 ChatBox::~ChatBox()
 {
