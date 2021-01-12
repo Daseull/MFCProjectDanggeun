@@ -199,6 +199,111 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	pDlg3->ShowWindow(SW_HIDE);
 	pDlg4->ShowWindow(SW_HIDE);
 	
+
+
+
+
+
+
+	//C/R/U/D
+	
+	/*CUserDB* _userDB = new CUserDB();
+	_userDB->InitDB();
+	CPostDB* _postDB = new CPostDB();
+	_postDB->InitDB();
+	CBookMarkDB* _bookDB = new CBookMarkDB();
+	_bookDB->InitDB();
+
+	CUserDTO _user;
+	CPostDTO _post;
+	CBookMarkDTO _book;
+
+	CString str;*/
+
+	// Create
+	//for (int i = 0; i < 3; i++) {
+		//str.Format("id%d", i);
+		//_user.SetUserID(str);
+
+		//str.Format("pw%d", i);
+		//_user.SetUserPW(str);
+
+		//_user.SetTown(i);
+
+		//str.Format("010-%d", i);
+		//_user.SetPhone(str);
+		//_userDB->dao.createUser(_user);
+
+
+		//str.Format("id%d", i);
+		//_post.SetUserID(str);
+		//_post.SetTitle("제목");
+		//_post.SetImgName("");
+		//_post.SetPrice("10000");
+		//_post.SetStauts(0);
+		//_post.SetContent("내용내용");
+		//_post.SetTown(i);
+		//_postDB->dao.createPost(_post);
+
+
+		//_book.SetPostID(8 + i);
+		//str.Format("id%d", i);
+		//_book.SetUserID(str);
+		//_bookDB->dao.createBookMark(_book);
+
+		//_book.SetPostID()
+	//}
+
+
+	// Read All +update/delete
+		//_userDB->userList = _userDB->dao.getAll(); good
+	//_userDB->userList = _userDB->dao.getAllByTown(0); good
+	/*for (CUserDTO* user : _userDB->userList) {
+		str.Format(user->GetUserID());
+		AfxMessageBox(str);
+	}*/
+
+	////_postDB->postList = _postDB->dao.getAll(); good
+	//_postDB->postList = _postDB->dao.getAllByTitleSearch("제");
+	//for (CPostDTO* post : _postDB->postList) {
+	//	str.Format(post->GetUserID());
+	//	AfxMessageBox(str);
+	//}
+
+	//_postDB->postList = _postDB->dao.getAll(); good
+	//_bookDB->bookMarkList = _bookDB->dao.getAll();
+	//for (CBookMarkDTO* book : _bookDB->bookMarkList) {
+	//	str.Format(book->GetUserID());
+	//	AfxMessageBox(str);
+	//	_bookDB->dao.deleteBookMark(book->GetBookMarkID());
+	//}
+	
+	//for (int i = 0; i < 3; i++) {
+	//	//str.Format("id%d", i);
+	//	//_user = _userDB->dao.getUser(str);
+	//	//_userDB->dao.deleteUser(_user.GetUserID());
+	//	
+	//	//str.Format("id%d", i);
+	//	/*_post.SetUserID(str);
+	//	_book.SetPostID()*/
+	//	/*_post = _postDB->dao.getPost(8 + i);
+	//	str.Format(_post->GetUserID());
+	//	AfxMessageBox(str);*/
+
+	//	/*_post = _postDB->dao.getPost(8 + i);
+	//	str.Format(_post.GetUserID());
+	//	AfxMessageBox(str);*/
+
+	//	str.Format("id%d", i);
+	//	_user = _userDB->dao.getUser(str);
+	//	str.Format(_user.GetUserID());
+	//	AfxMessageBox(str);
+	//	//_user.SetUserPW(str);
+	//	//_userDB->dao.updateUser(_user);
+	//	_userDB->dao.deleteUser(str);
+
+	//}
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 

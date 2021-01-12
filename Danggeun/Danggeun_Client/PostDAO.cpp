@@ -114,47 +114,48 @@ CPostDTO& CPostDAO::getPost(int postID) {
 	}
 
 	// "from user"
-	_postList.clear();
+
 	CString sTmp;
 	sTmp.Format("select * from post where postID = ?");
+
 
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, postID);
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
-		throw NULL;
+		int i;
+		int num_cols = sqlite3_column_count(_stmt);
+
+		char szAnsi[300];
+		_post = new CPostDTO();
+
+		int _postID = sqlite3_column_int(_stmt, 0);
+		CString _userID(sqlite3_column_text(_stmt, 1));
+		int _town = sqlite3_column_int(_stmt, 2);
+
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300);
+		CString _title(szAnsi);
+
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 4), szAnsi, 300);
+		CString _content(szAnsi);
+
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 5), szAnsi, 300);
+		CString _imgName(szAnsi);
+
+		int _status = sqlite3_column_int(_stmt, 6);
+		CString _price(sqlite3_column_text(_stmt, 7));
+
+		_post->SetPostID(_postID);
+		_post->SetUserID(_userID);
+		_post->SetTown(_town);
+		_post->SetTitle(_title);
+		_post->SetContent(_content);
+		_post->SetImgName(_imgName);
+		_post->SetStauts(_status);
+		_post->SetPrice(_price);
 	}
 
-	int i;
-	int num_cols = sqlite3_column_count(_stmt);
 
-	char szAnsi[300];
-	_post = new CPostDTO();
-
-	int _postID = sqlite3_column_int(_stmt, 0);
-	CString _userID(sqlite3_column_text(_stmt, 1));
-	int _town = sqlite3_column_int(_stmt, 2);
-
-	UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300);
-	CString _title(szAnsi);
-
-	UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 4), szAnsi, 300);
-	CString _content(szAnsi);
-
-	UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 5), szAnsi, 300);
-	CString _imgName(szAnsi);
-
-	int _status = sqlite3_column_int(_stmt, 6);
-	CString _price(sqlite3_column_text(_stmt, 7));
-
-	_post->SetPostID(_postID);
-	_post->SetUserID(_userID);
-	_post->SetTown(_town);
-	_post->SetTitle(_title);
-	_post->SetContent(_content);
-	_post->SetImgName(_imgName);
-	_post->SetStauts(_status);
-	_post->SetPrice(_price);
 
 	sqlite3_finalize(_stmt);
 	sqlite3_close(_db);
