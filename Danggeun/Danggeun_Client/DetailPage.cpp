@@ -137,22 +137,22 @@ BOOL CDetailPage::OnInitDialog()
 		FW_HEAVY
 		*/
 
-	//제목
+	//제목 okay
 	CFont font1;
 	LOGFONT lf1;
 	::ZeroMemory(&lf1, sizeof(lf1));
-	lf1.lfHeight = 26;
-	lf1.lfWeight = FW_BOLD;
+	lf1.lfHeight = 28;
+	lf1.lfWeight = FW_EXTRABOLD;
 	::lstrcpy(lf1.lfFaceName,"나눔고딕");
 	font1.CreateFontIndirectA(&lf1); 
 	GetDlgItem(IDC_STATIC_TITLE)->SetFont(&font1);
 	font1.Detach();
 	
-	//내용
+	//내용 okay
 	CFont font2;
 	LOGFONT lf2;
 	::ZeroMemory(&lf2, sizeof(lf2));
-	lf2.lfHeight = 22;
+	lf2.lfHeight = 21;
 	lf2.lfWeight = FW_NORMAL;
 	::lstrcpy(lf2.lfFaceName, "나눔고딕");
 
@@ -160,41 +160,53 @@ BOOL CDetailPage::OnInitDialog()
 	GetDlgItem(IDC_STATIC_TEXT)->SetFont(&font2);
 	font2.Detach();
 
-	//아이디
+	//아이디 okay
 	CFont font3;
 	LOGFONT lf3;
 	::ZeroMemory(&lf3, sizeof(lf3));
-	lf3.lfHeight = 25;
-	lf3.lfWeight = FW_NORMAL;
+	lf3.lfHeight = 22;
+	lf3.lfWeight = FW_SEMIBOLD;
 	::lstrcpy(lf3.lfFaceName, "나눔고딕");
 
 	font3.CreateFontIndirectA(&lf3);
 	GetDlgItem(IDC_STATIC_ID)->SetFont(&font3);
 	font3.Detach();
 
-	//동네
+	//동네 okay
 	CFont font4;
 	LOGFONT lf4;
 	::ZeroMemory(&lf4, sizeof(lf4));
-	lf4.lfHeight = 23;
-	lf4.lfWeight = FW_NORMAL;
+	lf4.lfHeight = 20;
+	lf4.lfWeight = FW_LIGHT;
 	::lstrcpy(lf4.lfFaceName, "나눔고딕");
 
 	font4.CreateFontIndirectA(&lf4);
 	GetDlgItem(IDC_STATIC_TOWN)->SetFont(&font4);
 	font4.Detach();
 
-	//상태
+	//상태 okay
 	CFont font5;
 	LOGFONT lf5;
 	::ZeroMemory(&lf5, sizeof(lf5));
-	lf5.lfHeight = 23;
-	lf5.lfWeight = FW_NORMAL;
+	lf5.lfHeight = 25;
+	lf5.lfWeight = FW_EXTRABOLD;
 	::lstrcpy(lf5.lfFaceName, "나눔고딕");
 
 	font5.CreateFontIndirectA(&lf5);
 	GetDlgItem(IDC_STATIC_STATE)->SetFont(&font5);
 	font5.Detach();
+
+	//가격 okay
+	CFont font6;
+	LOGFONT lf6;
+	::ZeroMemory(&lf6, sizeof(lf6));
+	lf6.lfHeight = 28;
+	lf6.lfWeight = FW_EXTRABOLD;
+	::lstrcpy(lf6.lfFaceName, "나눔고딕");
+
+	font6.CreateFontIndirectA(&lf6);
+	GetDlgItem(IDC_STATIC_PRICE)->SetFont(&font6);
+	font6.Detach();
 
 
 	AfxMessageBox(m_post->GetImgName());

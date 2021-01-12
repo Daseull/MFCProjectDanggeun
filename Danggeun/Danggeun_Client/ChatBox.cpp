@@ -71,7 +71,32 @@ BOOL ChatBox::OnInitDialog()
 	m_socCom.Init(this->m_hWnd);
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-	
+	//제목
+	CFont font1;
+	LOGFONT lf1;
+	::ZeroMemory(&lf1, sizeof(lf1));
+	lf1.lfHeight = 20;
+	lf1.lfWeight = FW_EXTRABOLD;
+	::lstrcpy(lf1.lfFaceName, "나눔고딕");
+	font1.CreateFontIndirectA(&lf1);
+	GetDlgItem(IDC_STATIC_TITLE)->SetFont(&font1);
+	font1.Detach();
+
+
+	//가격
+	CFont font6;
+	LOGFONT lf6;
+	::ZeroMemory(&lf6, sizeof(lf6));
+	lf6.lfHeight = 18;
+	lf6.lfWeight = FW_BOLD;
+	::lstrcpy(lf6.lfFaceName, "나눔고딕");
+
+	font6.CreateFontIndirectA(&lf6);
+	GetDlgItem(IDC_STATIC_PRICE)->SetFont(&font6);
+	font6.Detach();
+
+
+
 	m_image.Load("res\\" + ((CDetailPage*)GetParent())->m_post->GetImgName());
 	HBITMAP h_bmp = (HBITMAP)m_image;
 	m_picture.SetBitmap(h_bmp);

@@ -112,13 +112,28 @@ BOOL CTab4::OnInitDialog()
 	CFont font3;
 	LOGFONT lf3;
 	::ZeroMemory(&lf3, sizeof(lf3));
-	lf3.lfHeight = 25;
-	lf3.lfWeight = FW_NORMAL;
+	lf3.lfHeight = 30;
+	lf3.lfWeight = FW_BOLD;
 	::lstrcpy(lf3.lfFaceName, "나눔고딕");
 
 	font3.CreateFontIndirectA(&lf3);
 	GetDlgItem(IDC_STATIC_ID)->SetFont(&font3);
 	font3.Detach();
+
+	// 변경하기
+	CFont font4;
+	LOGFONT lf4;
+	::ZeroMemory(&lf4, sizeof(lf4));
+	lf4.lfHeight = 18;
+	lf4.lfWeight = FW_SEMIBOLD;
+	::lstrcpy(lf4.lfFaceName, "나눔고딕");
+
+	font4.CreateFontIndirectA(&lf4);
+	GetDlgItem(IDC_STATIC_PHONECHANGE)->SetFont(&font4);
+	GetDlgItem(IDC_STATIC_PW_EDIT)->SetFont(&font4);
+	GetDlgItem(IDC_STATIC_TOWNCHANGE)->SetFont(&font4);
+
+	font4.Detach();
 	
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 	extern CUserDTO* CurrentUser;
