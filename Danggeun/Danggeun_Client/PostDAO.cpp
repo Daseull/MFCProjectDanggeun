@@ -74,12 +74,14 @@ BOOL CPostDAO::createPost(CPostDTO post) {
 	char content[100];
 	dataClean(content, post.GetContent());
 
-	sqlite3_prepare_v2(_db, "insert into post(userID, town, title, content, imgName) values(?,?,?,?,?)", -1, &_stmt, NULL);
+	sqlite3_prepare_v2(_db, "insert into post(userID, town, title, content, imgName, status, price) values(?,?,?,?,?,?,?)", -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, post.GetUserID(), post.GetUserID().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 2, post.GetTown());
 	sqlite3_bind_text(_stmt, 3, title, strlen(title), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 4, content, strlen(content), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 5, post.GetImgName(), post.GetImgName().GetLength(), SQLITE_STATIC);
+	sqlite3_bind_int(_stmt, 6, post.GetStatus());
+	sqlite3_bind_int(_stmt, 7, post.GetPrice());
 	/*sqlite3_step(_stmt);
 	sqlite3_finalize(_stmt);*/
 
@@ -96,8 +98,6 @@ BOOL CPostDAO::createPost(CPostDTO post) {
 	sqlite3_close(_db);
 
 	return result;
-
-
 }
 
 // R
@@ -143,12 +143,17 @@ CPostDTO& CPostDAO::getPost(int postID) {
 	UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 5), szAnsi, 300);
 	CString _imgName(szAnsi);
 
+	int _status = sqlite3_column_int(_stmt, 6);
+	int _price = sqlite3_column_int(_stmt, 7);
+
 	_post->SetPostID(_postID);
 	_post->SetUserID(_userID);
 	_post->SetTown(_town);
 	_post->SetTitle(_title);
 	_post->SetContent(_content);
 	_post->SetImgName(_imgName);
+	_post->SetStauts(_status);
+	_post->SetPrice(_price);
 
 	sqlite3_finalize(_stmt);
 	sqlite3_close(_db);
@@ -191,12 +196,17 @@ std::vector<CPostDTO*> CPostDAO::getAll() {
 		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 5), szAnsi, 300);
 		CString _imgName(szAnsi);
 
+		int _status = sqlite3_column_int(_stmt, 6);
+		int _price = sqlite3_column_int(_stmt, 7);
+
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
 		_post->SetTown(_town);
 		_post->SetTitle(_title);
 		_post->SetContent(_content);
 		_post->SetImgName(_imgName);
+		_post->SetStauts(_status);
+		_post->SetPrice(_price);
 
 		_postList.push_back(_post);
 	}
@@ -252,12 +262,17 @@ std::vector<CPostDTO*> CPostDAO::getAllByTown(int townID) {
 		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 5), szAnsi, 300);
 		CString _imgName(szAnsi);
 
+		int _status = sqlite3_column_int(_stmt, 6);
+		int _price = sqlite3_column_int(_stmt, 7);
+
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
 		_post->SetTown(_town);
 		_post->SetTitle(_title);
 		_post->SetContent(_content);
 		_post->SetImgName(_imgName);
+		_post->SetStauts(_status);
+		_post->SetPrice(_price);
 
 		_postList.push_back(_post);
 	}
@@ -321,12 +336,17 @@ std::vector<CPostDTO*> CPostDAO::getAllByTitleSearch(CString q) {
 		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 5), szAnsi, 300);
 		CString _imgName(szAnsi);
 
+		int _status = sqlite3_column_int(_stmt, 6);
+		int _price = sqlite3_column_int(_stmt, 7);
+
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
 		_post->SetTown(_town);
 		_post->SetTitle(_title);
 		_post->SetContent(_content);
 		_post->SetImgName(_imgName);
+		_post->SetStauts(_status);
+		_post->SetPrice(_price);
 
 		_postList.push_back(_post);
 	}
@@ -355,7 +375,9 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 	sqlite3_prepare_v2(_db, "UPDATE post SET town = ?,"
 										 "title = ?,"
 										 "content = ?,"
-										 "imgName = ?"
+										 "imgName = ?,"
+										 "status = ?,"
+										 "price = ?,"
 										 "WHERE postID = ?", -1, &_stmt, NULL);
 
 
@@ -372,7 +394,9 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 	sqlite3_bind_text(_stmt, 2, title, strlen(title), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 3, content, strlen(content), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 4, post.GetImgName(), post.GetImgName().GetLength(), SQLITE_STATIC);
-	sqlite3_bind_int(_stmt, 5, post.GetPostID());
+	sqlite3_bind_int(_stmt, 5, post.GetStatus());
+	sqlite3_bind_int(_stmt, 6, post.GetPrice());
+	sqlite3_bind_int(_stmt, 7, post.GetPostID());
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
