@@ -71,8 +71,11 @@ BOOL CPostDAO::createPost(CPostDTO post) {
 	char title[100];
 	dataClean(title, post.GetTitle());
 
-	char content[100];
+	char content[4096];
 	dataClean(content, post.GetContent());
+
+	char price[100];
+	dataClean(price, post.GetPrice());
 
 	sqlite3_prepare_v2(_db, "insert into post(userID, town, title, content, imgName, status, price) values(?,?,?,?,?,?,?)", -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, post.GetUserID(), post.GetUserID().GetLength(), SQLITE_STATIC);
@@ -81,7 +84,7 @@ BOOL CPostDAO::createPost(CPostDTO post) {
 	sqlite3_bind_text(_stmt, 4, content, strlen(content), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 5, post.GetImgName(), post.GetImgName().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 6, post.GetStatus());
-	sqlite3_bind_text(_stmt, 7, post.GetPrice(), post.GetPrice().GetLength(), SQLITE_STATIC);
+	sqlite3_bind_text(_stmt, 7, price, strlen(price), SQLITE_STATIC);
 
 	/*sqlite3_step(_stmt);
 	sqlite3_finalize(_stmt);*/
@@ -592,7 +595,7 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 										 "content = ?,"
 										 "imgName = ?,"
 										 "status = ?,"
-										 "price = ?,"
+										 "price = ?"
 										 "WHERE postID = ?", -1, &_stmt, NULL);
 
 
@@ -601,8 +604,11 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 	char title[100];
 	dataClean(title, post.GetTitle());
 
-	char content[100];
+	char content[4096];
 	dataClean(content, post.GetContent());
+
+	char price[100];
+	dataClean(price, post.GetPrice());
 
 	//sqlite3_prepare_v2(_db, "insert into post(userID, town, title, content, imgName, status, price) values(?,?,?,?,?,?,?)", -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, post.GetTown());
@@ -610,7 +616,7 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 	sqlite3_bind_text(_stmt, 3, content, strlen(content), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 4, post.GetImgName(), post.GetImgName().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 5, post.GetStatus());
-	sqlite3_bind_text(_stmt, 6, post.GetPrice(), post.GetPrice().GetLength(), SQLITE_STATIC);
+	sqlite3_bind_text(_stmt, 6, price, strlen(price), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 7, post.GetPostID());
 
 	if (sqlite3_step(_stmt) == SQLITE_DONE) {
