@@ -18,9 +18,7 @@ CDetailPage::CDetailPage(CWnd* pParent /*=nullptr*/)
 {
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
-	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
-	
-}
+	//m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
 
 CDetailPage::CDetailPage(CPostDTO* post, CWnd* pParent) 
 	: CDialogEx(IDD_DIALOG_DETAIL, pParent)
@@ -45,7 +43,6 @@ void CDetailPage::DoDataExchange(CDataExchange* pDX)
 	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
 	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
 	//  DDX_Control(pDX, IDC_BUTTON_HEART, m_heart);
-	DDX_Control(pDX, IDC_BUTTON_HEART, m_tMyButton2);
 	DDX_Control(pDX, IDC_STATIC_ID, m_stcUserID);
 	DDX_Control(pDX, IDC_STATIC_PICTURE, m_stcPicture);
 	DDX_Control(pDX, IDC_STATIC_PRICE, m_stcPrice);
@@ -53,6 +50,7 @@ void CDetailPage::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_STATIC_TEXT, m_stcText);
 	DDX_Control(pDX, IDC_STATIC_TITLE, m_stcTitle);
 	DDX_Control(pDX, IDC_STATIC_TOWN, m_stcTown);
+	DDX_Control(pDX, IDC_BUTTON_HEART, m_btnheart);
 }
 
 
@@ -136,6 +134,8 @@ BOOL CDetailPage::OnInitDialog()
 	AfxMessageBox(m_post->GetImgName());
 	GetDlgItem(IDC_STATIC_PICTURE)->GetWindowRect(m_rect); //현재 위치
 
+	m_btnheart.LoadBitmaps(IDB_HEART, IDB_HEART2, IDB_HEART2, IDB_HEART);
+	m_btnheart.SizeToContent();
 	m_image.Load("res\\" + m_post->GetImgName());
 	if (m_image.IsNull()) {
 		m_image.Load("res\\LoadError.png");
@@ -160,3 +160,4 @@ BOOL CDetailPage::OnInitDialog()
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
+

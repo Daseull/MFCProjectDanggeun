@@ -41,4 +41,9 @@ public:
 	CStatic m_stcText;
 	CStatic m_stcTitle;
 	CStatic m_stcTown;
+//	CBitmapButton m_heart;
+//	CButton m_heart;
+//	CBitmapButton m_heart;
+//	CRoundButton2 m_tMyButton2;
+	CBitmapButton m_btnheart;
 };

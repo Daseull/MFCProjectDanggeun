@@ -155,7 +155,6 @@ void CTab1::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_EDIT_SEARCH, m_strSearch);
-	//  DDX_Control(pDX, IDC_LIST1, m_list);
 	DDX_Text(pDX, IDC_STATIC_TOWN, m_strTown);
 	DDX_Control(pDX, IDC_LIST1, m_list);
 	DDX_Control(pDX, IDC_BUTTON_NEWPOST, m_tMyButton1);
