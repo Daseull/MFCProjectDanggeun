@@ -7,7 +7,8 @@
 #include "afxdialogex.h"
 #include "ChatBox.h"
 #include "afxwin.h"
-
+#include "CreatePost.h"
+#include "Danggeun_ClientDlg.h"
 // CDetailPage 대화 상자
 
 IMPLEMENT_DYNAMIC(CDetailPage, CDialogEx)
@@ -63,6 +64,7 @@ BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_HEART, &CDetailPage::OnBnClickedButtonHeart)
 	ON_STN_CLICKED(IDC_STATIC_TEXT, &CDetailPage::OnStnClickedStaticText)
 	ON_BN_CLICKED(IDC_BUTTON_POSTEDIT, &CDetailPage::OnClickedButtonPostedit)
+	ON_MESSAGE(UM_CUSTOM6, &CDetailPage::OnUmCustom6)
 END_MESSAGE_MAP()
 
 
@@ -339,9 +341,22 @@ void CDetailPage::OnStnClickedStaticText()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
 
+CCreatePost* dlg;
 
 void CDetailPage::OnClickedButtonPostedit()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	
+	AfxMessageBox("닫히다");
+	dlg = new CCreatePost(m_post);
+	((CDanggeunClientDlg*)GetParent())->pDlg1->LoadTownPost();
+	//dlg->EndDialog(IDOK);
+	dlg->DoModal();
+}
 
+afx_msg LRESULT CDetailPage::OnUmCustom6(WPARAM wParam, LPARAM lParam)
+{
+	
+	//EndDialog(IDOK); 
+	return 0;
 }

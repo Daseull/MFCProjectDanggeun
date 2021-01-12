@@ -109,6 +109,8 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 ON_MESSAGE(UWM_CUSTOM4, &CDanggeunClientDlg::OnUwmCustom4)
 ON_MESSAGE(UWM_CUSTOM3, &CDanggeunClientDlg::OnUwmCustom3)
 ON_MESSAGE(UWM_CUSTOM5, &CDanggeunClientDlg::OnUwmCustom5)
+
+//ON_MESSAGE(UM_CUSTOM6, &CDanggeunClientDlg::OnUmCostom6)
 END_MESSAGE_MAP()
 
 
@@ -262,6 +264,7 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 		str.Format(user->GetUserID());
 		AfxMessageBox(str);
 	}*/
+
 
 	//_postDB->postList = _postDB->dao.getAll(); good
 	//_postDB->postList = _postDB->dao.getAllByTitleSearch("제");
@@ -443,7 +446,6 @@ void CDanggeunClientDlg::OnClose()
 CCreatePost cDlg;
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
 {
-	
 	cDlg.DoModal();
 	return 0;
 }
@@ -451,9 +453,6 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
 
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom3(WPARAM wParam, LPARAM lParam)
 {
-	cDlg.m_strTitle = "글 제목을 작성해주세요";
-	cDlg.m_strText = "동네에 올릴 게시글 내용을 작성해주세요(가품 및 판매금지품목은 게시가 제한 될 수 있어요.)";
-	cDlg.m_strPrice = "\\가격을 입력해주세요";
 	UpdateData(FALSE);
 	cDlg.EndDialog(IDOK);
 	pDlg1->LoadTownPost();
@@ -466,3 +465,11 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom5(WPARAM wParam, LPARAM lParam)
 	pDlg3->LoadBookmarkPost();
 	return 0;
 }
+
+
+
+
+//afx_msg LRESULT CDanggeunClientDlg::OnUmCostom6(CPostDTO* post)
+//{
+//	return 0;
+//}

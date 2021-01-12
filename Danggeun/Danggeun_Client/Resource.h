@@ -73,6 +73,7 @@
 #define IDC_BUTTON_BACK                 1054
 #define IDC_BUTTON1                     1058
 #define IDC_BUTTON_POSTEDIT             1058
+#define IDC_BUTTON_COMEDIT              1059
 #define IDC_STATIC_PW_EDIT              1100
 #define IDC_STATIC_INFO                 1101
 

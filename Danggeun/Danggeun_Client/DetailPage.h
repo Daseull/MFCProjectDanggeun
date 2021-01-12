@@ -51,4 +51,6 @@ public:
 	afx_msg void OnBnClickedButtonHeart();
 	afx_msg void OnStnClickedStaticText();
 	afx_msg void OnClickedButtonPostedit();
+protected:
+	afx_msg LRESULT OnUmCustom6(WPARAM wParam, LPARAM lParam);
 };

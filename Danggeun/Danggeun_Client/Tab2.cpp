@@ -78,6 +78,7 @@ void CTab2::LoadMyPost() {
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
 	extern CString status[3];
+	
 	for (CPostDTO* post : postDB->postList) {
 		if (post->GetUserID() == CurrentUser->GetUserID()) {
 			CBitmap bmp;

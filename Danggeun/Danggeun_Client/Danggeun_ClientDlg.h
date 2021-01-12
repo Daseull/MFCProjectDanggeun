@@ -76,4 +76,5 @@ protected:
 	afx_msg LRESULT OnUwmCustom4(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnUwmCustom3(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnUwmCustom5(WPARAM wParam, LPARAM lParam);
+//	void OnUmCostom6(CPostDTO* post);
 };
