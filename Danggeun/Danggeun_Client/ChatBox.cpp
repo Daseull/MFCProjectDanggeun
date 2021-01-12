@@ -98,7 +98,7 @@ BOOL ChatBox::OnInitDialog()
 
 
 
-	m_image.Load("res\\" + ((CDetailPage*)GetParent())->m_post->GetImgName());
+	m_image.Load("res\\small_" + ((CDetailPage*)GetParent())->m_post->GetImgName());
 	HBITMAP h_bmp = (HBITMAP)m_image;
 	m_picture.SetBitmap(h_bmp);
 

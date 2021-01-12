@@ -86,7 +86,7 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 
 	if (m_stcUserID.m_hWnd == pWnd->m_hWnd) {
-		pDC->SetBkColor(RGB(253, 212, 129));
+		pDC->SetBkColor(RGB(253,212,129));
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
@@ -100,6 +100,11 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		pDC->SetTextColor(RGB(0, 169, 76));
 		return m_bk_brush;
 	}
+	else if (m_stcText.m_hWnd == pWnd->m_hWnd) {
+		pDC->SetBkColor(RGB(255,255,255));
+		pDC->SetTextColor(RGB(0, 0, 0));
+		return m_bk_brush;
+	}
 	else if (m_stcPrice.m_hWnd == pWnd->m_hWnd) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(61, 149, 255));
@@ -110,7 +115,7 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
-	
+
 	if (nCtlColor == CTLCOLOR_BTN) {
 		pDC->SetBkColor(RGB(0, 200, 255));
 		return (HBRUSH)::GetStockObject(NULL_BRUSH);
@@ -144,7 +149,7 @@ BOOL CDetailPage::OnInitDialog()
 	CFont font1;
 	LOGFONT lf1;
 	::ZeroMemory(&lf1, sizeof(lf1));
-	lf1.lfHeight = 25;
+	lf1.lfHeight = 22;
 	lf1.lfWeight = FW_EXTRABOLD;
 	::lstrcpy(lf1.lfFaceName,"나눔고딕");
 	font1.CreateFontIndirectA(&lf1); 
@@ -191,7 +196,7 @@ BOOL CDetailPage::OnInitDialog()
 	CFont font5;
 	LOGFONT lf5;
 	::ZeroMemory(&lf5, sizeof(lf5));
-	lf5.lfHeight = 20;
+	lf5.lfHeight = 18;
 	lf5.lfWeight = FW_EXTRABOLD;
 	::lstrcpy(lf5.lfFaceName, "나눔고딕");
 
@@ -203,7 +208,7 @@ BOOL CDetailPage::OnInitDialog()
 	CFont font6;
 	LOGFONT lf6;
 	::ZeroMemory(&lf6, sizeof(lf6));
-	lf6.lfHeight = 22;
+	lf6.lfHeight = 20;
 	lf6.lfWeight = FW_EXTRABOLD;
 	::lstrcpy(lf6.lfFaceName, "나눔고딕");
 

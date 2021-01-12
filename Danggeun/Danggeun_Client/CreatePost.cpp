@@ -102,7 +102,7 @@ void CCreatePost::OnBnClickedButtonPost()
 		post.SetImgName(img_path);
 		post.SetUserID(CurrentUser->GetUserID());
 		post.SetTown(CurrentUser->GetTown());
-		post.SetPrice(m_strPrice);
+		post.SetPrice(m_strPrice+"원");
 		post.SetStauts(m_state.GetCurSel());
 		postDB->dao.createPost(post);
 		MessageBox("작성 완료 !");
