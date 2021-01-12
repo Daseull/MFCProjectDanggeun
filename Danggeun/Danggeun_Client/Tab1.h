@@ -48,6 +48,5 @@ public:
 	virtual BOOL OnInitDialog();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:
-	afx_msg LRESULT OnUwmCustom3(WPARAM wParam, LPARAM lParam);
 	CRoundButton2 m_tMyButton3;
 };

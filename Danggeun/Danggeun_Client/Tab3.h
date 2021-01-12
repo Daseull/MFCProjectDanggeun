@@ -36,5 +36,8 @@ public:
 	afx_msg void OnBnClickedButtonSearch();
 	afx_msg void OnBnClickedButtonBack();
 	void LoadBookmarkPost();
+	void SearchPost(CString Key);
+
 	CListCtrlEx m_list;
+	CString m_strSearch;
 };

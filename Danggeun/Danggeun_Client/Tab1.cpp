@@ -57,6 +57,7 @@ void CTab1::LoadTownPost()
 	
 	//초기화
 	int n = m_list.GetItemCount();
+
 	while (n--)
 		m_ImageList.Remove(0);
 	m_list.DeleteAllItems();

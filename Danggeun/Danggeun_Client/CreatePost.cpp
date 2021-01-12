@@ -103,6 +103,7 @@ void CCreatePost::OnBnClickedButtonPost()
 		post.SetImgName(img_path);
 		post.SetUserID(CurrentUser->GetUserID());
 		post.SetTown(CurrentUser->GetTown());
+
 		postDB->dao.createPost(post);
 		MessageBox("작성 완료 !");
 		postDB->postList = postDB->dao.getAll();

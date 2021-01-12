@@ -14,6 +14,7 @@ IMPLEMENT_DYNAMIC(CTab3, CDialogEx)
 
 CTab3::CTab3(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CTab3, pParent)
+	, m_strSearch(_T(""))
 {
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
@@ -35,6 +36,7 @@ void CTab3::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_BACK, m_tMyButton2);
 	//  DDX_Control(pDX, IDC_LIST_HEART, m_list);
 	DDX_Control(pDX, IDC_LIST_HEART, m_list);
+	DDX_Text(pDX, IDC_EDIT1, m_strSearch);
 }
 
 
@@ -128,6 +130,7 @@ BOOL CTab3::OnInitDialog()
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
+
 void CTab3::LoadBookmarkPost() {
 	//초기화
 	int n = m_list.GetItemCount();
@@ -150,7 +153,7 @@ void CTab3::LoadBookmarkPost() {
 					}
 					bmp.Attach(img);
 					m_ImageList.Add(&bmp, RGB(255, 255, 255));
-					int i = m_list.GetItemCount();
+					int i = m_list.GetItemCount();	// 이미지 순서 맞는지 확인하기
 					m_list.AddItem(post->GetTitle(), i, 0, -1, i);
 					m_list.AddItem("7000", i, 1);
 					m_list.AddItem("판매중", i, 2);
@@ -158,12 +161,64 @@ void CTab3::LoadBookmarkPost() {
 			}
 		}
 	}
+	UpdateData(FALSE);
 }
+
+
+void CTab3::SearchPost(CString Key)
+{
+	//TO DO: 뒤로가기 버튼 보이기는 여기에 해주세요.
+
+	//초기화
+	int n = m_list.GetItemCount();
+	while (n--)
+		m_ImageList.Remove(0);
+	m_list.DeleteAllItems();
+
+	if (Key.IsEmpty()) {
+		AfxMessageBox("검색어를 입력하세요");
+		return;
+	}
+
+	Key = Key.MakeUpper();
+
+	extern CUserDTO* CurrentUser;
+	extern CPostDB* postDB;
+	extern CBookMarkDB* bookmarkDB;
+	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
+		if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
+			for (CPostDTO* post : postDB->postList) {
+				if (bookmark->GetPostID() == post->GetPostID()) {
+					CString title = post->GetTitle();
+					if (title.MakeUpper().Find(Key) != -1) {
+						CBitmap bmp;
+						CImage img;
+						img.Load("res\\" + post->GetImgName());
+						if (img.IsNull()) {
+							img.Load("res\\LoadError.png");
+						}
+						bmp.Attach(img);
+						m_ImageList.Add(&bmp, RGB(255, 255, 255));
+
+						int i = m_list.GetItemCount();
+						m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+						m_list.AddItem("8000", i, 1);
+						m_list.AddItem("거래완료", i, 2);
+					}
+				}
+			}
+		}
+	}
+
+	UpdateData(FALSE);
+}
+
 
 void CTab3::OnBnClickedButtonSearch()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-
+	UpdateData(TRUE);
+	SearchPost(m_strSearch);
 }
 
 
