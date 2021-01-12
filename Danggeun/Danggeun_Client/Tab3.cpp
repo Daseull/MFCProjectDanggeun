@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include "RoundButton2.h"
 #include "RoundButtonStyle.h"
+#include "DetailPage.h"
 
 // CTab3 대화 상자
 
@@ -19,7 +20,6 @@ CTab3::CTab3(CWnd* pParent /*=nullptr*/)
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
-
 
 }
 
@@ -48,7 +48,7 @@ ON_WM_CTLCOLOR()
 ON_STN_CLICKED(IDCANCEL, &CTab3::OnStnClickedCancel)
 ON_BN_CLICKED(IDC_BUTTON_SEARCH, &CTab3::OnBnClickedButtonSearch)
 ON_BN_CLICKED(IDC_BUTTON_BACK, &CTab3::OnBnClickedButtonBack)
-//ON_NOTIFY(NM_RDBLCLK, IDC_LIST_HEART, &CTab3::OnRdblclkListHeart)
+ON_NOTIFY(NM_DBLCLK, IDC_LIST_HEART, &CTab3::OnDblclkListHeart)
 END_MESSAGE_MAP()
 
 
@@ -112,6 +112,7 @@ BOOL CTab3::OnInitDialog()
 	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
 	m_list.InsertColumn(1, "가격", LVCFMT_RIGHT, 100);
 	m_list.InsertColumn(2, "판매상태", LVCFMT_RIGHT, 100);
+	m_list.InsertColumn(3, "postID", LVCFMT_RIGHT, 0);
 
 	LoadBookmarkPost();
 
@@ -144,10 +145,16 @@ void CTab3::LoadBookmarkPost() {
 					}
 					bmp.Attach(img);
 					m_ImageList.Add(&bmp, RGB(255, 255, 255));
+
 					int i = m_list.GetItemCount();	// 이미지 순서 맞는지 확인하기
 					m_list.AddItem(post->GetTitle(), i, 0, -1, i);
 					m_list.AddItem(post->GetPrice(), i, 1);
 					m_list.AddItem(status[post->GetStatus()], i, 2);
+
+					int postid = post->GetPostID();
+					CString postID;
+					postID.Format("%d", postid);
+					m_list.AddItem(postID, i, 3);
 				}
 			}
 		}
@@ -232,3 +239,31 @@ BOOL CTab3::PreTranslateMessage(MSG* pMsg)
 }
 
 
+
+
+void CTab3::OnDblclkListHeart(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: 글 상세 페이지.
+
+	*pResult = 0;
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	int idx = pNMListView->iItem;
+
+	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
+
+	if (idx != -1) {
+		CString sIndexPostID;
+		sIndexPostID = m_list.GetItemText(idx, 3);
+		int PostID = _ttoi(sIndexPostID);
+		extern CPostDB* postDB;
+		for (CPostDTO* post : postDB->postList) {
+			if (post->GetPostID() == PostID) {
+				CDetailPage dlg(post);
+				dlg.DoModal();
+				break;
+			}
+		}
+	}
+	*pResult = 0;
+}

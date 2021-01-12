@@ -101,7 +101,7 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		return m_bk_brush;
 	}
 	else if (m_stcText.m_hWnd == pWnd->m_hWnd) {
-		pDC->SetBkColor(RGB(255,255,255));
+		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}

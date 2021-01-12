@@ -132,9 +132,6 @@ void CTab1::SearchPost(CString Key)
 
 			int i = m_list.GetItemCount();
 			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-			//m_list.AddItem(post->GetPrice(), i, 1);
-			//m_list.AddItem(post->GetState(), i, 2);
-			
 			m_list.AddItem(post->GetPrice(), i, 1);
 			m_list.AddItem(status[post->GetStatus()], i, 2);
 		}
@@ -252,7 +249,6 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 
 	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
 	
-	
 	if (idx != -1) {
 		CString sIndexPostID;
 		sIndexPostID = m_list.GetItemText(idx, 3);
@@ -285,7 +281,6 @@ BOOL CTab1::OnInitDialog()
 	m_ImageList.Add(&bmp, RGB(255,255,255));*/
 
 	m_list.SetImageList(&m_ImageList, LVSIL_SMALL);
-
 
 	//스크롤 해도 글쓰기 버튼 안움직이게 하려고 
 	GetDlgItem(IDC_BUTTON_NEWPOST)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
