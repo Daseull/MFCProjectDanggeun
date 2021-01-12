@@ -324,8 +324,12 @@ void CDetailPage::OnClickedButtonPostedit()
 	dlg = new CCreatePost(m_post);
 	dlg->DoModal();
 
+	
 	LoadDetailPage();
-	((CDanggeunClientDlg*)GetParent())->pDlg1->LoadTownPost(); 
+
+	((CDanggeunClientDlg*)GetParent())->pDlg1->LoadTownPost();
+	((CDanggeunClientDlg*)GetParent())->pDlg2->LoadMyPost();
+	((CDanggeunClientDlg*)GetParent())->pDlg3->LoadBookmarkPost();
 }
 
 void CDetailPage::LoadDetailPage()

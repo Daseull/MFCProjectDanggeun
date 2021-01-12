@@ -174,6 +174,14 @@ void CCreatePost::OnClickedButtonComedit()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
 
+	m_post->SetTitle(m_strTitle);
+	m_post->SetImgName(img_path);
+	m_post->SetContent(m_strText);
+	extern CUserDTO* CurrentUser;
+	m_post->SetTown(CurrentUser->GetTown());
+	m_post->SetPrice(m_strPrice);
+	m_post->SetStauts(m_state.GetCurSel());
+
 	CPostDTO newpost;
 	newpost.SetPostID(m_post->GetPostID());
 	newpost.SetTitle(m_strTitle);
@@ -185,6 +193,9 @@ void CCreatePost::OnClickedButtonComedit()
 	newpost.SetStauts(m_state.GetCurSel());
 	extern CPostDB* postDB;
 	postDB->dao.updatePost(newpost);
+	postDB->postList = postDB->dao.getAll();
+
+
 	AfxMessageBox("수정 완료!");
 
 	//SendMessage(IDCLOSE);
