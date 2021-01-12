@@ -40,4 +40,5 @@ public:
 
 	CListCtrlEx m_list;
 	CString m_strSearch;
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };
