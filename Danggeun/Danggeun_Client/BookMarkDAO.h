@@ -25,6 +25,7 @@ public:
 	BOOL createBookMark(CBookMarkDTO);
 	// R
 	CBookMarkDTO& getBookMark(int bookMarkID);
+	CBookMarkDTO* getBookMarkByUserAndPost(CString& userID, int postID);
 	std::vector<CBookMarkDTO*> getAll();
 	std::vector<CBookMarkDTO*> getAllByUser(CString userID);
 	std::vector<CBookMarkDTO*> getAllByPost(int postID);

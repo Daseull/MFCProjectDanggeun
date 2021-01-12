@@ -132,6 +132,48 @@ CBookMarkDTO& CBookMarkDAO::getBookMark(int bookMarkID) {
 
 	return *_bookMark;
 }
+CBookMarkDTO* CBookMarkDAO::getBookMarkByUserAndPost(CString& userID, int postID){
+	// 테이블을 읽어와 리스트 컨트롤에 보여주기
+
+	int rc = sqlite3_open("test.db", &_db);
+	if (rc != SQLITE_OK)
+	{
+		printf("Failed to open DB\n");
+		sqlite3_close(_db);
+		exit(1);
+	}
+
+	// "from user"
+	CString sTmp;
+	sTmp.Format("select * from bookmark where userID = ? and postID = ?");
+	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
+	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
+	sqlite3_bind_int(_stmt, 2, postID);
+
+	if (sqlite3_step(_stmt) != SQLITE_DONE) {
+		int i;
+		int num_cols = sqlite3_column_count(_stmt);
+
+		_bookMark = new CBookMarkDTO();
+
+		int _bookMarkID = sqlite3_column_int(_stmt, 0);
+		CString _userID(sqlite3_column_text(_stmt, 1));
+		int _postID = sqlite3_column_int(_stmt, 2);
+
+		_bookMark->SetPostID(_bookMarkID);
+		_bookMark->SetUserID(_userID);
+		_bookMark->SetPostID(_postID);
+
+		sqlite3_finalize(_stmt);
+		sqlite3_close(_db);
+	}
+	else {
+		_bookMark = NULL;
+	}
+
+	return _bookMark;
+}
+
 
 std::vector<CBookMarkDTO*> CBookMarkDAO::getAll() {
 	// 테이블을 읽어와 리스트 컨트롤에 보여주기
