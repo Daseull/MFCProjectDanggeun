@@ -221,5 +221,8 @@
     <Image Include="res\filled_1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="res\not_filled_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -46,4 +46,6 @@ public:
 //	CBitmapButton m_heart;
 //	CRoundButton2 m_tMyButton2;
 	CBitmapButton m_btnheart;
+	afx_msg void OnStnClickedStaticState();
+	afx_msg void OnStnClickedStaticTitle();
 };

@@ -19,6 +19,7 @@ CDetailPage::CDetailPage(CWnd* pParent /*=nullptr*/)
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	//m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
+}
 
 CDetailPage::CDetailPage(CPostDTO* post, CWnd* pParent) 
 	: CDialogEx(IDD_DIALOG_DETAIL, pParent)
@@ -57,6 +58,8 @@ void CDetailPage::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_CHAT, &CDetailPage::OnBnClickedButtonChat)
 	ON_WM_CTLCOLOR()
+	ON_STN_CLICKED(IDC_STATIC_STATE, &CDetailPage::OnStnClickedStaticState)
+	ON_STN_CLICKED(IDC_STATIC_TITLE, &CDetailPage::OnStnClickedStaticTitle)
 END_MESSAGE_MAP()
 
 
@@ -161,3 +164,15 @@ BOOL CDetailPage::OnInitDialog()
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
 
+
+
+void CDetailPage::OnStnClickedStaticState()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void CDetailPage::OnStnClickedStaticTitle()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
