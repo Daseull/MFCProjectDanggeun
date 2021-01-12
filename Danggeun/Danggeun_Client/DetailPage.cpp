@@ -118,7 +118,7 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	return hbr;
 }
 
-int heartstate = 0;	// 관심목록에 없음
+
 
 BOOL CDetailPage::OnInitDialog()
 {
@@ -210,11 +210,6 @@ BOOL CDetailPage::OnInitDialog()
 	GetDlgItem(IDC_STATIC_PRICE)->SetFont(&font6);
 	font6.Detach();
 
-
-	m_btnheart.LoadBitmaps(IDB_HEART, IDB_HEART2, IDB_HEART2, IDB_HEART);
-	m_btnheart.SizeToContent();
-
-
 	//관심 처리
 	extern CUserDTO* CurrentUser;
 	extern CBookMarkDB* bookmarkDB;
@@ -233,14 +228,14 @@ BOOL CDetailPage::OnInitDialog()
 		GetDlgItem(IDC_BUTTON_CHAT)->ShowWindow(SW_SHOW);
 
 		// 1/12 수정 필요
-
-		for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
-			if (bookmark->GetPostID() == m_post->GetPostID()) {
-				heartstate = 1; break;	// 관심목록에 있음
+		int heartstate = 0;
+		for (CBookMarkDTO* book : bookmarkDB->dao.getAllByUser(CurrentUser->GetUserID())) {
+			if (m_post->GetPostID() == book->GetPostID()) {
+				heartstate = 1; break;
 			}
 		}
 
-		if (heartstate != 1) {
+		if (heartstate == 0) {
 			m_btnheart.LoadBitmaps(IDB_HEART, NULL, NULL, NULL);
 			m_btnheart.SizeToContent();
 		}
@@ -299,7 +294,15 @@ void CDetailPage::OnBnClickedButtonHeart()
 	extern CPostDB* postDB;
 	extern CBookMarkDB* bookmarkDB;
 	CBookMarkDTO book;
-	if (!heartstate) {
+	int heartstate = 0;	// 관심목록에 없음
+
+	for (CBookMarkDTO* book : bookmarkDB->dao.getAllByUser(CurrentUser->GetUserID())) {
+		if (m_post->GetPostID() == book->GetPostID()) {
+			heartstate = 1; break;
+		}
+	}
+
+	if (heartstate == 0) {
 		m_btnheart.LoadBitmaps(IDB_HEART2, NULL, NULL, NULL);
 		m_btnheart.SizeToContent();
 		MessageBox("관심리스트 추가!");
@@ -313,13 +316,9 @@ void CDetailPage::OnBnClickedButtonHeart()
 		m_btnheart.SizeToContent();
 		MessageBox("관심리스트 삭제!");
 		heartstate = 0;
-
-		//1/12 수정필요
-		for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
-			if (bookmark->GetPostID() == m_post->GetPostID()) {
-				//MessageBox("찾았다");
-				bookmarkDB->dao.deleteBookMark(bookmark->GetBookMarkID());
-				break;
+		for (CBookMarkDTO* book : bookmarkDB->dao.getAllByUser(CurrentUser->GetUserID())) {
+			if (m_post->GetPostID() == book->GetPostID()) {
+				bookmarkDB->dao.deleteBookMark(book->GetBookMarkID());
 			}
 		}
 
