@@ -109,8 +109,7 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 ON_MESSAGE(UWM_CUSTOM4, &CDanggeunClientDlg::OnUwmCustom4)
 ON_MESSAGE(UWM_CUSTOM3, &CDanggeunClientDlg::OnUwmCustom3)
 ON_MESSAGE(UWM_CUSTOM5, &CDanggeunClientDlg::OnUwmCustom5)
-
-//ON_MESSAGE(UM_CUSTOM6, &CDanggeunClientDlg::OnUmCostom6)
+ON_MESSAGE(UWM_CUSTOM6, &CDanggeunClientDlg::OnUwmCustom6)
 END_MESSAGE_MAP()
 
 
@@ -467,9 +466,12 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom5(WPARAM wParam, LPARAM lParam)
 }
 
 
-
-
-//afx_msg LRESULT CDanggeunClientDlg::OnUmCostom6(CPostDTO* post)
-//{
-//	return 0;
-//}
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom6(WPARAM wParam, LPARAM lParam)
+{
+	pDlg1->m_strTown = town[CurrentUser->GetTown()];
+	pDlg3->m_strTown = town[CurrentUser->GetTown()];
+	UpdateData(FALSE);
+	pDlg1->LoadTownPost();
+	pDlg3->LoadBookmarkPost();
+	return 0;
+}

@@ -24,7 +24,8 @@ public:
 	// C
 	BOOL createUser(CUserDTO);
 	// R
-	CUserDTO& getUser(CString userID);
+	CUserDTO* getUser(CString userID);
+	CUserDTO* getUserByPw(CString userID, CString pw);
 	std::vector<CUserDTO*> getAll();
 	std::vector<CUserDTO*> getAllByTown(int townID);
 	// U

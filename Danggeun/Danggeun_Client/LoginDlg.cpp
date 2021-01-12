@@ -72,10 +72,13 @@ void CLoginDlg::OnBnClickedButtonLogin()
 	int chk = 0;
 	UpdateData(TRUE);
 
-	
+	extern CUserDB* userDB;
+
 	userDB->InitDB();
 	userDB->userList = userDB->dao.getAll();
 
+	//1/12 수정필요
+	/*
 	for (CUserDTO* user : userDB->userList) {
 		if (m_strID == user->GetUserID()) {
 			if (m_strPW == user->GetUserPW()) {
@@ -90,11 +93,23 @@ void CLoginDlg::OnBnClickedButtonLogin()
 			break;
 		}
 	}
+
 	if (!chk) MessageBox("check your ID/PW");
 	if (chk == 2) ::SendMessage(((CLoginDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
+	*/
+
+	CUserDTO* user;
+	user = userDB->dao.getUserByPw(m_strID, m_strPW);
+
+	if(user){
+		CurrentUser = user;
+		MessageBox("Login Success!");
+		::SendMessage(((CLoginDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
+	}
+	else 
+		MessageBox("check your ID/PW");
+
 }
-
-
 
 afx_msg LRESULT CLoginDlg::OnUwmCustom2(WPARAM wParam, LPARAM lParam)
 {

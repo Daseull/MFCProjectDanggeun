@@ -28,7 +28,8 @@
 #define UWM_CUSTOM3	WM_USER+6
 #define UWM_CUSTOM4	WM_USER+7
 #define UWM_CUSTOM5	WM_USER+8
-#define UM_CUSTOM6	WM_USER+9
+#define UWM_CUSTOM6	WM_USER+9
+
 #endif //PCH_H
 
 //��64���� �������Ѵٰ� ��������... �ٵ� ���� �����س����...?

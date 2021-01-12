@@ -1,5 +1,5 @@
 ﻿// Tab1.cpp: 구현 파일
-//
+//홈 
 
 #include "pch.h"
 #include "Danggeun_Client.h"
@@ -65,6 +65,29 @@ void CTab1::LoadTownPost()
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
 	extern CString status[3];
+
+
+	//1/12 수정필요
+	for (CPostDTO* post : postDB->dao.getAllByTown(CurrentUser->GetTown())) {
+		CBitmap bmp;
+		CImage img;
+		img.Load("res\\small_" + post->GetImgName());
+		if (img.IsNull()) {
+			img.Load("res\\LoadError.png");
+		}
+		bmp.Attach(img);
+		m_ImageList.Add(&bmp, RGB(255, 255, 255));
+		int i = m_list.GetItemCount();
+		m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+		m_list.AddItem(post->GetPrice(), i, 1);
+		m_list.AddItem(status[post->GetStatus()], i, 2);
+
+		int postid = post->GetPostID();
+		CString postID;
+		postID.Format("%d", postid);
+		m_list.AddItem(postID, i, 3);
+	}
+	/*
 	for (CPostDTO* post : postDB->postList) {
 		if (post->GetTown() == CurrentUser->GetTown()) {
 			CBitmap bmp;
@@ -86,6 +109,7 @@ void CTab1::LoadTownPost()
 			m_list.AddItem(postID, i, 3);
 		}
 	}
+	*/
 
 	extern CString town[];
 	m_strTown = town[CurrentUser->GetTown()];
@@ -117,7 +141,28 @@ void CTab1::SearchPost(CString Key)
 	Key = Key.MakeUpper();
 	extern CUserDTO* CurrentUser;
 	extern CPostDB* postDB;
+	//postDB->postList
 	extern CString status[3];
+	//CPostDB* post;
+	//post->postList = post->dao.getAllByTitleSearch(Key, CurrentUser->GetTown());
+	//1/12 수정필요
+
+	for (CPostDTO *post : postDB->dao.getAllByTitleSearch(Key, CurrentUser->GetTown())) {
+			CBitmap bmp;
+			CImage img;
+			img.Load("res\\small_" + post->GetImgName());
+			if (img.IsNull()) {
+				img.Load("res\\LoadError.png");
+			}
+			bmp.Attach(img);
+			m_ImageList.Add(&bmp, RGB(255, 255, 255));
+
+			int i = m_list.GetItemCount();
+			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+			m_list.AddItem(post->GetPrice(), i, 1);
+			m_list.AddItem(status[post->GetStatus()], i, 2);
+	}
+	/*
 	for (CPostDTO* post : postDB->postList) {
 		CString title = post->GetTitle();
 		if (title.MakeUpper().Find(Key) != -1) {
@@ -132,19 +177,15 @@ void CTab1::SearchPost(CString Key)
 
 			int i = m_list.GetItemCount();
 			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-			//m_list.AddItem(post->GetPrice(), i, 1);
-			//m_list.AddItem(post->GetState(), i, 2);
-			
 			m_list.AddItem(post->GetPrice(), i, 1);
 			m_list.AddItem(status[post->GetStatus()], i, 2);
 		}
-
 	}
+	*/
 
 
 	UpdateData(FALSE);
 }
-
 
 
 void CTab1::DoDataExchange(CDataExchange* pDX)
@@ -252,13 +293,16 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 
 	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
 	
-	
 	if (idx != -1) {
 		CString sIndexPostID;
 		sIndexPostID = m_list.GetItemText(idx, 3);
 		int PostID = _ttoi(sIndexPostID);
-
 		extern CPostDB* postDB;
+		CDetailPage dlg(postDB->dao.getPost(PostID));
+		
+		dlg.DoModal();
+	
+		/*
 		for (CPostDTO* post : postDB->postList) {
 			if (post->GetPostID() == PostID) {
 				CDetailPage dlg(post);
@@ -266,6 +310,7 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 				break;
 			}
 		}
+		*/
 	}
 	
 	*pResult = 0;
@@ -285,7 +330,6 @@ BOOL CTab1::OnInitDialog()
 	m_ImageList.Add(&bmp, RGB(255,255,255));*/
 
 	m_list.SetImageList(&m_ImageList, LVSIL_SMALL);
-
 
 	//스크롤 해도 글쓰기 버튼 안움직이게 하려고 
 	GetDlgItem(IDC_BUTTON_NEWPOST)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);

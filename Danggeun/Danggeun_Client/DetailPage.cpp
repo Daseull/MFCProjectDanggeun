@@ -104,7 +104,7 @@ HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		return m_bk_brush;
 	}
 	else if (m_stcText.m_hWnd == pWnd->m_hWnd) {
-		pDC->SetBkColor(RGB(255,255,255));
+		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
@@ -241,11 +241,14 @@ BOOL CDetailPage::OnInitDialog()
 		GetDlgItem(IDC_BUTTON_HEART)->ShowWindow(SW_SHOW);
 		GetDlgItem(IDC_BUTTON_CHAT)->ShowWindow(SW_SHOW);
 
+		// 1/12 수정 필요
+
 		for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 			if (bookmark->GetPostID() == m_post->GetPostID()) {
 				heartstate = 1; break;	// 관심목록에 있음
 			}
 		}
+
 		if (heartstate != 1) {
 			m_btnheart.LoadBitmaps(IDB_HEART, NULL, NULL, NULL);
 			m_btnheart.SizeToContent();
@@ -323,6 +326,8 @@ void CDetailPage::OnBnClickedButtonHeart()
 		m_btnheart.SizeToContent();
 		MessageBox("관심리스트 삭제!");
 		heartstate = 0;
+
+		//1/12 수정필요
 		for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 			if (bookmark->GetPostID() == m_post->GetPostID()) {
 				//MessageBox("찾았다");
@@ -330,6 +335,7 @@ void CDetailPage::OnBnClickedButtonHeart()
 				break;
 			}
 		}
+
 	}
 	bookmarkDB->bookMarkList = bookmarkDB->dao.getAll();
 	::SendMessage(((CDetailPage*)GetParent())->GetSafeHwnd(), UWM_CUSTOM5, 0, 0);
@@ -339,6 +345,7 @@ void CDetailPage::OnBnClickedButtonHeart()
 void CDetailPage::OnStnClickedStaticText()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
 }
 
 CCreatePost* dlg;
