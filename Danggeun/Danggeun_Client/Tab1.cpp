@@ -69,7 +69,7 @@ void CTab1::LoadTownPost()
 		if (post->GetTown() == CurrentUser->GetTown()) {
 			CBitmap bmp;
 			CImage img;
-			img.Load("res\\" + post->GetImgName());
+			img.Load("res\\small_" + post->GetImgName());
 			if (img.IsNull()) {
 				img.Load("res\\LoadError.png");
 			}
@@ -123,7 +123,7 @@ void CTab1::SearchPost(CString Key)
 		if (title.MakeUpper().Find(Key) != -1) {
 			CBitmap bmp;
 			CImage img;
-			img.Load("res\\" + post->GetImgName());
+			img.Load("res\\small_" + post->GetImgName());
 			if (img.IsNull()) {
 				img.Load("res\\LoadError.png");
 			}

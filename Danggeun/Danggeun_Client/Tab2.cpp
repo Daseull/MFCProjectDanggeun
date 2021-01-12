@@ -82,7 +82,7 @@ void CTab2::LoadMyPost() {
 		if (post->GetUserID() == CurrentUser->GetUserID()) {
 			CBitmap bmp;
 			CImage img;
-			img.Load("res\\" + post->GetImgName());
+			img.Load("res\\small_" + post->GetImgName());
 			if (img.IsNull()) {
 				img.Load("res\\LoadError.png");
 			}

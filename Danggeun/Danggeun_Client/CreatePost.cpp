@@ -108,9 +108,7 @@ void CCreatePost::OnBnClickedButtonPost()
 		MessageBox("작성 완료 !");
 		postDB->postList = postDB->dao.getAll();
 
-		CImage img, copyImg;
-		img.Load("res\\" + img_path);
-		img.BitBlt(copyImg.GetDC(), 0, 0, 60, 60, 0, 0, SRCCOPY);
+		
 
 
 
@@ -131,14 +129,29 @@ void CCreatePost::OnStnClickedStaticAddpic()
 		img_path = dlg.GetPathName();
 		CImage img;
 		img.Load(img_path);
-		HBITMAP h_bmp = (HBITMAP)img;
-		m_stcImg.SetBitmap(h_bmp);
 		
 		while (img_path.Find("\\") != -1) {
 			img_path = img_path.Mid(img_path.Find("\\") + 1);
 		}
 
-		img.Save("res\\" + img_path);		
+		CImage copyImg;
+		copyImg.Create(60, 60, 24);
+		img.StretchBlt(copyImg.GetDC(), 0, 0, 60, 60, 0, 0, 200,200, SRCCOPY);
+
+		img.Save("res\\" + img_path);	
+		copyImg.Save("res\\small_" + img_path);
+		copyImg.ReleaseDC();
+		img.Detach();
+
+		
+		CImage addpicresult;
+		addpicresult.Load("res\\small_" + img_path);
+		HBITMAP h_bmp = (HBITMAP)addpicresult;
+		m_stcImg.SetBitmap(h_bmp);
+
+
+		
+		addpicresult.Detach();
 	}
 }
 
