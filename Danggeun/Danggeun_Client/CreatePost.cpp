@@ -77,6 +77,7 @@ HBRUSH CCreatePost::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 }
 
 
+CString img_path = "";
 BOOL CCreatePost::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -135,6 +136,29 @@ void CCreatePost::OnBnClickedButtonPost()
 
 		::SendMessage(((CCreatePost*)GetParent())->GetSafeHwnd(), UWM_CUSTOM3, 0, 0);
 	}
+	
+}
+
+
+void CCreatePost::OnClickedButtonComedit()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	UpdateData(TRUE);
+
+	CPostDTO newpost;
+	newpost.SetPostID(m_post->GetPostID());
+	newpost.SetTitle(m_strTitle);
+	newpost.SetImgName(img_path);
+	newpost.SetContent(m_strText);
+	extern CUserDTO* CurrentUser;
+	newpost.SetTown(CurrentUser->GetTown());
+	newpost.SetPrice(m_strPrice);
+	newpost.SetStauts(m_state.GetCurSel());
+	extern CPostDB* postDB;
+	postDB->dao.updatePost(newpost);
+	AfxMessageBox("수정 완료!");
+	//SendMessage(IDCLOSE);
+
 }
 
 

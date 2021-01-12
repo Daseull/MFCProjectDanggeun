@@ -26,7 +26,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedButtonChat();
+//	afx_msg void OnBnClickedButtonChat();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	CRoundButtonStyle m_tMyButtonStyle;
 	CRoundButton2 m_tMyButton1;

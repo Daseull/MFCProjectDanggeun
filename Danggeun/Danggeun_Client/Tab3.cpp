@@ -136,7 +136,7 @@ void CTab3::LoadBookmarkPost() {
 	extern CString status[3];
 
 	//1/12 수정필요 관심목록 찾을 때
-	/*
+	
 	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 		if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
 			for (CPostDTO* post : postDB->postList) {
@@ -163,8 +163,8 @@ void CTab3::LoadBookmarkPost() {
 			}
 		}
 	}
-	*/
-
+	
+	/*
 	for (CPostDTO* post : postDB->dao.getAllByBookMark(CurrentUser->GetUserID())) {
 		CBitmap bmp;
 		CImage img;
@@ -185,7 +185,7 @@ void CTab3::LoadBookmarkPost() {
 		postID.Format("%d", postid);
 		m_list.AddItem(postID, i, 3);
 	}
-
+	*/
 	UpdateData(FALSE);
 }
 
