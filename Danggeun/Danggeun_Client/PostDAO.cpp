@@ -36,8 +36,6 @@ int CPostDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)
 
 // C
 BOOL CPostDAO::createPost(CPostDTO post) {
-
-
 	BOOL result = true;
 	int rc = sqlite3_open("test.db", &_db);
 	if (rc != SQLITE_OK)
