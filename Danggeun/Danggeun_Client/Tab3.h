@@ -40,4 +40,5 @@ public:
 
 	CListCtrlEx m_list;
 	CString m_strSearch;
+	afx_msg void OnDblclkListHeart(NMHDR* pNMHDR, LRESULT* pResult);
 };
