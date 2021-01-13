@@ -224,8 +224,8 @@ BOOL CDetailPage::OnInitDialog()
 		GetDlgItem(IDC_BUTTON_POSTEDIT)->ShowWindow(SW_SHOW);
 		GetDlgItem(IDC_BUTTON_HEART)->ShowWindow(SW_HIDE);
 		GetDlgItem(IDC_BUTTON_CHAT)->ShowWindow(SW_HIDE);
-
 	}
+
 	//글 작성자 아닌경우
 	else {
 		GetDlgItem(IDC_BUTTON_POSTEDIT)->ShowWindow(SW_HIDE);
