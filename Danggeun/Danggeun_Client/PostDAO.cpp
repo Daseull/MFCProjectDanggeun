@@ -181,7 +181,7 @@ std::vector<CPostDTO*> CPostDAO::getAll() {
 	// "from post"
 	_postList.clear();
 	CString sTmp;
-	sTmp.Format("select * from post");
+	sTmp.Format("select * from post order by postID desc");
 
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
@@ -249,7 +249,7 @@ std::vector<CPostDTO*> CPostDAO::getAllByUser(CString userID) {
 	_postList.clear();
 	CString sTmp;
 	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("select * from post where userID = ?"));
+	sTmp.Format(_T("select * from post where userID = ? order by postID desc"));
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
@@ -317,7 +317,7 @@ std::vector<CPostDTO*> CPostDAO::getAllByTown(int townID) {
 	_postList.clear();
 	CString sTmp;
 	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("select * from post where town = ?"));
+	sTmp.Format(_T("select * from post where town = ? order by postID desc"));
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, townID);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
@@ -385,7 +385,7 @@ std::vector<CPostDTO*> CPostDAO::getAllByBookMark(CString userID) {
 	_postList.clear();
 	CString sTmp;
 	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("select * from post where postID = (select postID from bookmark where userID = ?)"));
+	sTmp.Format(_T("select * from post where postID in (select postID from bookmark where userID = ?) ORDER by postID desc"));
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
@@ -457,7 +457,7 @@ std::vector<CPostDTO*> CPostDAO::getAllByBookMarkAndSearch(CString userID, CStri
 
 	char _q[130];
 	dataClean(_q, q);
-	sTmp.Format("select * from post where postID = (select postID from bookmark where userID = ?) and title like '%%%s%%'", q);
+	sTmp.Format("select * from post where postID in (select postID from bookmark where userID = ?) and title like '%%%s%%' ORDER by postID desc", q);
 
 	char _sql[100];
 	dataClean(_sql, sTmp);
