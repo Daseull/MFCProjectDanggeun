@@ -20,7 +20,6 @@ private:
 	int UTF8ToAnsi(char* szSrc, char* strDest, int destSize);
 	void dataClean(char* dest, CString str);
 public:
-	void resetList(){ _postList.clear(); }
 	// C
 	BOOL createPost(CPostDTO);
 	// R

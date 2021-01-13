@@ -15,11 +15,11 @@ public:
 private:
 	std::vector<CBookMarkDTO*> _bookMarkList;
 	CBookMarkDTO* _bookMark;
-
-public:
 	int AnsiToUTF8(char* szSrc, char* strDest, int destSize);
 	int UTF8ToAnsi(char* szSrc, char* strDest, int destSize);
 	void dataClean(char* dest, CString str);
+
+public:
 	// C
 	BOOL createBookMark(CBookMarkDTO);
 	// R

@@ -15,12 +15,11 @@ public:
 private:
 	std::vector<CUserDTO*> _userList;
 	CUserDTO* _user;
-
-public:
 	int AnsiToUTF8(char* szSrc, char* strDest, int destSize);
 	int UTF8ToAnsi(char* szSrc, char* strDest, int destSize);
+
 	void dataClean(char* dest, CString str);
-	void resetList(){ _userList.clear(); }
+public:
 	// C
 	BOOL createUser(CUserDTO);
 	// R
