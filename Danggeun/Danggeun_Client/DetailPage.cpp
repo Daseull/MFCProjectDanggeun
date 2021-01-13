@@ -19,7 +19,9 @@ CDetailPage::CDetailPage(CWnd* pParent /*=nullptr*/)
 {
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
-	//m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
+	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
+	m_tMyButton3.SetRoundButtonStyle(&m_tMyButtonStyle);
+
 }
 
 CDetailPage::CDetailPage(CPostDTO* post, CWnd* pParent) 
@@ -31,7 +33,8 @@ CDetailPage::CDetailPage(CPostDTO* post, CWnd* pParent)
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
-	
+	m_tMyButton3.SetRoundButtonStyle(&m_tMyButtonStyle);
+
 }
 
 CDetailPage::~CDetailPage()
@@ -53,6 +56,7 @@ void CDetailPage::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_STATIC_TITLE, m_stcTitle);
 	DDX_Control(pDX, IDC_STATIC_TOWN, m_stcTown);
 	DDX_Control(pDX, IDC_BUTTON_HEART, m_btnheart);
+	DDX_Control(pDX, IDC_BUTTON_POSTEDIT, m_tMyButton3);
 }
 
 
