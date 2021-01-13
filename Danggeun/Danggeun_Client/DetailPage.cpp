@@ -61,13 +61,14 @@ void CDetailPage::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
-//	ON_BN_CLICKED(IDC_BUTTON_CHAT, &CDetailPage::OnBnClickedButtonChat)
+	//ON_BN_CLICKED(IDC_BUTTON_CHAT, &CDetailPage::OnBnClickedButtonChat)
 	ON_WM_CTLCOLOR()
 	ON_STN_CLICKED(IDC_STATIC_STATE, &CDetailPage::OnStnClickedStaticState)
 	ON_STN_CLICKED(IDC_STATIC_TITLE, &CDetailPage::OnStnClickedStaticTitle)
 	ON_BN_CLICKED(IDC_BUTTON_HEART, &CDetailPage::OnBnClickedButtonHeart)
 	ON_STN_CLICKED(IDC_STATIC_TEXT, &CDetailPage::OnStnClickedStaticText)
 	ON_BN_CLICKED(IDC_BUTTON_POSTEDIT, &CDetailPage::OnClickedButtonPostedit)
+	ON_BN_CLICKED(IDC_BUTTON_CHAT, &CDetailPage::OnClickedButtonChat)
 END_MESSAGE_MAP()
 
 
@@ -373,4 +374,12 @@ afx_msg LRESULT CDetailPage::OnUmCustom6(WPARAM wParam, LPARAM lParam)
 	
 	//EndDialog(IDOK); 
 	return 0;
+}
+
+
+void CDetailPage::OnClickedButtonChat()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	ChatBox dlg;
+	dlg.DoModal();
 }

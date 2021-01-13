@@ -167,8 +167,7 @@ void CCreatePost::OnClickedButtonComedit()
 
 	postDB->dao.updatePost(newpost); 
 	postDB->postList = postDB->dao.getAll();
-	//SendMessage(IDCLOSE);
-
+	AfxMessageBox("수정 완료!");
 }
 
 /*
