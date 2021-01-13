@@ -104,6 +104,7 @@ BOOL CCreatePost::OnInitDialog()
 	else {
 		GetDlgItem(IDC_BUTTON_COMEDIT)->ShowWindow(SW_HIDE);
 		GetDlgItem(IDC_BUTTON_POST)->ShowWindow(SW_SHOW);
+
 	}
 	m_state.InsertString(0, "판매중");
 	m_state.InsertString(1, "예약중");
