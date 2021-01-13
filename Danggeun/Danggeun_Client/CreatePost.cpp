@@ -24,6 +24,8 @@ CCreatePost::CCreatePost(CPostDTO* post, CWnd* pParent /*=nullptr*/)
 
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
+	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
+
 }
 
 CCreatePost::~CCreatePost()
@@ -39,6 +41,7 @@ void CCreatePost::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_POST_TEXT, m_strText);
 	DDX_Control(pDX, IDC_COMBO_STATE, m_state);
 	DDX_Control(pDX, IDC_STATIC_ADDPIC, m_stcImg);
+	DDX_Control(pDX, IDC_BUTTON_COMEDIT, m_tMyButton2);
 }
 
 

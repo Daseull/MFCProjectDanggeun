@@ -40,4 +40,5 @@ public:
 	afx_msg void OnClickedButtonComedit();
 //	afx_msg void OnIdok();
 	virtual void OnOK();
+	CRoundButton2 m_tMyButton2;
 };
