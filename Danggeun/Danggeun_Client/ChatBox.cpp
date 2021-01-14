@@ -68,7 +68,7 @@ BOOL ChatBox::OnInitDialog()
 	CDialogEx::OnInitDialog();
 	UpdateData(TRUE);
 	m_socCom.Create();
-	m_socCom.Connect("127.0.0.1", 5000);
+	m_socCom.Connect("58.234.51.254", 21000);
 	m_socCom.Init(this->m_hWnd);
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
