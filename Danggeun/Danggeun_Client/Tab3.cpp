@@ -235,6 +235,10 @@ void CTab3::SearchPost(CString Key)
 						m_list.AddItem(post->GetTitle(), i, 0, -1, i);
 						m_list.AddItem(post->GetPrice(), i, 1);
 						m_list.AddItem(status[post->GetStatus()], i, 2);
+						int postid = post->GetPostID();
+						CString postID;
+						postID.Format("%d", postid);
+						m_list.AddItem(postID, i, 3);
 					}
 				}
 			}

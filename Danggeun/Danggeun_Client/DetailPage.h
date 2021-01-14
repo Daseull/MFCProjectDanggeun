@@ -56,4 +56,5 @@ protected:
 	afx_msg LRESULT OnUmCustom6(WPARAM wParam, LPARAM lParam);
 public:
 	CRoundButton2 m_tMyButton3;
+	afx_msg void OnClickedButtonChat();
 };
