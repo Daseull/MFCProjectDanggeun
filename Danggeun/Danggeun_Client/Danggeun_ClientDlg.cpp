@@ -443,10 +443,12 @@ void CDanggeunClientDlg::OnClose()
 	CDialogEx::OnClose();
 }
 
-CCreatePost cDlg;
+CCreatePost* cDlg;
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
 {
-	cDlg.DoModal();
+	//cDlg.DoModal();
+	cDlg = new CCreatePost;
+	cDlg->DoModal();
 	return 0;
 }
 
@@ -454,7 +456,7 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom3(WPARAM wParam, LPARAM lParam)
 {
 	UpdateData(FALSE);
-	cDlg.EndDialog(IDOK);
+	cDlg->EndDialog(IDOK);
 	pDlg1->LoadTownPost();
 	return 0;
 }
