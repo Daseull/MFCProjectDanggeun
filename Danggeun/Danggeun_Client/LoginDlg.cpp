@@ -6,10 +6,15 @@
 #include "LoginDlg.h"
 #include "afxdialogex.h"
 #include "JoinDlg.h"
+#include "UserDAO.h"
+#include "UserDB.h"
+#include "UserDTO.h"
 
 // CLoginDlg 대화 상자
 
 IMPLEMENT_DYNAMIC(CLoginDlg, CDialogEx)
+extern CUserDTO* CurrentUser;
+extern CUserDB* userDB;
 
 CLoginDlg::CLoginDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOG_LOGIN, pParent)
@@ -45,12 +50,13 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_LOGIN, &CLoginDlg::OnBnClickedButtonLogin)
 	ON_MESSAGE(UWM_CUSTOM2, &CLoginDlg::OnUwmCustom2)
 	ON_WM_CTLCOLOR()
+	ON_COMMAND(IDOK, &CLoginDlg::OnIdok)
 END_MESSAGE_MAP()
 
 
 // CLoginDlg 메시지 처리기
-
 JoinDlg dlg = new JoinDlg;
+
 void CLoginDlg::OnBnClickedButtonJoin()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -65,29 +71,45 @@ void CLoginDlg::OnBnClickedButtonLogin()
 	CString str;
 	int chk = 0;
 	UpdateData(TRUE);
-	if (file.Open("UserTable.txt", CFile::modeRead)) {
-		while (file.ReadString(str)) {
-			if (!strcmp(str, m_strID)) {
-				file.ReadString(str);
-				if (!strcmp(str, m_strPW)) {
-					MessageBox("Login Success !");
-					chk = 2;
-				}
-				else {
-					MessageBox("check your ID/PW");
-					chk = 1;
-				}
-				break;
+
+	extern CUserDB* userDB;
+
+	userDB->InitDB();
+	userDB->userList = userDB->dao.getAll();
+
+	//1/12 수정필요
+	/*
+	for (CUserDTO* user : userDB->userList) {
+		if (m_strID == user->GetUserID()) {
+			if (m_strPW == user->GetUserPW()) {
+				CurrentUser = user;
+				MessageBox("Login Success!");
+				chk = 2;
 			}
+			else {
+				MessageBox("check your ID/PW");
+				chk = 1;
+			}
+			break;
 		}
-
-		if (!chk) MessageBox("check your ID/PW");
-		if(chk == 2) ::SendMessage(((CLoginDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
-		file.Close();
 	}
+
+	if (!chk) MessageBox("check your ID/PW");
+	if (chk == 2) ::SendMessage(((CLoginDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
+	*/
+
+	CUserDTO* user;
+	user = userDB->dao.getUserByPw(m_strID, m_strPW);
+
+	if(user){
+		CurrentUser = user;
+		MessageBox("Login Success!");
+		::SendMessage(((CLoginDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM1, 0, 0);
+	}
+	else 
+		MessageBox("check your ID/PW");
+
 }
-
-
 
 afx_msg LRESULT CLoginDlg::OnUwmCustom2(WPARAM wParam, LPARAM lParam)
 {
@@ -115,4 +137,11 @@ HBRUSH CLoginDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
+}
+
+
+void CLoginDlg::OnIdok()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	OnBnClickedButtonLogin();
 }

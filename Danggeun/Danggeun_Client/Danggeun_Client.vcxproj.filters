@@ -16,6 +16,12 @@
     <Filter Include="Source Files\DB">
       <UniqueIdentifier>{86dc8661-a38c-4bed-a35a-c984d531d9b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\DB\Header">
+      <UniqueIdentifier>{52670e05-135d-4f0f-838a-cba0a3019c59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DB\Source">
+      <UniqueIdentifier>{1f6c3fe5-687f-46ff-8030-dffe64a8fbb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Danggeun_Client.h">
@@ -75,16 +81,37 @@
     <ClInclude Include="CreatePost.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SQlite3\sqlite3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="UserDAO.h">
-      <Filter>Source Files\DB</Filter>
+      <Filter>Source Files\DB\Header</Filter>
     </ClInclude>
     <ClInclude Include="UserDB.h">
-      <Filter>Source Files\DB</Filter>
+      <Filter>Source Files\DB\Header</Filter>
     </ClInclude>
     <ClInclude Include="UserDTO.h">
-      <Filter>Source Files\DB</Filter>
+      <Filter>Source Files\DB\Header</Filter>
     </ClInclude>
-    <ClInclude Include="SQlite3\sqlite3.h">
+    <ClInclude Include="BookMarkDAO.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BookMarkDB.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BookMarkDTO.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PostDAO.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PostDB.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PostDTO.h">
+      <Filter>Source Files\DB\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DetailPage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -138,13 +165,34 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UserDAO.cpp">
-      <Filter>Source Files\DB</Filter>
+      <Filter>Source Files\DB\Source</Filter>
     </ClCompile>
     <ClCompile Include="UserDB.cpp">
-      <Filter>Source Files\DB</Filter>
+      <Filter>Source Files\DB\Source</Filter>
     </ClCompile>
     <ClCompile Include="UserDTO.cpp">
-      <Filter>Source Files\DB</Filter>
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BookMarkDAO.cpp">
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BookMarkDB.cpp">
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BookMarkDTO.cpp">
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PostDAO.cpp">
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PostDB.cpp">
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PostDTO.cpp">
+      <Filter>Source Files\DB\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailPage.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +207,21 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Danggeun_Client.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\resized\not_filled_2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\resized\filled_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\filled_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\not_filled_2.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

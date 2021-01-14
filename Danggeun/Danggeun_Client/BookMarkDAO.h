@@ -1,37 +1,41 @@
 #pragma once
 #include <vector>
-#include "UserDTO.h"
+#include "BookMarkDTO.h"
 #include "sqlite3.h"
 #include <assert.h>
 
-class CUserDAO {
+class CBookMarkDAO {
 public:
 	//CUserDAO(sqlite3* db, sqlite3_stmt* stmt, char* errmsg);
-	CUserDAO();
+	CBookMarkDAO();
 
 	sqlite3* _db;
 	sqlite3_stmt* _stmt;
 	char* _errmsg;
 private:
-	std::vector<CUserDTO*> _userList;
-	CUserDTO* _user;
+	std::vector<CBookMarkDTO*> _bookMarkList;
+	CBookMarkDTO* _bookMark;
 	int AnsiToUTF8(char* szSrc, char* strDest, int destSize);
 	int UTF8ToAnsi(char* szSrc, char* strDest, int destSize);
-
 	void dataClean(char* dest, CString str);
+
 public:
 	// C
-	BOOL createUser(CUserDTO);
+	BOOL createBookMark(CBookMarkDTO);
 	// R
-	CUserDTO* getUser(CString userID);
-	CUserDTO* getUserByPw(CString userID, CString pw);
-	std::vector<CUserDTO*> getAll();
-	std::vector<CUserDTO*> getAllByTown(int townID);
+	CBookMarkDTO* getBookMark(int bookMarkID);
+	CBookMarkDTO* getBookMarkByUserAndPost(CString& userID, int postID);
+	std::vector<CBookMarkDTO*> getAll();
+	std::vector<CBookMarkDTO*> getAllByUser(CString userID);
+	std::vector<CBookMarkDTO*> getAllByPost(int postID);
 	// U
-	BOOL updateUser(CUserDTO);
+	//BOOL updateBookMark(CBookMarkDTO);
 	// D
-	BOOL deleteUser(CString userID);
+	BOOL deleteBookMark(int bookMarkID);
 };
+
+
+
 
 // -C-
 // createUser(UserDTO)

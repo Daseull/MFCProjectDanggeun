@@ -19,8 +19,17 @@
 #endif
 
 
-// CAboutDlg dialog used for App About
+CUserDTO* CurrentUser;
+CUserDB* userDB;
+CPostDB* postDB;
+CBookMarkDB* bookmarkDB;
+CString town[25] = { "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구",
+					"노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구",
+					"양천구", "영등포구", "용산구","은평구", "종로구", "중구", "중랑구" };
+CString status[3] = { "판매중", "예약중", "거래완료" };
 
+
+// CAboutDlg dialog used for App About
 class CAboutDlg : public CDialogEx
 {
 public:
@@ -36,11 +45,13 @@ public:
 
 // Implementation
 protected:
-
 	//afx_msg_안녕
 	DECLARE_MESSAGE_MAP()
 //	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
 public:
+//	virtual BOOL OnInitDialog();
+//	virtual BOOL OnInitDialog();
+	void OnClose();
 //	virtual BOOL OnInitDialog();
 //	virtual BOOL OnInitDialog();
 };
@@ -56,6 +67,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 
+	//ON_UM_CLOSE()
 END_MESSAGE_MAP()
 
 
@@ -70,7 +82,6 @@ CDanggeunClientDlg::CDanggeunClientDlg(CWnd* pParent /*=nullptr*/)
 	pDlg2 = NULL;
 	pDlg3 = NULL;
 	pDlg4 = NULL;
-
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
@@ -91,20 +102,29 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 
 	ON_WM_DESTROY()
 	ON_WM_CTLCOLOR()
+	ON_COMMAND(UM_CLOSE, &CDanggeunClientDlg::OnClose)
 //	ON_COMMAND(IDC_BUTTON_SEARCH, &CDanggeunClientDlg::OnButtonSearch)
+//  ON_WM_CLOSE()
+//ON_WM_CLOSE()
+ON_MESSAGE(UWM_CUSTOM4, &CDanggeunClientDlg::OnUwmCustom4)
+ON_MESSAGE(UWM_CUSTOM3, &CDanggeunClientDlg::OnUwmCustom3)
+ON_MESSAGE(UWM_CUSTOM5, &CDanggeunClientDlg::OnUwmCustom5)
+ON_MESSAGE(UWM_CUSTOM6, &CDanggeunClientDlg::OnUwmCustom6)
 END_MESSAGE_MAP()
 
 
 // CDanggeunClientDlg message handlers
+
 CLoginDlg dlg = new CLoginDlg;
 
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
+	userDB = new CUserDB;
+
 	CDialogEx::OnInitDialog();
-
-	// Add "About..." menu item to system menu.
-
-	dlg.DoModal();
+	if (dlg.DoModal() == IDCANCEL) {		
+		exit(0);
+	}
 
 	// IDM_ABOUTBOX must be in the system command range.
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
@@ -135,6 +155,15 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	CFont font_sel;
 	font_sel.CreateFont(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 0, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, _T("나눔고딕"));
 
+	postDB = new CPostDB;
+	postDB->InitDB();
+	postDB->postList = postDB->dao.getAll();
+
+	bookmarkDB = new CBookMarkDB;
+	bookmarkDB->InitDB();
+	bookmarkDB->bookMarkList = bookmarkDB->dao.getAll();
+
+
 	m_Tab.SetFont(&font_sel);
 	m_Tab.InsertItem(0, "홈");
 	m_Tab.InsertItem(1, "내 글 목록");
@@ -149,7 +178,8 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	pDlg1->Create(IDD_CTab1, &m_Tab);
 	pDlg1->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg1->ShowWindow(SW_SHOW);
-
+	
+	
 	pDlg2 = new CTab2;
 	pDlg2->Create(IDD_CTab2, &m_Tab);
 	pDlg2->MoveWindow(28, 0, rect.Width(), rect.Height());
@@ -165,35 +195,117 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	pDlg4->MoveWindow(28, 0, rect.Width(), rect.Height());
 	pDlg4->ShowWindow(SW_SHOW);
 
+
 	font_sel.DeleteObject();
 
 	m_Tab.ModifyStyle(0, TCS_OWNERDRAWFIXED);//tab 색상
 
-	//여기다가 login 창 생성하고 doModao == IDOK(또는 로그인 성공 메세지,else면은 창 닫히고)
-	//if (log.DoModal() == IDOK) 
-	if (TRUE) {
-		pDlg1->Init();
-		////내 글 목록
-		pDlg2->Init();
-		////관심글 록록
-		//pDlg3->LoadPost();
+	pDlg1->ShowWindow(SW_SHOW);
+	pDlg2->ShowWindow(SW_HIDE);
+	pDlg3->ShowWindow(SW_HIDE);
+	pDlg4->ShowWindow(SW_HIDE);
+	
 
-		//처음 켰을 땐 홈 탭이 보이게 설정
-		pDlg1->ShowWindow(SW_SHOW);
-		pDlg2->ShowWindow(SW_HIDE);
-		pDlg3->ShowWindow(SW_HIDE);
-		pDlg4->ShowWindow(SW_HIDE);
-	}
 	
-	userDB = new CUserDB(); // new keyword -> pointer
-	userDB->InitDB();
+	//C/R/U/D
+	
+	/*CUserDB* _userDB = new CUserDB();
+	_userDB->InitDB();
+	CPostDB* _postDB = new CPostDB();
+	_postDB->InitDB();
+	CBookMarkDB* _bookDB = new CBookMarkDB();
+	_bookDB->InitDB();
 
-	/* DB Init
-	
-	
-	
-	*/
+	CUserDTO _user;
+	CPostDTO _post;
+	CBookMarkDTO _book;
 
+	CString str;*/
+
+	// Create
+	//for (int i = 0; i < 3; i++) {
+		//str.Format("id%d", i);
+		//_user.SetUserID(str);
+
+		//str.Format("pw%d", i);
+		//_user.SetUserPW(str);
+
+		//_user.SetTown(i);
+
+		//str.Format("010-%d", i);
+		//_user.SetPhone(str);
+		//_userDB->dao.createUser(_user);
+
+
+		//str.Format("id%d", i);
+		//_post.SetUserID(str);
+		//_post.SetTitle("제목");
+		//_post.SetImgName("");
+		//_post.SetPrice("10000");
+		//_post.SetStauts(0);
+		//_post.SetContent("내용내용");
+		//_post.SetTown(i);
+		//_postDB->dao.createPost(_post);
+
+
+		//_book.SetPostID(i + 1);
+		//str.Format("id%d", i);
+		//_book.SetUserID(str);
+		//_bookDB->dao.createBookMark(_book);
+
+	//}
+
+
+	// Read All +update/delete
+		//_userDB->userList = _userDB->dao.getAll(); good
+	//_userDB->userList = _userDB->dao.getAllByTown(0); good
+	/*for (CUserDTO* user : _userDB->userList) {
+		str.Format(user->GetUserID());
+		AfxMessageBox(str);
+	}*/
+
+
+	//_postDB->postList = _postDB->dao.getAll(); good
+	//_postDB->postList = _postDB->dao.getAllByTitleSearch("제");
+	//for (CPostDTO* post : _postDB->postList) {
+	//	str.Format(post->GetUserID());
+	//	AfxMessageBox(str);
+	//	_postDB->dao.deletePost(post->GetPostID());
+	//}
+
+	//_postDB->postList = _postDB->dao.getAll(); good
+	//_bookDB->bookMarkList = _bookDB->dao.getAll();
+	//for (CBookMarkDTO* book : _bookDB->bookMarkList) {
+	//	str.Format(book->GetUserID());
+	//	AfxMessageBox(str);
+	//	_bookDB->dao.deleteBookMark(book->GetBookMarkID());
+	//}
+	
+	//for (int i = 0; i < 3; i++) {
+	//	//str.Format("id%d", i);
+	//	//_user = _userDB->dao.getUser(str);
+	//	//_userDB->dao.deleteUser(_user.GetUserID());
+	//	
+	//	//str.Format("id%d", i);
+	//	/*_post.SetUserID(str);
+	//	_book.SetPostID()*/
+	//	/*_post = _postDB->dao.getPost(8 + i);
+	//	str.Format(_post->GetUserID());
+	//	AfxMessageBox(str);*/
+
+	//	/*_post = _postDB->dao.getPost(8 + i);
+	//	str.Format(_post.GetUserID());
+	//	AfxMessageBox(str);*/
+
+	//	str.Format("id%d", i);
+	//	_user = _userDB->dao.getUser(str);
+	//	str.Format(_user.GetUserID());
+	//	AfxMessageBox(str);
+	//	//_user.SetUserPW(str);
+	//	//_userDB->dao.updateUser(_user);
+	//	_userDB->dao.deleteUser(str);
+
+	//}
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -275,6 +387,7 @@ void CDanggeunClientDlg::OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult)
 			pDlg1->ShowWindow(SW_HIDE);
 			pDlg2->ShowWindow(SW_HIDE);
 			pDlg4->ShowWindow(SW_HIDE);
+			pDlg3->LoadBookmarkPost();
 			break;
 		case 3:
 			pDlg4->ShowWindow(SW_SHOW);
@@ -324,14 +437,44 @@ afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 
 
 
+void CDanggeunClientDlg::OnClose()
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CDialogEx::OnClose();
+}
+
+CCreatePost* cDlg;
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
+{
+	//cDlg.DoModal();
+	cDlg = new CCreatePost;
+	cDlg->DoModal();
+	return 0;
+}
 
 
-//BOOL CAboutDlg::OnInitDialog()
-//{
-//	CDialogEx::OnInitDialog();
-//
-//	// TODO:  여기에 추가 초기화 작업을 추가합니다.
-//
-//	return TRUE;  // return TRUE unless you set the focus to a control
-//				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
-//}
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom3(WPARAM wParam, LPARAM lParam)
+{
+	UpdateData(FALSE);
+	cDlg->EndDialog(IDOK);
+	pDlg1->LoadTownPost();
+	return 0;
+}
+
+
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom5(WPARAM wParam, LPARAM lParam)
+{
+	pDlg3->LoadBookmarkPost();
+	return 0;
+}
+
+
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom6(WPARAM wParam, LPARAM lParam)
+{
+	pDlg1->m_strTown = town[CurrentUser->GetTown()];
+	pDlg3->m_strTown = town[CurrentUser->GetTown()];
+	UpdateData(FALSE);
+	pDlg1->LoadTownPost();
+	pDlg3->LoadBookmarkPost();
+	return 0;
+}

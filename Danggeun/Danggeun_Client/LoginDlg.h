@@ -41,4 +41,5 @@ protected:
 public:
 	CString m_strID;
 	CString m_strPW;
+	afx_msg void OnIdok();
 };

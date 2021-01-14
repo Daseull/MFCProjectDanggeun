@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include "DetailPage.h"
 
 // ChatBox 대화 상자
 
@@ -8,6 +8,8 @@ class ChatBox : public CDialogEx
 	DECLARE_DYNAMIC(ChatBox)
 private:
 	CBrush m_bk_brush;
+	CImage m_image;
+	CRect m_rect;
 public:
 	ChatBox(CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	virtual ~ChatBox();
@@ -32,4 +34,9 @@ public:
 	CRoundButton2 m_tMyButton1;
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnIdok();
+//	CStatic m_strTitle;
+	CStatic m_picture;
+//	CString m_strTitle;
+	CStatic m_title;
+	CStatic m_price;
 };

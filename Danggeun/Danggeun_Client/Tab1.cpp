@@ -1,5 +1,5 @@
 ﻿// Tab1.cpp: 구현 파일
-//
+//홈 
 
 #include "pch.h"
 #include "Danggeun_Client.h"
@@ -8,7 +8,8 @@
 #include "ChatBox.h"
 #include "CreatePost.h"
 #include "afxwin.h" //비트맵때문에 넣은거
-
+#include "LoginDlg.h"
+#include "DetailPage.h"
 
 // CTab1 대화 상자
 
@@ -17,12 +18,12 @@ IMPLEMENT_DYNAMIC(CTab1, CDialogEx)
 CTab1::CTab1(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CTab1, pParent)
 	, m_strSearch(_T(""))
-	, m_strTown(_T("동네명"))//동네명으로 임의 추가함
 {
-
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
+	m_tMyButton3.SetRoundButtonStyle(&m_tMyButtonStyle);
+
 }
 
 CTab1::~CTab1()
@@ -46,84 +47,81 @@ CTab1::~CTab1()
 //	return strAmount;
 //}
 
-void CTab1::Init()
-{
-	//데베에서 동네
-	//m_strTown = getTown();
-
-	m_ImageList.Create(40, 40, ILC_COLORDDB| ILC_MASK, 8, 8);
-
-	/*CBitmap bmp;
-	CImage img;
-	img.Load("res\\1.PNG");
-	bmp.Attach(img);
-	m_ImageList.Add(&bmp, RGB(255,255,255));*/
-
-	m_list.SetImageList(&m_ImageList, LVSIL_SMALL);
-	
-
-	//스크롤 해도 글쓰기 버튼 안움직이게 하려고 
-	GetDlgItem(IDC_BUTTON_NEWPOST)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
-	GetDlgItem(IDC_LIST1)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
-	GetDlgItem(IDC_BUTTON_NEWPOST)->BringWindowToTop();
-
-	
-	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT);
-	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
-	m_list.InsertColumn(1, "가격", LVCFMT_CENTER, 80);
-	m_list.InsertColumn(2, "판매상태", LVCFMT_CENTER, 30);
-
-	LoadTownPost();
-}
-
-
 
 void CTab1::LoadTownPost()
 {
 	
 	GetDlgItem(IDC_BUTTON_NEWPOST)->ShowWindow(SW_SHOW);
-	//TO DO: 뒤로가기 버튼 숨기기는 여기에 추가해 주세요.
+	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_HIDE);
 
-	
 	//초기화
 	int n = m_list.GetItemCount();
+
 	while (n--)
 		m_ImageList.Remove(0);
 	m_list.DeleteAllItems();
 	
 
-	
-	int postsize = 4;
-	while (postsize--) {
+	extern CUserDTO* CurrentUser;
+	extern CPostDB* postDB;
+	extern CString status[3];
 
+
+	//1/12 수정필요
+	for (CPostDTO* post : postDB->dao.getAllByTown(CurrentUser->GetTown())) {
 		CBitmap bmp;
 		CImage img;
-		//데이터베이스에서 가져올것
-		img.Load("res\\1.PNG");
+		img.Load("res\\small_" + post->GetImgName());
+		if (img.IsNull()) {
+			img.Load("res\\LoadError.png");
+		}
 		bmp.Attach(img);
 		m_ImageList.Add(&bmp, RGB(255, 255, 255));
-
-
-		//데이터 베이스에스에서 가져올것
-		CString title, price;
-		title = "커피 팔아요 얼죽아아아아아아아아";
-		price = "7000원";
-		//title = title.Left(8);
-
 		int i = m_list.GetItemCount();
-		m_list.AddItem(title, i, 0, -1, i);
-		m_list.AddItem(price, i, 1);
+		m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+		m_list.AddItem(post->GetPrice(), i, 1);
+		m_list.AddItem(status[post->GetStatus()], i, 2);
+
+		int postid = post->GetPostID();
+		CString postID;
+		postID.Format("%d", postid);
+		m_list.AddItem(postID, i, 3);
 	}
+	/*
+	for (CPostDTO* post : postDB->postList) {
+		if (post->GetTown() == CurrentUser->GetTown()) {
+			CBitmap bmp;
+			CImage img;
+			img.Load("res\\small_" + post->GetImgName());
+			if (img.IsNull()) {
+				img.Load("res\\LoadError.png");
+			}
+			bmp.Attach(img);
+			m_ImageList.Add(&bmp, RGB(255, 255, 255));
+			int i = m_list.GetItemCount();
+			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+			m_list.AddItem(post->GetPrice(), i, 1);
+			m_list.AddItem(status[post->GetStatus()], i, 2);
+			
+			int postid = post->GetPostID();
+			CString postID;
+			postID.Format("%d", postid);
+			m_list.AddItem(postID, i, 3);
+		}
+	}
+	*/
+
+	extern CString town[];
+	m_strTown = town[CurrentUser->GetTown()];
 	m_strSearch.Empty();
 	UpdateData(FALSE);
-
 
 }
 
 void CTab1::SearchPost(CString Key)
 {
 	GetDlgItem(IDC_BUTTON_NEWPOST)->ShowWindow(SW_HIDE);
-	//TO DO: 뒤로가기 버튼 보이기는 여기에 해주세요.
+	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_SHOW);
 
 
 	//초기화
@@ -141,34 +139,71 @@ void CTab1::SearchPost(CString Key)
 
 	
 	Key = Key.MakeUpper();
+	extern CUserDTO* CurrentUser;
+	extern CPostDB* postDB;
+	//postDB->postList
+	extern CString status[3];
+	//CPostDB* post;
+	//post->postList = post->dao.getAllByTitleSearch(Key, CurrentUser->GetTown());
+	//1/12 수정필요
 
-	CString str[3] = { "지금은 검색 테스트 중", "hihellobye", "커피 커피 커피" };
-	int postsize = 3;
-	
-	for (int i = 0; i < postsize; i++) {
-		CString title = str[i];
-		if (str[i].MakeUpper().Find(Key) != -1) {
-			int nItem = m_list.GetItemCount();
-			m_list.AddItem(title, nItem, 0);
-			m_list.AddItem("71000", nItem, 1);
+	for (CPostDTO *post : postDB->dao.getAllByTitleSearch(Key, CurrentUser->GetTown())) {
+			CBitmap bmp;
+			CImage img;
+			img.Load("res\\small_" + post->GetImgName());
+			if (img.IsNull()) {
+				img.Load("res\\LoadError.png");
+			}
+			bmp.Attach(img);
+			m_ImageList.Add(&bmp, RGB(255, 255, 255));
+
+			int i = m_list.GetItemCount();
+			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+			m_list.AddItem(post->GetPrice(), i, 1);
+			m_list.AddItem(status[post->GetStatus()], i, 2);
+			
+			int postid = post->GetPostID();
+			CString postID;
+			postID.Format("%d", postid);
+			m_list.AddItem(postID, i, 3);
+
+
+	}
+	/*
+	for (CPostDTO* post : postDB->postList) {
+		CString title = post->GetTitle();
+		if (title.MakeUpper().Find(Key) != -1) {
+			CBitmap bmp;
+			CImage img;
+			img.Load("res\\small_" + post->GetImgName());
+			if (img.IsNull()) {
+				img.Load("res\\LoadError.png");
+			}
+			bmp.Attach(img);
+			m_ImageList.Add(&bmp, RGB(255, 255, 255));
+
+			int i = m_list.GetItemCount();
+			m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+			m_list.AddItem(post->GetPrice(), i, 1);
+			m_list.AddItem(status[post->GetStatus()], i, 2);
 		}
 	}
-	
+	*/
+
 
 	UpdateData(FALSE);
 }
-
 
 
 void CTab1::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_EDIT_SEARCH, m_strSearch);
-	//  DDX_Control(pDX, IDC_LIST1, m_list);
 	DDX_Text(pDX, IDC_STATIC_TOWN, m_strTown);
 	DDX_Control(pDX, IDC_LIST1, m_list);
 	DDX_Control(pDX, IDC_BUTTON_NEWPOST, m_tMyButton1);
 	DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton2);
+	DDX_Control(pDX, IDC_BUTTON_BACK, m_tMyButton3);
 }
 
 
@@ -184,6 +219,7 @@ BEGIN_MESSAGE_MAP(CTab1, CDialogEx)
 //	ON_WM_CTLCOLOR()
 ON_WM_CTLCOLOR()
 ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CTab1::OnDblclkList1)
+ON_BN_CLICKED(IDC_BUTTON_BACK, &CTab1::OnClickedButtonBack)
 END_MESSAGE_MAP()
 
 
@@ -220,35 +256,11 @@ void CTab1::OnClickedButtonSearch()
 
 }
 
-//void CTab1::OnClickList1(NMHDR* pNMHDR, LRESULT* pResult)
-//{
-//	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
-//	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-//	ChatBox dlg = new ChatBox;
-//	*pResult = 0;
-//	
-//	// 행 클릭시 행 넘버값 받아오기
-//	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-//	int idx = pNMListView->iItem;
-//
-//	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
-//	CString sIndexValue;
-//	sIndexValue = m_list.GetItemText(idx, 1);
-//
-//	if (idx != -1) {
-//		ChatBox dlg = new ChatBox;
-//		dlg.DoModal();
-//	}
-//	
-//}
-
 
 void CTab1::OnBnClickedButtonNewpost()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	CCreatePost dlg;
-	dlg.DoModal();
-
+	::SendMessage(((CTab1*)GetParent()->GetParent())->GetSafeHwnd(), UWM_CUSTOM4, 0, 0);
 }
 
 HBRUSH CTab1::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
@@ -279,7 +291,7 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	ChatBox dlg = new ChatBox;
+	//ChatBox dlg = new ChatBox;
 	*pResult = 0;
 
 	// 행 클릭시 행 넘버값 받아오기
@@ -287,13 +299,78 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 	int idx = pNMListView->iItem;
 
 	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
-	CString sIndexValue;
-	sIndexValue = m_list.GetItemText(idx, 1);
-
+	
 	if (idx != -1) {
-		ChatBox dlg = new ChatBox;
+		CString sIndexPostID;
+		sIndexPostID = m_list.GetItemText(idx, 3);
+		int PostID = _ttoi(sIndexPostID);
+		extern CPostDB* postDB;
+		CDetailPage dlg(postDB->dao.getPost(PostID));
+		
 		dlg.DoModal();
+	
+		/*
+		for (CPostDTO* post : postDB->postList) {
+			if (post->GetPostID() == PostID) {
+				CDetailPage dlg(post);
+				dlg.DoModal();
+				break;
+			}
+		}
+		*/
 	}
 	
 	*pResult = 0;
+}
+
+
+BOOL CTab1::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+	m_ImageList.Create(60, 60, ILC_COLORDDB | ILC_MASK, 8, 8);
+
+	
+	/*CBitmap bmp;
+	CImage img;
+	img.Load("res\\1.PNG");
+	bmp.Attach(img);
+	m_ImageList.Add(&bmp, RGB(255,255,255));*/
+
+	m_list.SetImageList(&m_ImageList, LVSIL_SMALL);
+
+	//스크롤 해도 글쓰기 버튼 안움직이게 하려고 
+	GetDlgItem(IDC_BUTTON_NEWPOST)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
+	GetDlgItem(IDC_LIST1)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
+	GetDlgItem(IDC_BUTTON_NEWPOST)->BringWindowToTop();
+
+
+	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT);
+	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
+	m_list.InsertColumn(1, "가격", LVCFMT_RIGHT, 100);
+	m_list.InsertColumn(2, "판매상태", LVCFMT_RIGHT, 100);
+	m_list.InsertColumn(3, "postID", LVCFMT_RIGHT, 0);
+	
+	LoadTownPost();
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+
+
+
+
+BOOL CTab1::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
+		OnClickedButtonSearch();
+
+	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
+void CTab1::OnClickedButtonBack()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	LoadTownPost();
 }
