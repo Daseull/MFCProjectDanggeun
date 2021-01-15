@@ -74,7 +74,10 @@ BOOL CUserDAO::createUser(CUserDTO user) {
 	int sLen;
 	dataClean(userID, user.GetUserID());
 
-
+	
+	if (getUser(user.GetUserID())) {
+		return false;
+	}
 
 	sqlite3_prepare_v2(_db, "insert into user(userID, userPw, town, phone, isAdmin) values(?,?,?,?,?)", -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, strlen(userID), SQLITE_STATIC);
@@ -84,8 +87,6 @@ BOOL CUserDAO::createUser(CUserDTO user) {
 	sqlite3_bind_int(_stmt, 5, user.GetIsAdim());
 	/*sqlite3_step(_stmt);
 	sqlite3_finalize(_stmt);*/
-
-
 	if (sqlite3_step(_stmt) == SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
@@ -98,8 +99,6 @@ BOOL CUserDAO::createUser(CUserDTO user) {
 	sqlite3_close(_db);
 
 	return result;
-
-
 }
 
 // R
@@ -117,6 +116,7 @@ CUserDTO* CUserDAO::getUser(CString userID) {
 	// "from user"
 	CString sTmp;
 	sTmp.Format(_T("select * from user where userID = ?"));
+	
 	
 
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);

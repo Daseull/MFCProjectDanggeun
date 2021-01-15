@@ -137,34 +137,34 @@ void CTab3::LoadBookmarkPost() {
 
 	//1/12 수정필요 관심목록 찾을 때
 	
-	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
-		if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
-			for (CPostDTO* post : postDB->postList) {
-				if (bookmark->GetPostID() == post->GetPostID()) {
-					CBitmap bmp;
-					CImage img;
-					img.Load("res\\small_" + post->GetImgName());
-					if (img.IsNull()) {
-						img.Load("res\\LoadError.png");
-					}
-					bmp.Attach(img);
-					m_ImageList.Add(&bmp, RGB(255, 255, 255));
+	//for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
+	//	if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
+	//		for (CPostDTO* post : postDB->postList) {
+	//			if (bookmark->GetPostID() == post->GetPostID()) {
+	//				CBitmap bmp;
+	//				CImage img;
+	//				img.Load("res\\small_" + post->GetImgName());
+	//				if (img.IsNull()) {
+	//					img.Load("res\\LoadError.png");
+	//				}
+	//				bmp.Attach(img);
+	//				m_ImageList.Add(&bmp, RGB(255, 255, 255));
 
-					int i = m_list.GetItemCount();	// 이미지 순서 맞는지 확인하기
-					m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-					m_list.AddItem(post->GetPrice(), i, 1);
-					m_list.AddItem(status[post->GetStatus()], i, 2);
+	//				int i = m_list.GetItemCount();	// 이미지 순서 맞는지 확인하기
+	//				m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+	//				m_list.AddItem(post->GetPrice(), i, 1);
+	//				m_list.AddItem(status[post->GetStatus()], i, 2);
 
-					int postid = post->GetPostID();
-					CString postID;
-					postID.Format("%d", postid);
-					m_list.AddItem(postID, i, 3);
-				}
-			}
-		}
-	}
+	//				int postid = post->GetPostID();
+	//				CString postID;
+	//				postID.Format("%d", postid);
+	//				m_list.AddItem(postID, i, 3);
+	//			}
+	//		}
+	//	}
+	//}
 	
-	/*
+	
 	for (CPostDTO* post : postDB->dao.getAllByBookMark(CurrentUser->GetUserID())) {
 		CBitmap bmp;
 		CImage img;
@@ -185,7 +185,7 @@ void CTab3::LoadBookmarkPost() {
 		postID.Format("%d", postid);
 		m_list.AddItem(postID, i, 3);
 	}
-	*/
+	
 	UpdateData(FALSE);
 }
 
