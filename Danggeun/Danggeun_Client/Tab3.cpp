@@ -51,9 +51,13 @@ END_MESSAGE_MAP()
 HBRUSH CTab3::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// 여기서 DC의 특성을 변경합니다.
+	//다이로그일 때 색상 설정
 	if (nCtlColor == CTLCOLOR_DLG) {//dlg
 		return m_bk_brush;
 	}
+	//스태틱일 때 색상 설정
 	if (nCtlColor == CTLCOLOR_STATIC) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(0, 0, 0));

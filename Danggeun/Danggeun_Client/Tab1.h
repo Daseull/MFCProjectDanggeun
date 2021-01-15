@@ -32,7 +32,7 @@ public:
 	afx_msg void OnBnClickedCancel();
 	CString m_strSearch;
 	CString m_strTown;
-	afx_msg void OnLvnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult);
+//	afx_msg void OnLvnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult);
 	CListCtrlEx m_list;
 	afx_msg void OnClickedButtonSearch();
 //	afx_msg void OnClickList1(NMHDR* pNMHDR, LRESULT* pResult);

@@ -303,18 +303,16 @@ void CDanggeunClientDlg::OnDestroy()
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 }
 
-
+//다이아로그의 배경색상 칠하기
 HBRUSH CDanggeunClientDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	// TODO:  여기서 DC의 특성을 변경합니다.
-	
-	if (nCtlColor == CTLCOLOR_DLG) {//dlg
+	// 여기서 DC의 특성을 변경합니다.
+	//다이로그일 때 색상 설정
+	if (nCtlColor == CTLCOLOR_DLG) {
 		return m_bk_brush;
 	}
-	
-	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
 }
 

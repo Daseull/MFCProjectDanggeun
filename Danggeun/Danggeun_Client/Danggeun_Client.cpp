@@ -1,6 +1,5 @@
 ﻿
 // Danggeun_Client.cpp : Defines the class behaviors for the application.
-//
 
 #include "pch.h"
 #include "framework.h"

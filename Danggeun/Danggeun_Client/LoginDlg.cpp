@@ -83,19 +83,24 @@ afx_msg LRESULT CLoginDlg::OnUwmCustom2(WPARAM wParam, LPARAM lParam)	// 회원�
 	return 0;
 }
 
+//다이아로그의 배경색상 칠하기
 HBRUSH CLoginDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
-	if (nCtlColor == CTLCOLOR_DLG) {//dlg
+
+	// 여기서 DC의 특성을 변경합니다.
+	//다이로그일 때 색상 설정
+	if (nCtlColor == CTLCOLOR_DLG) {
 		return m_bk_brush;
 	}
+	//스태틱일 때 색상 설정
 	if (nCtlColor == CTLCOLOR_STATIC) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
+	//버튼일 때 색상 설정
 	if (nCtlColor == CTLCOLOR_BTN) {
-		//pDC->SetBkMode(TRANSPARENT);
 		pDC->SetBkColor(RGB(0, 200, 255));
 		return (HBRUSH)::GetStockObject(NULL_BRUSH);
 	}
