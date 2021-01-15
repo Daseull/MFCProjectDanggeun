@@ -8,7 +8,7 @@ CBookMarkDAO::CBookMarkDAO() {
 	_errmsg = NULL;
 }
 
-int CBookMarkDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize)
+int CBookMarkDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize) // 입력 -> DB
 {
 	WCHAR 	szUnicode[255];
 	char 	szUTF8code[255];
@@ -20,7 +20,7 @@ int CBookMarkDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize)
 	strDest[nUTF8codeSize] = 0;
 	return nUTF8codeSize;
 }
-int CBookMarkDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)
+int CBookMarkDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize) // DB -> 출력
 {
 	WCHAR 	szUnicode[255];
 	char 	szAnsi[255];
@@ -39,7 +39,7 @@ BOOL CBookMarkDAO::createBookMark(CBookMarkDTO bookMark) {
 
 
 	BOOL result = true;
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -47,35 +47,10 @@ BOOL CBookMarkDAO::createBookMark(CBookMarkDTO bookMark) {
 		exit(1);
 	}
 
-	//int sLen;
-
-	//char* s_name;
-	//char szName[100];
-	//dataClean(s_name, szName, user.GetUserID(), &sLen);
-
-	//char* s_pw;
-	//char szTel[100];
-	//dataClean(s_pw, szTel, user.GetPhone(), &sLen);
-
-
-	//_errmsg = NULL;
-	//char sql[255] = { 0 };
-	//sprintf(sql, "insert into db(name, tel) values('%s','%s');", szName, szTel);
-
-	//if (SQLITE_OK != sqlite3_exec(_db, sql, NULL, NULL, &_errmsg))
-	//{
-	//	//printf("insert");
-	//	// insert Compelte
-	//	result = false;
-	//}
-
-	//sqlite3_finalize(_stmt);
-
 	sqlite3_prepare_v2(_db, "insert into bookmark(userID, postID) values(?,?)", -1, &_stmt, NULL);
+	// statement 통해서 쿼리 구성
 	sqlite3_bind_text(_stmt, 1, bookMark.GetUserID(), bookMark.GetUserID().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 2, bookMark.GetPostID());
-	/*sqlite3_step(_stmt);
-	sqlite3_finalize(_stmt);*/
 
 
 	if (sqlite3_step(_stmt) == SQLITE_DONE) {
@@ -83,22 +58,19 @@ BOOL CBookMarkDAO::createBookMark(CBookMarkDTO bookMark) {
 		result = false;
 	}
 	// https://www.sqlite.org/c3ref/step.html
-	// reset -> 
+	
 	sqlite3_reset(_stmt);
 	sqlite3_finalize(_stmt);
 
 	sqlite3_close(_db);
 
 	return result;
-
-
 }
 
 // R
 CBookMarkDTO* CBookMarkDAO::getBookMark(int bookMarkID) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -106,14 +78,12 @@ CBookMarkDTO* CBookMarkDAO::getBookMark(int bookMarkID) {
 		exit(1);
 	}
 
-	// "from user"
 	CString sTmp;
 	sTmp.Format("select * from bookmark where bookMarkID = ?");
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, bookMarkID);
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		_bookMark = new CBookMarkDTO();
@@ -130,15 +100,14 @@ CBookMarkDTO* CBookMarkDAO::getBookMark(int bookMarkID) {
 		sqlite3_close(_db);
 	}
 	else {
-		_bookMark = NULL;
+		_bookMark = NULL; // 일치하는 결과 없으면 NULL 반환
 	}
 
 	return _bookMark;
 }
 CBookMarkDTO* CBookMarkDAO::getBookMarkByUserAndPost(CString& userID, int postID){
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -146,7 +115,7 @@ CBookMarkDTO* CBookMarkDAO::getBookMarkByUserAndPost(CString& userID, int postID
 		exit(1);
 	}
 
-	// "from user"
+	// from bookmark
 	CString sTmp;
 	sTmp.Format("select * from bookmark where userID = ? and postID = ?");
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
@@ -154,7 +123,6 @@ CBookMarkDTO* CBookMarkDAO::getBookMarkByUserAndPost(CString& userID, int postID
 	sqlite3_bind_int(_stmt, 2, postID);
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		_bookMark = new CBookMarkDTO();
@@ -171,17 +139,14 @@ CBookMarkDTO* CBookMarkDAO::getBookMarkByUserAndPost(CString& userID, int postID
 		sqlite3_close(_db);
 	}
 	else {
-		_bookMark = NULL;
+		_bookMark = NULL; // 일치하는 결과 없으면 NULL 반환
 	}
 
 	return _bookMark;
 }
-
-
 std::vector<CBookMarkDTO*> CBookMarkDAO::getAll() {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -190,13 +155,12 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAll() {
 	}
 
 	
-	_bookMarkList.clear();
+	_bookMarkList.clear(); // 초기화
 	CString sTmp;
 	sTmp.Format("select * from bookmark");
 
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		_bookMark = new CBookMarkDTO();
@@ -219,9 +183,8 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAll() {
 }
 
 std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByUser(CString userID) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -229,25 +192,15 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByUser(CString userID) {
 		exit(1);
 	}
 
-	//sqlite3_finalize(_stmt);
-	//sqlite3_prepare(_db, "INSERT ... (?,?)", -1, &_stmt, NULL);
-	//sqlite3_bind_int(_stmt, 1, 123);
-	//sqlite3_bind_int(_stmt, 2, 456);
-	//sqlite3_step(_stmt);
-	//sqlite3_finalize(_stmt);
-
-	_bookMarkList.clear();
+	_bookMarkList.clear(); // 초기화
 	CString sTmp;
 	
-	sTmp.Format("select * from bookmark where userID = '%s'", userID);
-	char _sql[100];
-	dataClean(_sql, sTmp);
+	sTmp.Format("select * from bookmark where userID = ?");
 
-	sqlite3_prepare_v2(_db, _sql, -1, &_stmt, NULL);
+	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
-	
+
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		_bookMark = new CBookMarkDTO();
@@ -270,9 +223,8 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByUser(CString userID) {
 }
 
 std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByPost(int postID) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -280,24 +232,14 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByPost(int postID) {
 		exit(1);
 	}
 
-	//sqlite3_finalize(_stmt);
-	//sqlite3_prepare(_db, "INSERT ... (?,?)", -1, &_stmt, NULL);
-	//sqlite3_bind_int(_stmt, 1, 123);
-	//sqlite3_bind_int(_stmt, 2, 456);
-	//sqlite3_step(_stmt);
-	//sqlite3_finalize(_stmt);
-
-
-	// "from user"
-	_bookMarkList.clear();
+	// from bookmark
+	_bookMarkList.clear(); // 초기화
 	CString sTmp;
-	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("select * from bookmark where postID = ?"));
+	sTmp.Format("select * from bookmark where postID = ?");
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, postID);
 
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		_bookMark = new CBookMarkDTO();
@@ -319,58 +261,15 @@ std::vector<CBookMarkDTO*> CBookMarkDAO::getAllByPost(int postID) {
 	return _bookMarkList;
 }
 
-
-// U
-//BOOL CBookMarkDAO::updateBookMark(CBookMarkDTO bookmark) {
-//
-//
-//	int rc = sqlite3_open("test.db", &_db);
-//	if (rc != SQLITE_OK)
-//	{
-//		printf("Failed to open DB\n");
-//		sqlite3_close(_db);
-//		exit(1);
-//	}
-//
-//	sqlite3_finalize(_stmt);
-//	sqlite3_prepare(_db, "UPDATE bookmark SET userID = ?,"
-//										 "postID = ?"
-//										 "WHERE bookMarkID = ? ", -1, &_stmt, NULL);
-//
-//
-//	// https://stackoverflow.com/a/61796041/14099774
-//	BOOL result = true;
-//
-//	sqlite3_bind_text(_stmt, 1, bookmark.GetUserID(), bookmark.GetUserID().GetLength(), SQLITE_STATIC);
-//	sqlite3_bind_int(_stmt, 2, bookmark.GetPostID());
-//	sqlite3_bind_int(_stmt, 3, bookmark.GetBookMarkID());
-//	
-//	if (sqlite3_step(_stmt) != SQLITE_DONE) {
-//		// 제대로 동작하지 않은 경우
-//		result = false;
-//	}
-//	// https://www.sqlite.org/c3ref/step.html
-//	// reset -> 
-//	sqlite3_reset(_stmt);
-//	sqlite3_finalize(_stmt);
-//
-//	sqlite3_close(_db);
-//
-//	return result;
-//}
-
 // D
 BOOL CBookMarkDAO::deleteBookMark(int bookMarkID) {
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
 		sqlite3_close(_db);
 		exit(1);
 	}
-
-	//sqlite3_finalize(_stmt);
-
 
 	// https://stackoverflow.com/a/61796041/14099774
 	BOOL result = true;
@@ -384,7 +283,6 @@ BOOL CBookMarkDAO::deleteBookMark(int bookMarkID) {
 		result = false;
 	}
 	// https://www.sqlite.org/c3ref/step.html
-	// reset -> 
 	sqlite3_reset(_stmt);
 	sqlite3_finalize(_stmt);
 
@@ -394,7 +292,7 @@ BOOL CBookMarkDAO::deleteBookMark(int bookMarkID) {
 }
 
 
-void CBookMarkDAO::dataClean(char* dest, CString str) {
+void CBookMarkDAO::dataClean(char* dest, CString str) { // 멀티 바이트 UTF8 인코딩 과정
 	char* tmp;
 	//*sLen = WideCharToMultiByte(CP_ACP, 0, (LPCWCH)(LPCTSTR)str, -1, NULL, 0, NULL, NULL);
 	tmp = new char[str.GetLength() + 1];

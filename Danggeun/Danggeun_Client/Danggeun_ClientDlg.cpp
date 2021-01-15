@@ -19,16 +19,6 @@
 #endif
 
 
-CUserDTO* CurrentUser;
-CUserDB* userDB;
-CPostDB* postDB;
-CBookMarkDB* bookmarkDB;
-CString town[25] = { "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구",
-					"노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구",
-					"양천구", "영등포구", "용산구","은평구", "종로구", "중구", "중랑구" };
-CString status[3] = { "판매중", "예약중", "거래완료" };
-
-
 // CAboutDlg dialog used for App About
 class CAboutDlg : public CDialogEx
 {
@@ -45,15 +35,9 @@ public:
 
 // Implementation
 protected:
-	//afx_msg_안녕
 	DECLARE_MESSAGE_MAP()
-//	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
 public:
-//	virtual BOOL OnInitDialog();
-//	virtual BOOL OnInitDialog();
 	void OnClose();
-//	virtual BOOL OnInitDialog();
-//	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -67,12 +51,8 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 
-	//ON_UM_CLOSE()
 END_MESSAGE_MAP()
 
-
-// CDanggeunClientDlg dialog
-// where ??
 
 
 CDanggeunClientDlg::CDanggeunClientDlg(CWnd* pParent /*=nullptr*/)
@@ -88,8 +68,6 @@ CDanggeunClientDlg::CDanggeunClientDlg(CWnd* pParent /*=nullptr*/)
 void CDanggeunClientDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-
-	//  DDX_Control(pDX, IDC_TAB_MAIN, m_Tab);
 	DDX_Control(pDX, IDC_TAB_MAIN, m_Tab);
 }
 
@@ -98,31 +76,44 @@ BEGIN_MESSAGE_MAP(CDanggeunClientDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_MAIN, &CDanggeunClientDlg::OnTcnSelchangeTabMain)
-	ON_MESSAGE(UWM_CUSTOM1, &CDanggeunClientDlg::OnUwmCustom1)
 
 	ON_WM_DESTROY()
 	ON_WM_CTLCOLOR()
 	ON_COMMAND(UM_CLOSE, &CDanggeunClientDlg::OnClose)
-//	ON_COMMAND(IDC_BUTTON_SEARCH, &CDanggeunClientDlg::OnButtonSearch)
-//  ON_WM_CLOSE()
-//ON_WM_CLOSE()
-ON_MESSAGE(UWM_CUSTOM4, &CDanggeunClientDlg::OnUwmCustom4)
-ON_MESSAGE(UWM_CUSTOM3, &CDanggeunClientDlg::OnUwmCustom3)
-ON_MESSAGE(UWM_CUSTOM5, &CDanggeunClientDlg::OnUwmCustom5)
-ON_MESSAGE(UWM_CUSTOM6, &CDanggeunClientDlg::OnUwmCustom6)
+	ON_MESSAGE(UWM_CUSTOM1, &CDanggeunClientDlg::OnUwmCustom1)
+	ON_MESSAGE(UWM_CUSTOM3, &CDanggeunClientDlg::OnUwmCustom3)
+	ON_MESSAGE(UWM_CUSTOM4, &CDanggeunClientDlg::OnUwmCustom4)
+	ON_MESSAGE(UWM_CUSTOM6, &CDanggeunClientDlg::OnUwmCustom6)
 END_MESSAGE_MAP()
 
 
-// CDanggeunClientDlg message handlers
 
-CLoginDlg dlg = new CLoginDlg;
+
+
+//다른 클래스에서 사용할 수 있게 DB관련 변수들을 전역변수로 선언
+CUserDTO* CurrentUser;
+CUserDB* userDB;
+CPostDB* postDB;
+CBookMarkDB* bookmarkDB;
+
+//다른 클래스에서는 동네, 판매상태를 정수로 갖고 있으므로, 매핑되는 문자열을 전역변수로 선언
+CString town[25] = { "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구",
+					"노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구",
+					"양천구", "영등포구", "용산구","은평구", "종로구", "중구", "중랑구" };
+CString status[3] = { "판매중", "예약중", "거래완료" };
+
+//로그인 창
+CLoginDlg LoginDlg;
 
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
+	//로그인 하기 위해 userDB 생성
 	userDB = new CUserDB;
 
 	CDialogEx::OnInitDialog();
-	if (dlg.DoModal() == IDCANCEL) {		
+
+	//로그인하지 않을 경우 프로그램이 닫혀 이용 불가능
+	if (LoginDlg.DoModal() == IDCANCEL) {
 		exit(0);
 	}
 
@@ -155,15 +146,16 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	CFont font_sel;
 	font_sel.CreateFont(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, 0, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_ROMAN, _T("나눔고딕"));
 
+
+	//다른 클래스에서 사용할 수 있도록 DB 접근에 필요한 객체들 생성, 업데이트
 	postDB = new CPostDB;
 	postDB->InitDB();
 	postDB->postList = postDB->dao.getAll();
-
 	bookmarkDB = new CBookMarkDB;
 	bookmarkDB->InitDB();
 	bookmarkDB->bookMarkList = bookmarkDB->dao.getAll();
 
-
+	//탭 추가 및 이름 설정
 	m_Tab.SetFont(&font_sel);
 	m_Tab.InsertItem(0, "홈");
 	m_Tab.InsertItem(1, "내 글 목록");
@@ -171,141 +163,38 @@ BOOL CDanggeunClientDlg::OnInitDialog()
 	m_Tab.InsertItem(3, "내 정보");
 	m_Tab.SetCurSel(0);
 
+	//탭들의 위치를 조절하기 위해 MainTabCtrl의 사이즈를 가져온다
 	CRect rect;
 	m_Tab.GetWindowRect(&rect);
 
+	//탭에 자식들 생성하고 붙이기
 	pDlg1 = new CTab1;
 	pDlg1->Create(IDD_CTab1, &m_Tab);
-	pDlg1->MoveWindow(28, 0, rect.Width(), rect.Height());
-	pDlg1->ShowWindow(SW_SHOW);
+	pDlg1->MoveWindow(28, 0, rect.Width(), rect.Height());	//위치 조정
+	pDlg1->ShowWindow(SW_SHOW);	//로그인 성공시 홈탭이 가장 먼저 보이게 설정
 	
 	
 	pDlg2 = new CTab2;
 	pDlg2->Create(IDD_CTab2, &m_Tab);
-	pDlg2->MoveWindow(28, 0, rect.Width(), rect.Height());
-	pDlg2->ShowWindow(SW_SHOW);
+	pDlg2->MoveWindow(28, 0, rect.Width(), rect.Height()); //위치조정
+	pDlg2->ShowWindow(SW_HIDE); //홈탭 제외 나머지는 숨기기
 
 	pDlg3 = new CTab3;
 	pDlg3->Create(IDD_CTab3, &m_Tab);
-	pDlg3->MoveWindow(28, 0, rect.Width(), rect.Height());
-	pDlg3->ShowWindow(SW_SHOW);
+	pDlg3->MoveWindow(28, 0, rect.Width(), rect.Height()); //위치 조정
+	pDlg3->ShowWindow(SW_HIDE); //홈탭 제외 나머지는 숨기기
 
 	pDlg4 = new CTab4;
 	pDlg4->Create(IDD_CTab4, &m_Tab);
-	pDlg4->MoveWindow(28, 0, rect.Width(), rect.Height());
-	pDlg4->ShowWindow(SW_SHOW);
+	pDlg4->MoveWindow(28, 0, rect.Width(), rect.Height());	//위치 조정
+	pDlg4->ShowWindow(SW_HIDE); //홈탭 제외 나머지는 숨기기
 
 
 	font_sel.DeleteObject();
 
 	m_Tab.ModifyStyle(0, TCS_OWNERDRAWFIXED);//tab 색상
 
-	pDlg1->ShowWindow(SW_SHOW);
-	pDlg2->ShowWindow(SW_HIDE);
-	pDlg3->ShowWindow(SW_HIDE);
-	pDlg4->ShowWindow(SW_HIDE);
 	
-
-	
-	//C/R/U/D
-	
-	/*CUserDB* _userDB = new CUserDB();
-	_userDB->InitDB();
-	CPostDB* _postDB = new CPostDB();
-	_postDB->InitDB();
-	CBookMarkDB* _bookDB = new CBookMarkDB();
-	_bookDB->InitDB();
-
-	CUserDTO _user;
-	CPostDTO _post;
-	CBookMarkDTO _book;
-
-	CString str;*/
-
-	// Create
-	//for (int i = 0; i < 3; i++) {
-		//str.Format("id%d", i);
-		//_user.SetUserID(str);
-
-		//str.Format("pw%d", i);
-		//_user.SetUserPW(str);
-
-		//_user.SetTown(i);
-
-		//str.Format("010-%d", i);
-		//_user.SetPhone(str);
-		//_userDB->dao.createUser(_user);
-
-
-		//str.Format("id%d", i);
-		//_post.SetUserID(str);
-		//_post.SetTitle("제목");
-		//_post.SetImgName("");
-		//_post.SetPrice("10000");
-		//_post.SetStauts(0);
-		//_post.SetContent("내용내용");
-		//_post.SetTown(i);
-		//_postDB->dao.createPost(_post);
-
-
-		//_book.SetPostID(i + 1);
-		//str.Format("id%d", i);
-		//_book.SetUserID(str);
-		//_bookDB->dao.createBookMark(_book);
-
-	//}
-
-
-	// Read All +update/delete
-		//_userDB->userList = _userDB->dao.getAll(); good
-	//_userDB->userList = _userDB->dao.getAllByTown(0); good
-	/*for (CUserDTO* user : _userDB->userList) {
-		str.Format(user->GetUserID());
-		AfxMessageBox(str);
-	}*/
-
-
-	//_postDB->postList = _postDB->dao.getAll(); good
-	//_postDB->postList = _postDB->dao.getAllByTitleSearch("제");
-	//for (CPostDTO* post : _postDB->postList) {
-	//	str.Format(post->GetUserID());
-	//	AfxMessageBox(str);
-	//	_postDB->dao.deletePost(post->GetPostID());
-	//}
-
-	//_postDB->postList = _postDB->dao.getAll(); good
-	//_bookDB->bookMarkList = _bookDB->dao.getAll();
-	//for (CBookMarkDTO* book : _bookDB->bookMarkList) {
-	//	str.Format(book->GetUserID());
-	//	AfxMessageBox(str);
-	//	_bookDB->dao.deleteBookMark(book->GetBookMarkID());
-	//}
-	
-	//for (int i = 0; i < 3; i++) {
-	//	//str.Format("id%d", i);
-	//	//_user = _userDB->dao.getUser(str);
-	//	//_userDB->dao.deleteUser(_user.GetUserID());
-	//	
-	//	//str.Format("id%d", i);
-	//	/*_post.SetUserID(str);
-	//	_book.SetPostID()*/
-	//	/*_post = _postDB->dao.getPost(8 + i);
-	//	str.Format(_post->GetUserID());
-	//	AfxMessageBox(str);*/
-
-	//	/*_post = _postDB->dao.getPost(8 + i);
-	//	str.Format(_post.GetUserID());
-	//	AfxMessageBox(str);*/
-
-	//	str.Format("id%d", i);
-	//	_user = _userDB->dao.getUser(str);
-	//	str.Format(_user.GetUserID());
-	//	AfxMessageBox(str);
-	//	//_user.SetUserPW(str);
-	//	//_userDB->dao.updateUser(_user);
-	//	_userDB->dao.deleteUser(str);
-
-	//}
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -360,20 +249,21 @@ HCURSOR CDanggeunClientDlg::OnQueryDragIcon()
 }
 
 
-
+//탭 선택 이벤트 핸들러(선택된 탭이 보이게 함)
 void CDanggeunClientDlg::OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	if (IDC_TAB_MAIN == pNMHDR->idFrom) {
-		int iSelect = m_Tab.GetCurSel();
-
+		int iSelect = m_Tab.GetCurSel();	//선택된 탭 구하기
+		
+		//선택된 탭만 보이게 하고, 해당 탭 내용 업데이트
 		switch (iSelect) {
 		case 0:
 			pDlg1->ShowWindow(SW_SHOW);
 			pDlg2->ShowWindow(SW_HIDE);
 			pDlg3->ShowWindow(SW_HIDE);
 			pDlg4->ShowWindow(SW_HIDE);
-			pDlg1->LoadTownPost();
+			pDlg1->LoadTownPost();	
 			break;
 		case 1:
 			pDlg2->ShowWindow(SW_SHOW);
@@ -413,68 +303,66 @@ void CDanggeunClientDlg::OnDestroy()
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 }
 
-
+//다이아로그의 배경색상 칠하기
 HBRUSH CDanggeunClientDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	// TODO:  여기서 DC의 특성을 변경합니다.
-	
-	if (nCtlColor == CTLCOLOR_DLG) {//dlg
+	// 여기서 DC의 특성을 변경합니다.
+	//다이로그일 때 색상 설정
+	if (nCtlColor == CTLCOLOR_DLG) {
 		return m_bk_brush;
 	}
-	
-	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
 }
 
-
+//로그인 다이얼로그에서 보낸 메세지 : 로그인 성공 했으므로 로그인 창 닫음
 afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom1(WPARAM wParam, LPARAM lParam)
 {
-	dlg.EndDialog(IDOK);
+	LoginDlg.EndDialog(IDOK);
 	return 0;
 }
 
+
+
+
+CCreatePost* CreatePostDlg; //글 작성 대화상자 변수
+
+//탭1에서 글작성 버튼 클릭시 오는 메세지
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
+{
+	//글작성 창 생성하고 띄움
+	CreatePostDlg = new CCreatePost;
+	CreatePostDlg->DoModal();
+	return 0;
+}
+
+//글작성 창에서 완료버튼 클릭으로 받은 메세지
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom3(WPARAM wParam, LPARAM lParam)
+{
+	UpdateData(FALSE);
+	
+	//글작성 창 닫기
+	CreatePostDlg->EndDialog(IDOK);
+
+	//글이 추가 됐으므로 홈 탭 바로 업데이트
+	pDlg1->LoadTownPost();
+	return 0;
+}
+
+//탭4에서 수정 완료 버튼 클릭으로 받은 메세지
+afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom6(WPARAM wParam, LPARAM lParam)
+{
+	UpdateData(FALSE);
+	//회원 수정된 내용으로 탭의 글 리스트 업데이트
+	pDlg1->LoadTownPost();
+	pDlg3->LoadBookmarkPost();
+	return 0;
+}
 
 
 void CDanggeunClientDlg::OnClose()
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	CDialogEx::OnClose();
-}
-
-CCreatePost* cDlg;
-afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom4(WPARAM wParam, LPARAM lParam)
-{
-	//cDlg.DoModal();
-	cDlg = new CCreatePost;
-	cDlg->DoModal();
-	return 0;
-}
-
-
-afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom3(WPARAM wParam, LPARAM lParam)
-{
-	UpdateData(FALSE);
-	cDlg->EndDialog(IDOK);
-	pDlg1->LoadTownPost();
-	return 0;
-}
-
-
-afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom5(WPARAM wParam, LPARAM lParam)
-{
-	pDlg3->LoadBookmarkPost();
-	return 0;
-}
-
-
-afx_msg LRESULT CDanggeunClientDlg::OnUwmCustom6(WPARAM wParam, LPARAM lParam)
-{
-	pDlg1->m_strTown = town[CurrentUser->GetTown()];
-	pDlg3->m_strTown = town[CurrentUser->GetTown()];
-	UpdateData(FALSE);
-	pDlg1->LoadTownPost();
-	pDlg3->LoadBookmarkPost();
-	return 0;
 }

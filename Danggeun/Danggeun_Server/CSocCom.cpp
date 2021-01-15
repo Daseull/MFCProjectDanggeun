@@ -1,13 +1,12 @@
 #include "pch.h"
 #include "CSocCom.h"
 
-void CSocCom::Init(HWND hWnd) {
+void CSocCom::Init(HWND hWnd) {		// 메인 핸들러 받아올 때 호출
 	m_hWnd = hWnd;
 }
 
-void CSocCom::OnReceive(int nErrorCode)
+void CSocCom::OnReceive(int nErrorCode)		// 서버에서 메시지 받을때 호출
 {
-	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
-	SendMessage(m_hWnd, UM_RECEIVE, 0, 0);
+	SendMessage(m_hWnd, UM_RECEIVE, 0, 0);	// 서버 다이얼로그에 메시지 전달
 	CSocket::OnReceive(nErrorCode);
 }

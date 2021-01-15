@@ -7,11 +7,11 @@ class CUserDTO {
 public:
 	CUserDTO();
 private:
-	CString userID;
+	CString userID; // PK
 	CString userPw;
 	int town;
 	CString phone;
-	BOOL isAdmin;
+	BOOL isAdmin; // INTEGER
 
 public:
 	// Getter

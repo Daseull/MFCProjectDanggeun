@@ -13,7 +13,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 // CAboutDlg dialog used for App About
 
 class CAboutDlg : public CDialogEx
@@ -25,7 +24,6 @@ public:
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
-
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
@@ -51,7 +49,7 @@ END_MESSAGE_MAP()
 
 
 
-CDanggeunServerDlg::CDanggeunServerDlg(CWnd* pParent /*=nullptr*/)
+CDanggeunServerDlg::CDanggeunServerDlg(CWnd* pParent /*=nullptr*/)	// 생성자
 	: CDialogEx(IDD_DANGGEUN_SERVER_DIALOG, pParent)
 	, m_strStatus(_T(""))
 	, m_strSend(_T(""))
@@ -59,7 +57,7 @@ CDanggeunServerDlg::CDanggeunServerDlg(CWnd* pParent /*=nullptr*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-void CDanggeunServerDlg::DoDataExchange(CDataExchange* pDX)
+void CDanggeunServerDlg::DoDataExchange(CDataExchange* pDX)			// 컨트롤 - 변수 동기화
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST1, m_list);
@@ -71,29 +69,23 @@ BEGIN_MESSAGE_MAP(CDanggeunServerDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_MESSAGE(UM_ACCEPT, (LRESULT(AFX_MSG_CALL  CWnd::*)(WPARAM, LPARAM)) OnAccept)
-	ON_MESSAGE(UM_RECEIVE, (LRESULT(AFX_MSG_CALL  CWnd::*)(WPARAM, LPARAM)) OnReceive)
+	ON_MESSAGE(UM_ACCEPT, (LRESULT(AFX_MSG_CALL  CWnd::*)(WPARAM, LPARAM)) OnAccept)	// 접속 요청 받았을 때
+	ON_MESSAGE(UM_RECEIVE, (LRESULT(AFX_MSG_CALL  CWnd::*)(WPARAM, LPARAM)) OnReceive)	// 메시지 받았을 때
 	ON_BN_CLICKED(IDC_BUTTON_SEND, &CDanggeunServerDlg::OnBnClickedButtonSend)
 END_MESSAGE_MAP()
 
 
 // CDanggeunServerDlg message handlers
 
-BOOL CDanggeunServerDlg::OnInitDialog()
+BOOL CDanggeunServerDlg::OnInitDialog()			// 다이얼로그 초기화
 {
 	CDialogEx::OnInitDialog();
 	m_socCom = NULL;
-
-	m_socServer.Create(5000);
-	m_socServer.Listen();
-	m_socServer.Init(this->m_hWnd);
-	//AfxMessageBox(_T("Create!"));
+	m_socServer.Create(5000);					// 포트 열기
+	m_socServer.Listen();						// 클라이언트의 접속 기다리기
+	m_socServer.Init(this->m_hWnd);				// 메인 핸들러 설정
 	return TRUE;
 
-
-	// Add "About..." menu item to system menu.
-
-	// IDM_ABOUTBOX must be in the system command range.
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -110,14 +102,8 @@ BOOL CDanggeunServerDlg::OnInitDialog()
 			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
 		}
 	}
-
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-
-	// TODO: Add extra initialization here
-
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -171,45 +157,44 @@ HCURSOR CDanggeunServerDlg::OnQueryDragIcon()
 }
 
 
-LPARAM CDanggeunServerDlg::OnAccept(UINT wParam, LPARAM IParam) {
-	m_strStatus = "접속성공";
-	m_socCom = new CSocCom;
-	m_socCom = m_socServer.GetAcceptSocCom();
-	m_socCom->Init(this->m_hWnd);
+LPARAM CDanggeunServerDlg::OnAccept(UINT wParam, LPARAM IParam) {	// 클라이언트로부터 접속요청 받았을 때
+	m_strStatus = "접속성공";										// 컨트롤러에 접속 상태 표시
+	m_socCom = new CSocCom;											// 통신용 소켓 생성
+	m_socCom = m_socServer.GetAcceptSocCom();						// 통신용 소켓 설정
+	m_socCom->Init(this->m_hWnd);									// 메인 핸들러 설정
 
-	m_socCom->Send("접속성공", 256);
+	m_socCom->Send("접속성공", 256);								// 클라이언트에 접속성공 메시지 보내기
 
 	UpdateData(FALSE);
 	return TRUE;
 }
 // (LRESULT(_cdecl CWnd::*)(WPARAM, LPARAM))
 
-LPARAM CDanggeunServerDlg::OnReceive(UINT wParam, LPARAM IParam) {
+LPARAM CDanggeunServerDlg::OnReceive(UINT wParam, LPARAM IParam) {	// 클라이언트로부터 메시지 받았을때
 	char pTmp[256];
 	CString strTmp;
-	memset(pTmp, '\0', 256);
+	memset(pTmp, '\0', 256);										// 변수 초기화
 
-	m_socCom->Receive(pTmp, 256);
-	strTmp.Format(_T("%s"), pTmp);
+	m_socCom->Receive(pTmp, 256);									// 메시지 받기
+	strTmp.Format(_T("%s"), pTmp);									// 형 변환
 
-	int i = m_list.GetCount();
-	m_list.InsertString(i, strTmp);
+	int i = m_list.GetCount();										// 리스트 행의 개수 받기
+	m_list.InsertString(i, strTmp);									// 리스트에 받은 문자열 메시지 출력
 	return TRUE;
 
 }
 
-void CDanggeunServerDlg::OnBnClickedButtonSend()
+void CDanggeunServerDlg::OnBnClickedButtonSend()					// 전송 버튼 클릭 시
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
 	char pTmp[256];
 	CString strTmp;
 
-	memset(pTmp, '\0', 256);
-	strcpy_s(pTmp, m_strSend);
-	m_socCom->Send(pTmp, 256);
+	memset(pTmp, '\0', 256);										// 변수 초기화
+	strcpy_s(pTmp, m_strSend);										// edit 컨트롤에 입력한 문자열 복사
+	m_socCom->Send(pTmp, 256);										// 클라이언트에 보내기
 
-	strTmp.Format(_T("%s"), pTmp);
-	int i = m_list.GetCount();
-	m_list.InsertString(i, strTmp);
+	strTmp.Format(_T("%s"), pTmp);									// 형 변환
+	int i = m_list.GetCount();										// 리스트 행의 개수 받기
+	m_list.InsertString(i, strTmp);									// 리스트에 문자열 메시지 출력
 }

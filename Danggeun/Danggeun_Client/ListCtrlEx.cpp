@@ -3,58 +3,54 @@
 
 IMPLEMENT_DYNAMIC(CListCtrlEx, CListCtrl)
 
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 CListCtrlEx::CListCtrlEx()
 {
-
 }
 
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 CListCtrlEx::~CListCtrlEx()
 {
 
 }
 
+//ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½
 BEGIN_MESSAGE_MAP(CListCtrlEx, CListCtrl)
-//	ON_NOTIFY_REFLECT(NM_CLICK, &CListCtrlEx::OnNMClick)
 END_MESSAGE_MAP()
 
-
+//ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Æ®ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ô·ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
 int CListCtrlEx::AddItem(LPCSTR strItem, int nItem, int nSubItem, UINT nState, int nImageIndex, long nParam)
 {
 	
 	LVITEM lvItem;
+	//ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	lvItem.mask = LVIF_TEXT;
+	//ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ 
 	lvItem.iItem = nItem;
+	//ï¿½ï¿½ï¿½ï¿½ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	lvItem.iSubItem = nSubItem;
-	
+	//ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½
 	lvItem.pszText = (LPTSTR)strItem;
 
+	//ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (nState != -1) {
 		lvItem.mask |= LVIF_STATE;
 		lvItem.state = nState;
 	}
-
+	//ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	if (nImageIndex != -1) {
 		lvItem.mask |= LVIF_IMAGE;
 		lvItem.iImage = nImageIndex;
 	}
-
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (nParam != -1) {
 		lvItem.mask |= LVIF_PARAM;
 		lvItem.lParam = nParam;
 	}
 
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½
 	if (nSubItem == 0)
-		return InsertItem(&lvItem);
+		return InsertItem(&lvItem);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	else
-		return SetItem(&lvItem);
-
+		return SetItem(&lvItem);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 }
-
-
-
-//void CListCtrlEx::OnNMClick(NMHDR* pNMHDR, LRESULT* pResult)
-//{
-//	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
-//	// TODO: ¿©±â¿¡ ÄÁÆ®·Ñ ¾Ë¸² Ã³¸®±â ÄÚµå¸¦ Ãß°¡ÇÕ´Ï´Ù.
-//	*pResult = 0;
-//}

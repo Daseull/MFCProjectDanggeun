@@ -8,7 +8,7 @@ CUserDAO::CUserDAO() {
 	_errmsg = NULL;
 }
 
-int CUserDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize)
+int CUserDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize) // 입력 -> DB
 {
 	WCHAR 	szUnicode[255];
 	char 	szUTF8code[255];
@@ -20,7 +20,7 @@ int CUserDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize)
 	strDest[nUTF8codeSize] = 0;
 	return nUTF8codeSize;
 }
-int CUserDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)
+int CUserDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize) // DB -> 출력
 {
 	WCHAR 	szUnicode[255];
 	char 	szAnsi[255];
@@ -36,10 +36,12 @@ int CUserDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)
 
 // C
 BOOL CUserDAO::createUser(CUserDTO user) {
-
+	if (getUser(user.GetUserID())) {
+		return false;
+	}
 
 	BOOL result = true;
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -47,66 +49,33 @@ BOOL CUserDAO::createUser(CUserDTO user) {
 		exit(1);
 	}
 
-	//int sLen;
-
-	//char* s_name;
-	//char szName[100];
-	//dataClean(s_name, szName, user.GetUserID(), &sLen);
-
-	//char* s_pw;
-	//char szTel[100];
-	//dataClean(s_pw, szTel, user.GetPhone(), &sLen);
-
-
-	//_errmsg = NULL;
-	//char sql[255] = { 0 };
-	//sprintf(sql, "insert into db(name, tel) values('%s','%s');", szName, szTel);
-
-	//if (SQLITE_OK != sqlite3_exec(_db, sql, NULL, NULL, &_errmsg))
-	//{
-	//	//printf("insert");
-	//	// insert Compelte
-	//	result = false;
-	//}
-
-	//sqlite3_finalize(_stmt);
-	char userID[100];
-	int sLen;
-	dataClean(userID, user.GetUserID());
-
-
-
 	sqlite3_prepare_v2(_db, "insert into user(userID, userPw, town, phone, isAdmin) values(?,?,?,?,?)", -1, &_stmt, NULL);
-	sqlite3_bind_text(_stmt, 1, userID, strlen(userID), SQLITE_STATIC);
+	// statement 통해서 쿼리 구성
+	sqlite3_bind_text(_stmt, 1, user.GetUserID(), user.GetUserID().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 2, user.GetUserPW(), user.GetUserPW().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 3, user.GetTown());
 	sqlite3_bind_text(_stmt, 4, user.GetPhone(), user.GetPhone().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 5, user.GetIsAdim());
-	/*sqlite3_step(_stmt);
-	sqlite3_finalize(_stmt);*/
 
 
 	if (sqlite3_step(_stmt) == SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
+
 	// https://www.sqlite.org/c3ref/step.html
-	// reset -> 
 	sqlite3_reset(_stmt);
 	sqlite3_finalize(_stmt);
 
 	sqlite3_close(_db);
 
 	return result;
-
-
 }
 
 // R
 CUserDTO* CUserDAO::getUser(CString userID) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -114,13 +83,12 @@ CUserDTO* CUserDAO::getUser(CString userID) {
 		exit(1);
 	}
 
-	// "from user"
+	// from user
 	CString sTmp;
-	sTmp.Format(_T("select * from user where userID = ?"));
-	
+	sTmp.Format("select * from user where userID = ?");
 
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
-	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_TRANSIENT);
+	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		int num_cols = sqlite3_column_count(_stmt);
@@ -151,7 +119,6 @@ CUserDTO* CUserDAO::getUser(CString userID) {
 		_user = NULL;
 	}
 
-	int i;
 
 
 
@@ -161,10 +128,9 @@ CUserDTO* CUserDAO::getUser(CString userID) {
 	return _user;
 }
 
-CUserDTO* CUserDAO::getUserByPw(CString userID, CString userPw) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
+CUserDTO* CUserDAO::getUserByPw(CString userID, CString userPw) { // 로그인 기능
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -172,9 +138,9 @@ CUserDTO* CUserDAO::getUserByPw(CString userID, CString userPw) {
 		exit(1);
 	}
 
-	// "from user"
+	// from user
 	CString sTmp;
-	sTmp.Format(_T("select * from user where userID = ? and userPw = ?"));
+	sTmp.Format("select * from user where userID = ? and userPw = ?");
 
 
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
@@ -207,21 +173,18 @@ CUserDTO* CUserDAO::getUserByPw(CString userID, CString userPw) {
 		_user->SetIsAdim(isAdmin);
 	}
 	else {
-		_user = NULL;
+		_user = NULL; // 일치하는 결과 없으면 NULL 반환
 	}
 
-	int i;
-
 	sqlite3_finalize(_stmt);
-
 	sqlite3_close(_db);
+
 	return _user;
 }
 
 std::vector<CUserDTO*> CUserDAO::getAll() {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -229,17 +192,13 @@ std::vector<CUserDTO*> CUserDAO::getAll() {
 		exit(1);
 	}
 
-	
-	
-	
-	_userList.clear();
+	_userList.clear(); // 초기화
 	CString sTmp;
 	sTmp.Format("select * from user");
 
 
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		_user = new CUserDTO();
@@ -274,9 +233,8 @@ std::vector<CUserDTO*> CUserDAO::getAll() {
 }
 
 std::vector<CUserDTO*> CUserDAO::getAllByTown(int townID) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -284,22 +242,16 @@ std::vector<CUserDTO*> CUserDAO::getAllByTown(int townID) {
 		exit(1);
 	}
 
-	//sqlite3_finalize(_stmt);
-	//sqlite3_prepare(_db, "INSERT ... (?,?)", -1, &_stmt, NULL);
-	//sqlite3_bind_int(_stmt, 1, 123);
-	//sqlite3_bind_int(_stmt, 2, 456);
-	//sqlite3_step(_stmt);
-	//sqlite3_finalize(_stmt);
-
-	_userList.clear();
-	// "from user"
+	_userList.clear(); // 초기화
+	
 	CString sTmp;
-	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("select * from user where town = ?"));
+	// from user
+	
+	sTmp.Format("select * from user where town = ?");
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, townID);
+
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		_user = new CUserDTO();
@@ -337,7 +289,7 @@ std::vector<CUserDTO*> CUserDAO::getAllByTown(int townID) {
 BOOL CUserDAO::updateUser(CUserDTO user) {
 
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -345,7 +297,6 @@ BOOL CUserDAO::updateUser(CUserDTO user) {
 		exit(1);
 	}
 
-	//sqlite3_finalize(_stmt);
 	sqlite3_prepare_v2(_db, "UPDATE user SET userPw = ?,"
 										 "town = ?,"
 										 "phone = ?,"
@@ -380,7 +331,7 @@ BOOL CUserDAO::updateUser(CUserDTO user) {
 
 // D
 BOOL CUserDAO::deleteUser(CString userID) {
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -388,40 +339,20 @@ BOOL CUserDAO::deleteUser(CString userID) {
 		exit(1);
 	}
 
-	//sqlite3_finalize(_stmt);
-
+	// 삭제 정책 활성화
 	char* sql = "PRAGMA foreign_keys = ON";
 	rc = sqlite3_exec(_db, sql, NULL, 0, &_errmsg);
 
 	BOOL result = true;
-	//sqlite3_prepare_v2(_db, sql, -1, &_stmt, NULL);
-	//if (sqlite3_step(_stmt) != SQLITE_DONE) {
-	//	// 제대로 동작하지 않은 경우
-	//	result = false;
-	//}
-	//sqlite3_reset(_stmt);
-	
-
-	// https://stackoverflow.com/a/61796041/14099774
-
-	//_errmsg = NULL;
-	//char sql[255] = { 0 };
-	//sprintf_s(sql, "delete from user where userID = '%s';", userID);
-
-	//if (SQLITE_OK != sqlite3_exec(_db, sql, NULL, NULL, &_errmsg))
-	//{
-	//	printf("delete");
-	//}
 
 	sqlite3_prepare_v2(_db, "delete from user where userID = ?", -1, &_stmt, NULL);
-	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_TRANSIENT);
+	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
 
 	if (sqlite3_step(_stmt) == SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
 	// https://www.sqlite.org/c3ref/step.html
-	// reset -> 
 	sqlite3_reset(_stmt);
 	sqlite3_finalize(_stmt);
 
@@ -432,7 +363,7 @@ BOOL CUserDAO::deleteUser(CString userID) {
 }
 
 
-void CUserDAO::dataClean(char* dest, CString str) {
+void CUserDAO::dataClean(char* dest, CString str) { // 멀티 바이트 UTF8 인코딩 과정
 	char* tmp;
 	//*sLen = WideCharToMultiByte(CP_ACP, 0, (LPCWCH)(LPCTSTR)str, -1, NULL, 0, NULL, NULL);
 	tmp = new char[str.GetLength() + 1];
@@ -440,7 +371,5 @@ void CUserDAO::dataClean(char* dest, CString str) {
 	strcpy(tmp, str);
 	AnsiToUTF8(tmp, dest, 100); // 100?
 	//WideCharToMultiByte(CP_UTF8, 0, (LPCWCH)(LPCTSTR)str, -1, dest, str.GetLength(), NULL, NULL);
-	
-
 	delete[]tmp;
 }

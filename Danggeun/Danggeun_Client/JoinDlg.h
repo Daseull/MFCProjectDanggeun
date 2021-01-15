@@ -23,16 +23,14 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CString m_strID;
-	CString m_strPHONE;
-	CString m_strPW;
-//	CComboBox m_Town;
-	afx_msg void OnBnClickedButtonJoinOk();
-//	virtual BOOL OnInitDialog();
+	CString m_strID;						// 사용자 ID
+	CString m_strPHONE;						// 전화번호
+	CString m_strPW;						// 사용자 PW
+	CComboBox m_Town;						// 동네
 	CRoundButton2 m_tMyButton1;
 	CRoundButtonStyle m_tMyButtonStyle;
-	afx_msg void OnEnChangeEditJoinPw();
+	afx_msg void OnBnClickedButtonJoinOk();	// 회원가입 완료 버튼 클릭시 호출
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-	CComboBox m_Town;
-	virtual BOOL OnInitDialog();
+	BOOL PreTranslateMessage(MSG* pMsg);
+	virtual BOOL OnInitDialog();			// 다이얼로그 초기화
 };
