@@ -32,7 +32,7 @@ private:
 // Construction
 public:
 	CDanggeunClientDlg(CWnd* pParent = nullptr);	// standard constructor
-	//CString CurrentUser;
+
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_DANGGEUN_CLIENT_DIALOG };
@@ -54,27 +54,20 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-//	CTabCtrl m_Tab;
 	afx_msg void OnTcnSelchangeTabMain(NMHDR* pNMHDR, LRESULT* pResult);
 
+	CMainTabCtrl m_Tab;
 	CTab1* pDlg1;
 	CTab2* pDlg2;
 	CTab3* pDlg3;
 	CTab4* pDlg4;	
-//	CUserDB* userDB;
-//	CTabCtrl m_Tab;
-	CMainTabCtrl m_Tab;
 	afx_msg void OnDestroy();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-protected:
-	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
 public:
-//	void OnClose();
-	/*afx_msg void OnClose();*/
 	afx_msg void OnClose();
 protected:
+	afx_msg LRESULT OnUwmCustom1(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnUwmCustom4(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnUwmCustom3(WPARAM wParam, LPARAM lParam);
-	afx_msg LRESULT OnUwmCustom5(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnUwmCustom6(WPARAM wParam, LPARAM lParam);
 };
