@@ -115,7 +115,6 @@ void CTab1::LoadTownPost()
 	m_strTown = town[CurrentUser->GetTown()];
 	m_strSearch.Empty();
 	UpdateData(FALSE);
-
 }
 
 void CTab1::SearchPost(CString Key)
