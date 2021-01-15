@@ -9,7 +9,7 @@ CPostDB::CPostDB() {
 void CPostDB::InitDB() {
 	// 데이터베이스 파일 생성 및 열기
 
-	int rc = sqlite3_open("test.db", &(dao._db));
+	int rc = sqlite3_open(DB_FILE_NAME, &(dao._db));
 
 	if (rc != SQLITE_OK)
 	{
@@ -30,7 +30,7 @@ void CPostDB::InitDB() {
 		   "status	INTEGER NOT NULL DEFAULT 0,"
 		   "price	TEXT NOT NULL,"
 	  	   "PRIMARY KEY(\"postID\" AUTOINCREMENT),"
-	  	   "FOREIGN KEY(\"userID\") REFERENCES \"user\"(\"userID\") ON DELETE SET NULL)";
+	  	   "FOREIGN KEY(\"userID\") REFERENCES \"user\"(\"userID\") ON DELETE SET NULL)"; // 글 주인이 사라지면 NULL로 변경, 완결성 유지
 
 
 

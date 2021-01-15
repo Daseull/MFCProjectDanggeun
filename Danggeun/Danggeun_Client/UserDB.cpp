@@ -12,7 +12,7 @@ CUserDB::CUserDB() {
 void CUserDB::InitDB() {
 	// 데이터베이스 파일 생성 및 열기
 
-	int rc = sqlite3_open("test.db", &(dao._db));
+	int rc = sqlite3_open(DB_FILE_NAME, &(dao._db));
 
 	if (rc != SQLITE_OK)
 	{

@@ -8,7 +8,7 @@ class CBookMarkDB
 {
 public:
 	CBookMarkDB();
-	void InitDB();
+	void InitDB(); // 테이블 생성
 	
 	CBookMarkDTO dto;
 	CBookMarkDAO dao;

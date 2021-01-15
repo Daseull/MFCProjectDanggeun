@@ -9,7 +9,7 @@ class CPostDB
 {
 public:
 	CPostDB();
-	void InitDB();
+	void InitDB(); // 테이블 생성
 	
 	CPostDAO dao;
 	CPostDTO dto;

@@ -4,12 +4,12 @@
 #include "UserDAO.h"
 #include "UserDTO.h"
 #include <vector>
+
 class CUserDB
 {
 public:
 	CUserDB();
-	void InitDB();
-	
+	void InitDB(); // 테이블 생성
 	
 	CUserDTO dto;
 	CUserDAO dao;

@@ -10,10 +10,10 @@ private:
 	CString userID; // FK
 	int town; 
 	CString title;
-	CString content; // content
-	CString imgName; // img
-	int status; // 0, 1, 2
-	CString price;
+	CString content; // 매우 긴 본문은? NoSQL>??
+	CString imgName; // img in res
+	int status; // 0, 1, 2: 판매중, 예약중, 판매 완료
+	CString price; // 출력의 용이함을 위해.. 적절하지는 않음 ㅠ
 
 public:
 	// Getter

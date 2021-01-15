@@ -10,7 +10,7 @@ CBookMarkDB::CBookMarkDB() {
 void CBookMarkDB::InitDB() {
 	// 데이터베이스 파일 생성 및 열기
 
-	int rc = sqlite3_open("test.db", &(dao._db));
+	int rc = sqlite3_open(DB_FILE_NAME, &(dao._db));
 
 	if (rc != SQLITE_OK)
 	{
@@ -25,7 +25,7 @@ void CBookMarkDB::InitDB() {
 		 	"bookMarkID	INTEGER,"
 		 	"userID	TEXT NOT NULL,"
 		 	"postID	INTEGER NOT NULL,"
-		 	"FOREIGN KEY(\"postID\") REFERENCES \"post\"(\"postID\") ON DELETE CASCADE,"
+		 	"FOREIGN KEY(\"postID\") REFERENCES \"post\"(\"postID\") ON DELETE CASCADE," // 유저 혹은 글 삭제 시 북마크 역시 제거
 		 	"FOREIGN KEY(\"userID\") REFERENCES \"user\"(\"userID\") ON DELETE CASCADE,"
 		 	"PRIMARY KEY(\"bookMarkID\" AUTOINCREMENT));";
 
