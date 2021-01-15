@@ -32,7 +32,7 @@ void CTab3::DoDataExchange(CDataExchange* pDX)
     CDialogEx::DoDataExchange(pDX);
     //  DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton1);
     DDX_Control(pDX, IDC_BUTTON_SEARCH, m_tMyButton1);
-    DDX_Text(pDX, IDC_STATIC_TOWN, m_strTown);
+    //DDX_Text(pDX, IDC_STATIC_TOWN, m_strTown);
     DDX_Control(pDX, IDC_BUTTON_BACK, m_tMyButton2);
     //  DDX_Control(pDX, IDC_LIST_HEART, m_list);
     DDX_Control(pDX, IDC_LIST_HEART, m_list);
@@ -102,7 +102,7 @@ BOOL CTab3::OnInitDialog()
 
     extern CString town[];
     extern CUserDTO* CurrentUser;
-    m_strTown = town[CurrentUser->GetTown()];
+    
     UpdateData(FALSE);
 
     m_ImageList.Create(60, 60, ILC_COLORDDB | ILC_MASK, 8, 8);
@@ -138,39 +138,6 @@ void CTab3::LoadBookmarkPost() {
     extern CBookMarkDB* bookmarkDB;
     extern CString status[3];
 
-    extern CString town[];
-    m_strTown = town[CurrentUser->GetTown()];
-
-    //1/12 수정필요 관심목록 찾을 때
-
-    for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
-        if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
-            for (CPostDTO* post : postDB->postList) {
-                if (bookmark->GetPostID() == post->GetPostID()) {
-                    CBitmap bmp;
-                    CImage img;
-                    img.Load("res\\small_" + post->GetImgName());
-                    if (img.IsNull()) {
-                        img.Load("res\\LoadError.png");
-                    }
-                    bmp.Attach(img);
-                    m_ImageList.Add(&bmp, RGB(255, 255, 255));
-
-                    int i = m_list.GetItemCount();   // 이미지 순서 맞는지 확인하기
-                    m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-                    m_list.AddItem(post->GetPrice(), i, 1);
-                    m_list.AddItem(status[post->GetStatus()], i, 2);
-
-                    int postid = post->GetPostID();
-                    CString postID;
-                    postID.Format("%d", postid);
-                    m_list.AddItem(postID, i, 3);
-                }
-            }
-        }
-    }
-
-    /*
     for (CPostDTO* post : postDB->dao.getAllByBookMark(CurrentUser->GetUserID())) {
        CBitmap bmp;
        CImage img;
@@ -191,7 +158,7 @@ void CTab3::LoadBookmarkPost() {
        postID.Format("%d", postid);
        m_list.AddItem(postID, i, 3);
     }
-    */
+    
     UpdateData(FALSE);
 }
 
@@ -201,7 +168,7 @@ void CTab3::SearchPost(CString Key)
     //TO DO: 뒤로가기 버튼 보이기는 여기에 해주세요
     GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_SHOW);
     m_strSearch = "";
-    UpdateData(FALSE);
+ 
     //초기화
     int n = m_list.GetItemCount();
     while (n--)
@@ -220,35 +187,25 @@ void CTab3::SearchPost(CString Key)
     extern CBookMarkDB* bookmarkDB;
     extern CString status[3];
 
-    //1/12 수정필요
-
-    for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
-        if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
-            for (CPostDTO* post : postDB->postList) {
-                if (bookmark->GetPostID() == post->GetPostID()) {
-                    CString title = post->GetTitle();
-                    if (title.MakeUpper().Find(Key) != -1) {
-                        CBitmap bmp;
-                        CImage img;
-                        img.Load("res\\small_" + post->GetImgName());
-                        if (img.IsNull()) {
-                            img.Load("res\\LoadError.png");
-                        }
-                        bmp.Attach(img);
-                        m_ImageList.Add(&bmp, RGB(255, 255, 255));
-
-                        int i = m_list.GetItemCount();
-                        m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-                        m_list.AddItem(post->GetPrice(), i, 1);
-                        m_list.AddItem(status[post->GetStatus()], i, 2);
-                        int postid = post->GetPostID();
-                        CString postID;
-                        postID.Format("%d", postid);
-                        m_list.AddItem(postID, i, 3);
-                    }
-                }
-            }
+    for (CPostDTO* post : postDB->dao.getAllByBookMarkAndSearch(CurrentUser->GetUserID(), Key)) {
+        CBitmap bmp;
+        CImage img;
+        img.Load("res\\small_" + post->GetImgName());
+        if (img.IsNull()) {
+            img.Load("res\\LoadError.png");
         }
+        bmp.Attach(img);
+        m_ImageList.Add(&bmp, RGB(255, 255, 255));
+
+        int i = m_list.GetItemCount();   // 이미지 순서 맞는지 확인하기
+        m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+        m_list.AddItem(post->GetPrice(), i, 1);
+        m_list.AddItem(status[post->GetStatus()], i, 2);
+
+        int postid = post->GetPostID();
+        CString postID;
+        postID.Format("%d", postid);
+        m_list.AddItem(postID, i, 3);
     }
 
     UpdateData(FALSE);

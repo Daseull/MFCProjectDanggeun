@@ -396,7 +396,7 @@ std::vector<CPostDTO*> CPostDAO::getAllByBookMarkAndSearch(CString userID, CStri
 	dataClean(_q, q); // 
 	sTmp.Format("select * from post where postID in (select postID from bookmark where userID = ?) and title like '%%%s%%' ORDER by postID desc", q);
 
-	char _sql[100];
+	char _sql[300];
 	dataClean(_sql, sTmp);
 
 	sqlite3_prepare_v2(_db, _sql, -1, &_stmt, NULL);
@@ -604,7 +604,7 @@ void CPostDAO::dataClean(char* dest, CString str) { // 멀티 바이트 UTF8 인코딩 �
 	tmp = new char[str.GetLength() + 1];
 	//WideCharToMultiByte(CP_ACP, 0, (LPCWCH)(LPCTSTR)str, -1, tmp, *sLen, NULL, NULL);
 	strcpy(tmp, str);
-	AnsiToUTF8(tmp, dest, 100); // 100?
+	AnsiToUTF8(tmp, dest, 300); // 100?
 	//WideCharToMultiByte(CP_UTF8, 0, (LPCWCH)(LPCTSTR)str, -1, dest, str.GetLength(), NULL, NULL);
 
 	delete[]tmp;
