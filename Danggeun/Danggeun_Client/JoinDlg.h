@@ -31,5 +31,6 @@ public:
 	CRoundButtonStyle m_tMyButtonStyle;
 	afx_msg void OnBnClickedButtonJoinOk();	// 회원가입 완료 버튼 클릭시 호출
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	BOOL PreTranslateMessage(MSG* pMsg);
 	virtual BOOL OnInitDialog();			// 다이얼로그 초기화
 };

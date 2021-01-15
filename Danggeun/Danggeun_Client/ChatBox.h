@@ -33,6 +33,7 @@ public:
 	CRoundButtonStyle m_tMyButtonStyle;			
 	CRoundButton2 m_tMyButton1;
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg void OnIdok();
 	CStatic m_picture;										// 상품 사진
 	CStatic m_title;										// 글 제목
 	CStatic m_price;										// 상품 가격

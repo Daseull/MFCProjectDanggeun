@@ -39,6 +39,7 @@ BEGIN_MESSAGE_MAP(ChatBox, CDialogEx)
 	ON_MESSAGE(UM_RECEIVE, (LRESULT(AFX_MSG_CALL CWnd::*)(WPARAM, LPARAM))OnReceive)	// 서버로 부터 메시지 받을 때
 	ON_BN_CLICKED(IDC_BUTTON_SEND, &ChatBox::OnBnClickedButtonSend)						// 보내기 버튼 클릭했을 때
 	ON_WM_CTLCOLOR()
+	ON_COMMAND(IDOK, &ChatBox::OnIdok)
 END_MESSAGE_MAP()
 
 
