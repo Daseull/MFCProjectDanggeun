@@ -150,7 +150,6 @@ BOOL CTab4::OnInitDialog()
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
 
-
 void CTab4::OnClickedButtonChangeok()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.

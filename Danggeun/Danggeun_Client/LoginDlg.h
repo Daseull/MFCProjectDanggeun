@@ -19,27 +19,16 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
-
 	DECLARE_MESSAGE_MAP()
 public:
-//	CRoundButtonStyle m_tMyButtonStyle;
-//	CButton m_tMyButton1;
-//	CRoundButton2 m_tMyButton1;
-
-
 	CRoundButton2 m_tMyButton1;
 	CRoundButtonStyle m_tMyButtonStyle;
 	CRoundButton2 m_tMyButton2;
-	afx_msg void OnBnClickedButtonJoin();
+	CString m_strID;											// 로그인 창에 입력된 사용자 ID
+	CString m_strPW;											// 로그인 창에 입력된 사용자 PW
+	afx_msg void OnBnClickedButtonJoin();						// 회원 가입 버튼 클릭 시 호출
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
-	afx_msg void OnBnClickedButtonLogin();
-
-protected:
-	afx_msg LRESULT OnUwmCustom2(WPARAM wParam, LPARAM lParam);
-
-
-public:
-	CString m_strID;
-	CString m_strPW;
-	afx_msg void OnIdok();
+	afx_msg void OnBnClickedButtonLogin();						// 로그인 버튼 클릭 시 호출
+	afx_msg LRESULT OnUwmCustom2(WPARAM wParam, LPARAM lParam);	// 회원가입 성공시 메시지 받기
+	void OnIdok();
 };

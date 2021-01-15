@@ -1,19 +1,17 @@
 #include "pch.h"
 #include "CSocServer.h"
 
-void CSocServer::Init(HWND hWnd) {
+void CSocServer::Init(HWND hWnd) {		// 메인 핸들러 설정
 	m_hWnd = hWnd;
 }
 
-void CSocServer::OnAccept(int nErrorCode)
+void CSocServer::OnAccept(int nErrorCode)	// 클라이언트의 접속 요청 받았을 때
 {
-	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
-	//AfxMessageBox(_T("Accept!"));
-	Accept(m_socCom);
-	SendMessage(m_hWnd, UM_ACCEPT, 0, 0);
+	Accept(m_socCom);						// 통신용 소켓 받기
+	SendMessage(m_hWnd, UM_ACCEPT, 0, 0);	// 접속 메시지 보내기
 	CSocket::OnAccept(nErrorCode);
 }
 
-CSocCom* CSocServer::GetAcceptSocCom() {
+CSocCom* CSocServer::GetAcceptSocCom() {	// 통신용 소켓 반환
 	return &m_socCom;
 }

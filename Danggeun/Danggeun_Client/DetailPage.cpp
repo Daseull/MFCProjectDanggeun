@@ -239,7 +239,6 @@ BOOL CDetailPage::OnInitDialog()
 				heartstate = 1; break;
 			}
 		}
-
 		if (heartstate == 0) {
 			m_btnheart.LoadBitmaps(IDB_HEART, NULL, NULL, NULL);
 			m_btnheart.SizeToContent();
@@ -248,16 +247,9 @@ BOOL CDetailPage::OnInitDialog()
 			m_btnheart.LoadBitmaps(IDB_HEART2, NULL, NULL, NULL);
 			m_btnheart.SizeToContent();
 		}
-
 	}
-
 	LoadDetailPage();
-
-
-
-
 	return TRUE;  // return TRUE unless you set the focus to a control
-				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
 
 void CDetailPage::OnStnClickedStaticState()
