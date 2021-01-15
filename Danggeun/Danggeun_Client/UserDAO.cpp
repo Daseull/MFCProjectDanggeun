@@ -37,10 +37,12 @@ int CUserDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize) // DB -> 출력
 // C
 BOOL CUserDAO::createUser(CUserDTO user) {
 	if (getUser(user.GetUserID())) {
-		return false;
+		return FALSE;
 	}
+	
+	
 
-	BOOL result = true;
+	BOOL result = TRUE;
 	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
@@ -58,7 +60,7 @@ BOOL CUserDAO::createUser(CUserDTO user) {
 	sqlite3_bind_int(_stmt, 5, user.GetIsAdim());
 
 
-	if (sqlite3_step(_stmt) == SQLITE_DONE) {
+	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
@@ -82,6 +84,7 @@ CUserDTO* CUserDAO::getUser(CString userID) {
 		sqlite3_close(_db);
 		exit(1);
 	}
+
 
 	// from user
 	CString sTmp;
@@ -114,6 +117,7 @@ CUserDTO* CUserDAO::getUser(CString userID) {
 		_user->SetTown(town);
 		_user->SetPhone(phone);
 		_user->SetIsAdim(isAdmin);
+
 	}
 	else {
 		_user = NULL;

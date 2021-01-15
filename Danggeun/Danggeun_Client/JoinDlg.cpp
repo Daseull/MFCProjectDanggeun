@@ -44,19 +44,20 @@ void JoinDlg::OnBnClickedButtonJoinOk()			// 회원 가입 버튼 클릭시
 	UpdateData(TRUE);
 	if (m_strID.GetLength() == 0 || m_strPW.GetLength() == 0 || m_strPHONE.GetLength() == 0)	// 회원가입 양식이 모두 입력되지 않았을 경우
 		MessageBox("fill out all forms");														
-	else {															// 양식 모두 입력했을 경우
-		CUserDTO* user;
-		user = userDB->dao.getUser(m_strID);						// 중복된 아이디 있는지 확인
-		if(user) AfxMessageBox("Please use a different ID");		// 중복된 아이디 있을 경우
-		else {														// 중복된 아이디 없을 경우
-			CUserDTO user;											// 사용자 DTO 객체 선언
-			user.SetUserID(m_strID);								// ID 설정
-			user.SetUserPW(m_strPW);								// PW 설정
-			user.SetTown(town);										// 동네 설정
-			user.SetPhone(m_strPHONE);								// 전화번호 설정
-			userDB->dao.createUser(user);							// 데이터베이스에 사용자 정보추가
+	else{
+
+		CUserDTO user;											// 사용자 DTO 객체 선언
+		user.SetUserID(m_strID);								// ID 설정
+		user.SetUserPW(m_strPW);								// PW 설정
+		user.SetTown(town);										// 동네 설정
+		user.SetPhone(m_strPHONE);								// 전화번호 설정
+		//데이터 베이스에 사용자 정보 추가
+		if (userDB->dao.createUser(user)) {
 			AfxMessageBox("Join Success !");
 			::SendMessage(((JoinDlg*)GetParent())->GetSafeHwnd(), UWM_CUSTOM2, 0, 0);	// 로그인 다이얼로그에 메시지 보내기
+		}
+		else {
+			AfxMessageBox("Please use a different ID");		// 중복된 아이디 있을 경우
 		}
 	}
 	

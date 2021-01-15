@@ -256,14 +256,10 @@ void CTab3::OnDblclkListHeart(NMHDR* pNMHDR, LRESULT* pResult)
         extern CPostDB* postDB;
 
         //1/12 수정필요
+        CDetailPage dlg(postDB->dao.getPost(PostID));
+        dlg.DoModal();
 
-        for (CPostDTO* post : postDB->postList) {
-            if (post->GetPostID() == PostID) {
-                CDetailPage dlg(post);
-                dlg.DoModal();
-                break;
-            }
-        }
+
     }
     *pResult = 0;
 }
