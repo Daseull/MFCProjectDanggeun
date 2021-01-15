@@ -18,7 +18,6 @@
 #define new DEBUG_NEW
 #endif
 
-
 CUserDTO* CurrentUser;
 CUserDB* userDB;
 CPostDB* postDB;
@@ -26,6 +25,7 @@ CBookMarkDB* bookmarkDB;
 CString town[25] = { "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구",
 					"노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구",
 					"양천구", "영등포구", "용산구","은평구", "종로구", "중구", "중랑구" };
+
 CString status[3] = { "판매중", "예약중", "거래완료" };
 
 
@@ -413,18 +413,16 @@ void CDanggeunClientDlg::OnDestroy()
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 }
 
-
+//다이아로그의 배경색상 칠하기
 HBRUSH CDanggeunClientDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	// TODO:  여기서 DC의 특성을 변경합니다.
-	
-	if (nCtlColor == CTLCOLOR_DLG) {//dlg
+	// 여기서 DC의 특성을 변경합니다.
+	//다이로그일 때 색상 설정
+	if (nCtlColor == CTLCOLOR_DLG) {
 		return m_bk_brush;
 	}
-	
-	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
 }
 

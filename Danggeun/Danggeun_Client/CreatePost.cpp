@@ -1,5 +1,5 @@
 ﻿// CreatePost.cpp: 구현 파일
-//
+//글 작성하기 페이지
 
 #include "pch.h"
 #include "Danggeun_Client.h"
@@ -8,10 +8,10 @@
 
 
 // CCreatePost 대화 상자
-
 IMPLEMENT_DYNAMIC(CCreatePost, CDialogEx)
 CString img_path = "";
 
+//생성자
 CCreatePost::CCreatePost(CPostDTO* post, CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOG_CREATE_POST, pParent)
 	, m_post(post)
@@ -20,18 +20,18 @@ CCreatePost::CCreatePost(CPostDTO* post, CWnd* pParent /*=nullptr*/)
 	, m_strText(_T("동네에 올릴 게시글 내용을 작성해주세요(가품 및 판매금지품목은 게시가 제한 될 수 있어요.)"))
 	
 {
-	
-
+	//변수 초기화
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
-
 }
 
+//해제자
 CCreatePost::~CCreatePost()
 {
 }
 
+//컨트롤의 값 변환
 void CCreatePost::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
@@ -44,38 +44,38 @@ void CCreatePost::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_COMEDIT, m_tMyButton2);
 }
 
-
+//멤버함수 
 BEGIN_MESSAGE_MAP(CCreatePost, CDialogEx)
 	ON_WM_CTLCOLOR()
 	ON_BN_CLICKED(IDC_BUTTON_POST, &CCreatePost::OnBnClickedButtonPost)
 	ON_STN_CLICKED(IDC_STATIC_ADDPIC, &CCreatePost::OnStnClickedStaticAddpic)
 	ON_BN_CLICKED(IDC_BUTTON_COMEDIT, &CCreatePost::OnClickedButtonComedit)
-//	ON_COMMAND(IDOK, &CCreatePost::OnIdok)
 END_MESSAGE_MAP()
 
 
 // CCreatePost 메시지 처리기
 
-
+//다이아로그의 배경색상 칠하기
 HBRUSH CCreatePost::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	// TODO:  여기서 DC의 특성을 변경합니다.
-	if (nCtlColor == CTLCOLOR_DLG) {//dlg
+	//여기서 DC의 특성을 변경합니다.
+	//다이로그일 때 색상 설정
+	if (nCtlColor == CTLCOLOR_DLG) {
 		return m_bk_brush;
 	}
+	//스태틱일 때 색상 설정
 	if (nCtlColor == CTLCOLOR_STATIC) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
+	//버튼일 때 색상 설정
 	if (nCtlColor == CTLCOLOR_BTN) {
-		//pDC->SetBkMode(TRANSPARENT);
 		pDC->SetBkColor(RGB(0, 200, 255));
 		return (HBRUSH)::GetStockObject(NULL_BRUSH);
 	}
-	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
 }
 
@@ -111,13 +111,11 @@ BOOL CCreatePost::OnInitDialog()
 	m_state.InsertString(2, "거래완료");
 	m_state.SetCurSel(0);
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+	return TRUE; 
 }
 
 void CCreatePost::OnBnClickedButtonPost()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	extern CPostDB* postDB;
 	UpdateData(TRUE);
 	if (m_strTitle == "글 제목을 작성해주세요" || m_strPrice == "가격을 입력해주세요"
@@ -145,7 +143,6 @@ void CCreatePost::OnBnClickedButtonPost()
 
 void CCreatePost::OnClickedButtonComedit()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	UpdateData(TRUE);
 	m_post->SetTitle(m_strTitle);
 	m_post->SetImgName(img_path);
@@ -171,44 +168,8 @@ void CCreatePost::OnClickedButtonComedit()
 	AfxMessageBox("수정 완료!");
 }
 
-/*
-void CCreatePost::OnClickedButtonComedit()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	UpdateData(TRUE);
-
-	m_post->SetTitle(m_strTitle);
-	m_post->SetImgName(img_path);
-	m_post->SetContent(m_strText);
-	extern CUserDTO* CurrentUser;
-	m_post->SetTown(CurrentUser->GetTown());
-	m_post->SetPrice(m_strPrice);
-	m_post->SetStauts(m_state.GetCurSel());
-
-	CPostDTO newpost;
-	newpost.SetPostID(m_post->GetPostID());
-	newpost.SetTitle(m_strTitle);
-	newpost.SetImgName(img_path);
-	newpost.SetContent(m_strText);
-	extern CUserDTO* CurrentUser;
-	newpost.SetTown(CurrentUser->GetTown());
-	newpost.SetPrice(m_strPrice);
-	newpost.SetStauts(m_state.GetCurSel());
-	extern CPostDB* postDB;
-	postDB->dao.updatePost(newpost);
-	postDB->postList = postDB->dao.getAll();
-
-
-	AfxMessageBox("수정 완료!");
-
-	//SendMessage(IDCLOSE);
-
-}
-
-*/
 void CCreatePost::OnStnClickedStaticAddpic()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	char szFilter[] = " All Files(*.*)|*.*|";
 	CFileDialog dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, (CString)szFilter, NULL);
 	if (IDOK == dlg.DoModal())
@@ -237,28 +198,12 @@ void CCreatePost::OnStnClickedStaticAddpic()
 		HBITMAP h_bmp = (HBITMAP)addpicresult;
 		m_stcImg.SetBitmap(h_bmp);
 
-
-		
 		addpicresult.Detach();
 	}
 }
 
-
-
-
-
-
-
-//void CCreatePost::OnIdok()
-//{
-//	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-//	CDialogEx::Dest
-//}
-
-
 void CCreatePost::OnOK()
 {
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
-
 	CDialogEx::OnOK();
 }

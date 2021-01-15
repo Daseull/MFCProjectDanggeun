@@ -78,48 +78,52 @@ END_MESSAGE_MAP()
 HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
-	// TODO:  여기서 DC의 특성을 변경합니다.
-
+	// 여기서 DC의 특성을 변경합니다.
+	//다이로그일 때 색상 설정
 	if (nCtlColor == CTLCOLOR_DLG) {
 		return m_bk_brush;
 	}
-
+	//사용자의 id 스태틱에 대한 색상 설정
 	if (m_stcUserID.m_hWnd == pWnd->m_hWnd) {
 		pDC->SetBkColor(RGB(253,212,129));
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
+	//사용자의 town 스태틱에 대한 색상 설정 
 	else if (m_stcTown.m_hWnd == pWnd->m_hWnd) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
+	//상품의 state 스태틱에 대한 색상 설정 
 	else if (m_stcState.m_hWnd == pWnd->m_hWnd) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(0, 169, 76));
 		return m_bk_brush;
 	}
+	//상품의 text 스태틱에 대한 색상 설정 
 	else if (m_stcText.m_hWnd == pWnd->m_hWnd) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
+	//상품의 price 스태틱에 대한 색상 설정
 	else if (m_stcPrice.m_hWnd == pWnd->m_hWnd) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(61, 149, 255));
 		return m_bk_brush;
 	}
+	//스태틱일 때 색상 설정
 	else if (nCtlColor==CTLCOLOR_STATIC) {
 		pDC->SetBkColor(RGB(253, 212, 129));
 		pDC->SetTextColor(RGB(0, 0, 0));
 		return m_bk_brush;
 	}
-
+	//버튼일 때 색상 설정
 	if (nCtlColor == CTLCOLOR_BTN) {
 		pDC->SetBkColor(RGB(0, 200, 255));
 		return (HBRUSH)::GetStockObject(NULL_BRUSH);
 	}
-	// TODO:  기본값이 적당하지 않으면 다른 브러시를 반환합니다.
 	return hbr;
 }
 

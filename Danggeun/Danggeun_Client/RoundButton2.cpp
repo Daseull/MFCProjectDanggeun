@@ -1,22 +1,3 @@
-/********************************************************************
-	created:	2005/06/03
-	created:	3:6:2005   13:22
-	filename: 	x:\Software\Mfc\Source\Controls\Buttons\RoundButton2.cpp
-	file path:	x:\Software\Mfc\Source\Controls\Buttons
-	file base:	RoundButton2
-	file ext:	cpp
-	author:		Markus Zocholl
-	
-	purpose:	CRoundButton2 defines a universal Button-Control with the 
-				following features:
-
-				* Shape is a rounded Rectangle
-				* Button includes Border and Button-Face
-				* Many parameters to get an individual look
-				* Functions of Button to be en- or disabled:
-					- Button (disabled means a static control with userdefined styles)
-					- Hover
-*********************************************************************/
 #include "pch.h"
 #include <math.h>
 #include ".\RoundButton2.h"
@@ -27,11 +8,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/************************************************************************/
-/* Construction and Destruction                                         */
-/************************************************************************/
-
-//! Construction
+//생성자
 CRoundButton2::CRoundButton2(void):	
 	  m_bDefaultButton(false)
 	, m_bIsCheckButton(false)
@@ -44,7 +21,8 @@ CRoundButton2::CRoundButton2(void):
 	, m_bRedraw(false)
 	, m_sOldCaption(_T(""))
 	  {
-	// Set Standards in Font-Style
+
+	//표준 폰트 
 	m_tLogFont.lfHeight			= 16;
 	m_tLogFont.lfWidth			= 0;
 	m_tLogFont.lfEscapement		= 0;
@@ -62,7 +40,7 @@ CRoundButton2::CRoundButton2(void):
 
 	m_tBtnFont.CreateFontIndirect(&m_tLogFont);
 
-	// Set Standard Font-Color
+	//표준 색상
 	m_tTextColor.m_tDisabled	= RGB(255, 133, 0);
 	m_tTextColor.m_tEnabled		= RGB( 255,  255,  255);
 	m_tTextColor.m_tClicked		= RGB( 255,  255, 255);
@@ -70,104 +48,103 @@ CRoundButton2::CRoundButton2(void):
 	m_tTextColor.m_tHot			= RGB( 0,  0,  0);
 }
 
-//! Destruction
+//파괴자
 CRoundButton2::~CRoundButton2(void)
 {
 }
 
-/************************************************************************/
-/* public Functions                                                     */
-/************************************************************************/
-
-// Set Style of Button
+// 버튼 스타일
 bool CRoundButton2::SetRoundButtonStyle(CRoundButtonStyle* _ptRoundButtonStyle)
 {
-	// Check, if Button-Style is given
+	//버튼이 생성되어있을 때 false 리턴
 	if (_ptRoundButtonStyle == NULL)
 		return false;
 
-	// Set Pointer to ButtonStyle
+	//버튼 스타일에 포인터를 할당한다
 	m_ptRoundButtonStyle = _ptRoundButtonStyle;
 
-	// Redraw Button
+	//버튼 디자인 입히기
 	m_bRedraw = true;
 
-	// All Done
+	//완료
 	return false;
 }
 
-// Set Font of Button
+//버튼의 폰트 생성 
 bool CRoundButton2::SetFont(LOGFONT* _ptLogFont)
 {
+	//폰트가 없다면 false반환
 	if (_ptLogFont == NULL)
 		return false;
 
-	// Delete Font, if already given
+	//이미 할당된 폰트에 대해서는 해제
 	if (m_tBtnFont.m_hObject != NULL)
 		m_tBtnFont.DeleteObject();
 
-	// Store Infos local
+	//폰트를 저장
 	memcpy(&m_tLogFont, _ptLogFont, sizeof(LOGFONT));
 
-	// Create new Font
+	//새로운 폰트 생성
 	m_tBtnFont.CreateFontIndirect(&m_tLogFont);
 
-	// Button should be redrawn
+	//버튼 디자인 입히기
 	m_bRedraw = true;
 
 	return true;
 }
 
-// Set Font of Button
+//버튼의 폰트 설정
 bool CRoundButton2::GetFont(LOGFONT* _ptLogFont)
 {
+	//폰트가 없다면 false반환
 	if (_ptLogFont == NULL)
 		return false;
 
-	// Store Infos local
+	//폰트 저장
 	memcpy(_ptLogFont, &m_tLogFont, sizeof(LOGFONT));
 
 	return true;
 }
 
-//! Set Color of Caption
+//폰트 색상 설정
 bool CRoundButton2::SetTextColor(tColorScheme* _ptTextColor)
 {
+	//폰트 색상이 없다면 false반환
 	if (_ptTextColor == NULL)
 		return false;
 
-	// Store Infos locally
+	//폰트 저장
 	memcpy(&m_tTextColor, _ptTextColor, sizeof(tColorScheme));
 
-	// Button should be redrawn
+	//버튼 디자인 입히기
 	m_bRedraw = true;
 
 	return true;
 }
 
-//! Get Color of Caption
+//폰트의 색상 가져오기
 bool CRoundButton2::GetTextColor(tColorScheme* _ptTextColor)
 {
+	//폰트 색상이 없다면 false반환
 	if (_ptTextColor == NULL)
 		return false;
 
-	// Store Infos locally
+	//폰트 저장
 	memcpy(_ptTextColor, &m_tTextColor, sizeof(tColorScheme));
 
 	return true;
 }
 
-/************************************************************************/
-/* Own Drawing-Functions                                                */
-/************************************************************************/
-
-//! Generate Bitmaps to hold Buttons
+//비트맵 저장하기
 void CRoundButton2::GenButtonBMPs(CDC* _pDC, CRect _rRect)
 {
 	if (m_tBmpBtn.m_hObject != NULL)
 		m_tBmpBtn.DeleteObject();
+
+	//비트맵 초기화
 	m_tBmpBtn.m_hObject = NULL;
-	// Generate Bitmap
+
+	//비트맵 생성
 	if (m_tBmpBtn.CreateCompatibleBitmap(_pDC, _rRect.Width(), _rRect.Height() * BS_LAST_STATE) == FALSE)
 	{
 		m_rBtnSize = CRect(0, 0, 0, 0);
@@ -178,21 +155,21 @@ void CRoundButton2::GenButtonBMPs(CDC* _pDC, CRect _rRect)
 	}
 }
 
-//! Draw Button-Face
+//버튼의 표면 입히기
 void CRoundButton2::DrawButtonFace(CDC* _pDC)
 {
-	// We need an attached style
+	// 디자인이 입혀져있지않은 상태
 	if (m_ptRoundButtonStyle == NULL)
 		return;
 
-	// Get Pointer to Bitmap of Masks
+	// 비트맵의 포인터 가져오기
 	CBitmap* pButtonMasks = m_ptRoundButtonStyle->GetButtonEdge(_pDC);
 
-	// Create Memory-DC
+	//메모리 생성하기 
 	CDC SourceDC;
 	SourceDC.CreateCompatibleDC(_pDC);
 
-	// Select Working Objects into DCs
+	// DC에서 선택
 	HGDIOBJ hOldBmp1 = SourceDC.SelectObject(pButtonMasks);
 
 	int nState;
@@ -201,16 +178,15 @@ void CRoundButton2::DrawButtonFace(CDC* _pDC)
 	CSize tCorrectedEdgeSize;
 	CSize tMaskSize = m_ptRoundButtonStyle->GetMaskSize();
 
-	// Correct Edge-Size for smaller Buttons
+	//작은 크기의 버튼은 테두리 사이즈 재설정
 	tCorrectedEdgeSize.cx = __min(tEdgeSize.cx, __min(m_rBtnSize.Width() / 2, m_rBtnSize.Height() / 2));
 	tCorrectedEdgeSize.cy = tCorrectedEdgeSize.cx;
 
 	for (nState = 0; nState < BS_LAST_STATE; nState++)
 	{
-		/************************************************************************/
-		/* Draw Edges                                                           */
-		/************************************************************************/
-		// Left-Top
+		//꼭짓점 채우기
+
+		//왼쪽 위
 		_pDC->StretchBlt(
 			0, 
 			nState * m_rBtnSize.Height(), 
@@ -222,7 +198,7 @@ void CRoundButton2::DrawButtonFace(CDC* _pDC)
 			tEdgeSize.cx,
 			tEdgeSize.cy,
 			SRCCOPY);
-		// Left-Bottom
+		// 왼쪽 아래
 		_pDC->StretchBlt(
 			0, 
 			nState * m_rBtnSize.Height() + m_rBtnSize.Height() - tCorrectedEdgeSize.cy, 
@@ -234,7 +210,7 @@ void CRoundButton2::DrawButtonFace(CDC* _pDC)
 			tEdgeSize.cx,
 			tEdgeSize.cy,
 			SRCCOPY);
-		// Right-Top
+		// 오른쪽 위
 		_pDC->StretchBlt(
 			m_rBtnSize.Width() - tCorrectedEdgeSize.cx, 
 			nState * m_rBtnSize.Height(), 
@@ -246,7 +222,7 @@ void CRoundButton2::DrawButtonFace(CDC* _pDC)
 			tEdgeSize.cx,
 			tEdgeSize.cy,
 			SRCCOPY);
-		// Right-Bottom
+		// 오른쪽 아래
 		_pDC->StretchBlt(
 			m_rBtnSize.Width() - tCorrectedEdgeSize.cx, 
 			nState * m_rBtnSize.Height() + m_rBtnSize.Height() - tCorrectedEdgeSize.cy, 
@@ -258,10 +234,9 @@ void CRoundButton2::DrawButtonFace(CDC* _pDC)
 			tEdgeSize.cx,
 			tEdgeSize.cy,
 			SRCCOPY);
-		/************************************************************************/
-		/* Draw Sides                                                           */
-		/************************************************************************/
-		// Top
+		//테두리 그리기
+
+		// 위
 		_pDC->StretchBlt(
 			tCorrectedEdgeSize.cx, 
 			nState * m_rBtnSize.Height(),
@@ -273,7 +248,7 @@ void CRoundButton2::DrawButtonFace(CDC* _pDC)
 			1,
 			tEdgeSize.cy,
 			SRCCOPY);
-		// Bottom
+		// 아래
 		_pDC->StretchBlt(
 			tCorrectedEdgeSize.cx, 
 			nState * m_rBtnSize.Height() + m_rBtnSize.Height() - tCorrectedEdgeSize.cy,
@@ -285,7 +260,7 @@ void CRoundButton2::DrawButtonFace(CDC* _pDC)
 			1,
 			tEdgeSize.cy,
 			SRCCOPY);
-		// Left
+		//왼쪽
 		_pDC->StretchBlt(
 			0, 
 			nState * m_rBtnSize.Height() + tCorrectedEdgeSize.cy,
@@ -297,7 +272,7 @@ void CRoundButton2::DrawButtonFace(CDC* _pDC)
 			tEdgeSize.cx,
 			1,
 			SRCCOPY);
-		// Right
+		// 오른쪽
 		_pDC->StretchBlt(
 			m_rBtnSize.Width() - tCorrectedEdgeSize.cx, 
 			nState * m_rBtnSize.Height() + tCorrectedEdgeSize.cy,
@@ -309,9 +284,8 @@ void CRoundButton2::DrawButtonFace(CDC* _pDC)
 			tEdgeSize.cx,
 			1,
 			SRCCOPY);
-		/************************************************************************/
-		/* Filling                                                              */
-		/************************************************************************/
+		
+		//안쪽 채우기
 		_pDC->StretchBlt(
 			tCorrectedEdgeSize.cx,
 			nState * m_rBtnSize.Height() + tCorrectedEdgeSize.cy,
@@ -325,23 +299,23 @@ void CRoundButton2::DrawButtonFace(CDC* _pDC)
 			SRCCOPY);
 	}
 
-	// Select Old Objects into DCs
+	//기존 버튼 선택하기 
 	SourceDC.SelectObject(hOldBmp1);
 }
 
-//! Draw Caption on Button
+//버튼에 글자 채우기
 void CRoundButton2::DrawButtonCaption(CDC *_pDC)
 {
-	// Select Transparency for Background
+	//배경색상 투명도 설정
 	int nOldBckMode = _pDC->SetBkMode(TRANSPARENT);
 
-	// Get old Text-Color
+	//예전 글자 색상 가져오기
 	COLORREF tOldColor = _pDC->SetTextColor(RGB(255,255,255));
 
-	// Select Font into DC
+	//dc에서 폰트 설정하기
 	HGDIOBJ hOldFont = _pDC->SelectObject(&m_tBtnFont);
 
-	// Get Caption of Button
+	//버튼의 글자 채우기
 	CString sCaption;
 	this->GetWindowText(sCaption);
 
@@ -349,24 +323,29 @@ void CRoundButton2::DrawButtonCaption(CDC *_pDC)
 	{
 		switch(nState)
 		{
+			//버튼이 눌러졌을 때
 		case BS_ENABLED:
 			_pDC->SetTextColor(m_tTextColor.m_tEnabled);
 			break;
+			//버튼이 checkbox 버튼이고 선택되었을 때
 		case BS_CLICKED:
 			_pDC->SetTextColor(m_tTextColor.m_tClicked);
 			break;
+			//버튼이 눌려졌을 때 
 		case BS_PRESSED:
 			_pDC->SetTextColor(m_tTextColor.m_tPressed);
 			break;
+			//버튼이 hot버튼일 때 
 		case BS_HOT:
 			_pDC->SetTextColor(m_tTextColor.m_tHot);
 			break;
+			//버튼의 초기상태
 		case BS_DISABLED:
 		default:
 			_pDC->SetTextColor(m_tTextColor.m_tDisabled);
 			break;
 		}
-
+		//버튼 글자 입히기
 		_pDC->DrawText(
 			sCaption, 
 			CRect(
@@ -377,108 +356,103 @@ void CRoundButton2::DrawButtonCaption(CDC *_pDC)
 			DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 	}
 
-	// Select Old Font back
+	//기존 폰트 선택
 	_pDC->SelectObject(hOldFont);
 
-	// Set old Background-Mode
+	// 기존 배경색상 선택
 	_pDC->SetBkMode(nOldBckMode);
 
-	// Set old Text-Color
+	// 기존 폰트 색상 선택 
 	_pDC->SetTextColor(tOldColor);
 
 }
 
-/************************************************************************/
-/* Overwritten Functions for Init and Draw of Button                    */
-/************************************************************************/
-
-//! Presubclass-Window-Function
+//
 void CRoundButton2::PreSubclassWindow()
 {
 #ifdef _DEBUG
-	// We really should be only sub classing a button control
+	// 버튼위에 디자인 입히기
 	TCHAR buffer[255];
 	GetClassName (m_hWnd, buffer, sizeof(buffer) / sizeof(TCHAR));
 	ASSERT (CString (buffer) == _T("Button"));
 #endif
 
-	// Check if it's a default button
+	// 버튼의 초기상태인지
 	if (GetStyle() & 0x0FL)
 		m_bDefaultButton = true;
 
-	// Make the button owner-drawn
+	//버튼에 디자인 입히기
 	ModifyStyle (0x0FL, BS_OWNERDRAW | BS_AUTOCHECKBOX, SWP_FRAMECHANGED);
 
 	CButton::PreSubclassWindow();
 }
 
-//! Draw-Item-Function
-/*! This Function is called each time, the Button needs a redraw
-*/
+//버튼의 외향 변경 
 void CRoundButton2::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-	// Get DC of Item
+	//버튼의 dc가져오기
 	CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 	ASSERT (pDC != NULL);
 
-	// Should Buttons be generated?
+	//버튼이 생성되어야하는가
 	bool bGenerate = !m_rBtnSize.EqualRect(&lpDrawItemStruct->rcItem) || m_bRedraw;
 
-	// If Rectangles of Button are not the same
+	// 버튼이 사각형인지 체크
 	if (bGenerate)
 	{
-		// Generate Bitmap to hold Buttons
+		// 비트맵 생성하기
 		GenButtonBMPs(pDC, lpDrawItemStruct->rcItem);
 
-		// Redraw done
+		//디자인 입히기 성공
 		m_bRedraw = false;
 	}
 
-
-
-
-	// Generate DC to draw in Memory
+	//dc에 생성하기 
 	CDC MemDC;
 	MemDC.CreateCompatibleDC(pDC);
 
 	HGDIOBJ hOldBmp = MemDC.SelectObject(m_tBmpBtn);
 
 	CString sActualCaption;
-	// Get actual caption
+	//버튼 caption 읽기
 	GetWindowText(sActualCaption);
 
-	// Check, if caption has changed
+	//버튼의 caption이 바뀌었는지 확인 
 	if (sActualCaption != m_sOldCaption)
 		bGenerate = true;
 
-	// Store old caption
+	//기존 caption 가져오기
 	m_sOldCaption = sActualCaption;
 
-	// If Rectangles of Button are not the same
+	//버튼 생성하기
 	if (bGenerate)
 	{
-		// Draw Buttons
+		//버튼 그리기
 		DrawButtonFace(&MemDC);
 
-		// Draw Button-Caption
+		//버튼에 글자 입히기
 		DrawButtonCaption(&MemDC);
 	}
 
 	int nButtonState;
-
+	//버튼이 눌러졌을 때
 	nButtonState = BS_ENABLED;
 
+	//버튼이 hot버튼일 때 
 	if (m_bIsHotButton && m_bMouseOnButton)
 		nButtonState = BS_HOT;
 
+	//버튼이 선택해제되었을 때
 	if ((lpDrawItemStruct->itemState & ODS_DISABLED) == ODS_DISABLED)
 		nButtonState = BS_DISABLED;
 	else
 	{
+		//버튼이 눌렸을 때
 		if ((lpDrawItemStruct->itemState & ODS_SELECTED) == ODS_SELECTED)
 			nButtonState = BS_PRESSED;
 		else
 		{
+			//버튼이 checkbox 버튼이고 선택되었을 때
 			if (this->m_bIsChecked)
 			{
 				nButtonState = BS_CLICKED;
@@ -486,7 +460,7 @@ void CRoundButton2::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 		}
 	}
 
-	// Copy correct Bitmap to Screen
+	// 비트맵 그리기
 	pDC->BitBlt(
 		lpDrawItemStruct->rcItem.left, 
 		lpDrawItemStruct->rcItem.top, 
@@ -500,19 +474,22 @@ void CRoundButton2::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	MemDC.SelectObject(hOldBmp);
 }
 
-
+//멤버함수
 BEGIN_MESSAGE_MAP(CRoundButton2, CButton)
 ON_WM_LBUTTONUP()
 ON_WM_MOUSEMOVE()
 ON_WM_CAPTURECHANGED()
 END_MESSAGE_MAP()
 
+//버튼의 유형
 void CRoundButton2::OnLButtonUp(UINT nFlags, CPoint point)
 {
+	//버튼이 체크박스 일때
 	if (m_bIsCheckButton)
 	{
 		m_bIsChecked = !m_bIsChecked;
 	}
+	//버튼이 radio버튼일 때
 	if (m_bIsRadioButton)
 	{
 		m_bIsChecked = true;
@@ -521,53 +498,56 @@ void CRoundButton2::OnLButtonUp(UINT nFlags, CPoint point)
 	CButton::OnLButtonUp(nFlags, point);
 }
 
+//마우스의 움직임 파악
 void CRoundButton2::OnMouseMove(UINT nFlags, CPoint point)
 {
 	CRect rcClient;
 
-	// Get Rectangle of Client
+	//버튼의 위치파악
 	GetClientRect(rcClient);
 
-	// Check, if Mouse is on Control
+	//마우스의 위치 
 	if (rcClient.PtInRect(point))
 	{
-		// We only need to redraw, if the mouse enters
+		// 마우스가 버튼 위에 놓여있을 때
 		bool bRedrawNeeded = !m_bMouseOnButton;
 
-		// Mouse is on Control
+		// 마우스가 버튼 위에 놓여있음  
 		m_bMouseOnButton = true;
 
-		// Set Capture to recognize, when the mouse leaves the control
+		//마우스의 위치 파악하기
 		SetCapture();
 
-		// Redraw Control, if Button is hot
+		//버튼이 hot 버튼일때 
 		if (m_bIsHotButton)
 			Invalidate();
 	}
 	else
 	{
-		// We have lost the mouse-capture, so the mouse has left the buttons face
+		//마우스의 위치를 잃어버렸을 때
 		m_bMouseOnButton = false;
 
-		// Mouse has left the button
+		//마우스가 버튼에서 벗어났을 때
 		ReleaseCapture();
 
-		// Redraw Control, if Button is hot
+		//버튼이 hot 버튼일때 
 		if (m_bIsHotButton)
 			Invalidate();
 	}
 
 	CButton::OnMouseMove(nFlags, point);
 }
+
+//마우스의 위치가 달라졌음 
 void CRoundButton2::OnCaptureChanged(CWnd *pWnd)
 {
-	// Check, if we lost the mouse-capture
+	//마우스 위치를 잃었을 때 
 	if (GetCapture() != this)
 	{
-		// We have lost the mouse-capture, so the mouse has left the buttons face
+		//마우스 위치를 잃어서 버튼의 위치를 모를 때
 		m_bMouseOnButton = false;
 
-		// Redraw Control, if Button is hot
+		//버튼이 hot버튼일 때
 		if (m_bIsHotButton)
 			Invalidate();
 	}
