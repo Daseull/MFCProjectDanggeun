@@ -25,7 +25,6 @@ int CListCtrlEx::AddItem(LPCSTR strItem, int nItem, int nSubItem, UINT nState, i
 	lvItem.mask = LVIF_TEXT;
 	lvItem.iItem = nItem;
 	lvItem.iSubItem = nSubItem;
-	
 	lvItem.pszText = (LPTSTR)strItem;
 
 	if (nState != -1) {

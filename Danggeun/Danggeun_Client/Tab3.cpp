@@ -124,6 +124,9 @@ BOOL CTab3::OnInitDialog()
 void CTab3::LoadBookmarkPost() {
 
 	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_HIDE);
+	
+	
+
 	//초기화
 	int n = m_list.GetItemCount();
 	while (n--)
@@ -134,6 +137,9 @@ void CTab3::LoadBookmarkPost() {
 	extern CPostDB* postDB;
 	extern CBookMarkDB* bookmarkDB;
 	extern CString status[3];
+
+	extern CString town[];
+	m_strTown = town[CurrentUser->GetTown()];
 
 	//1/12 수정필요 관심목록 찾을 때
 	
