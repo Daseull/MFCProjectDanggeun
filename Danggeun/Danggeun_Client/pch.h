@@ -30,6 +30,9 @@
 #define UWM_CUSTOM5	WM_USER+8
 #define UWM_CUSTOM6	WM_USER+9
 
+
+
+#define DB_FILE_NAME "orange.db"
 #endif //PCH_H
 
 //��64���� �������Ѵٰ� ��������... �ٵ� ���� �����س����...?

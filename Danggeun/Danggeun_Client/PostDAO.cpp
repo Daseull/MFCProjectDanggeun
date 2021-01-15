@@ -8,7 +8,7 @@ CPostDAO::CPostDAO() {
 	_errmsg = NULL;
 }
 
-int CPostDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize)
+int CPostDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize) // 입력 -> DB
 {
 	WCHAR 	szUnicode[255];
 	char 	szUTF8code[255];
@@ -20,7 +20,7 @@ int CPostDAO::AnsiToUTF8(char* szSrc, char* strDest, int destSize)
 	strDest[nUTF8codeSize] = 0;
 	return nUTF8codeSize;
 }
-int CPostDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)
+int CPostDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)// DB -> 출력
 {
 	WCHAR 	szUnicode[255];
 	char 	szAnsi[255];
@@ -37,7 +37,7 @@ int CPostDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize)
 // C
 BOOL CPostDAO::createPost(CPostDTO post) {
 	BOOL result = true;
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -45,49 +45,28 @@ BOOL CPostDAO::createPost(CPostDTO post) {
 		exit(1);
 	}
 
-	//int sLen;
-
-	//char* s_name;
-	//char szName[100];
-	//dataClean(s_name, szName, user.GetUserID(), &sLen);
-
-	//char* s_pw;
-	//char szTel[100];
-	//dataClean(s_pw, szTel, user.GetPhone(), &sLen);
-
-
-	//_errmsg = NULL;
-	//char sql[255] = { 0 };
-	//sprintf(sql, "insert into db(name, tel) values('%s','%s');", szName, szTel);
-
-	//if (SQLITE_OK != sqlite3_exec(_db, sql, NULL, NULL, &_errmsg))
-	//{
-	//	//printf("insert");
-	//	// insert Compelte
-	//	result = false;
-	//}
-
-	//sqlite3_finalize(_stmt);
+	// dataClean: 한글 인코딩
 	char title[100];
 	dataClean(title, post.GetTitle());
 
 	char content[4096];
 	dataClean(content, post.GetContent());
 
+	char imgName[100];
+	dataClean(imgName, post.GetImgName());
+
 	char price[100];
 	dataClean(price, post.GetPrice());
 
 	sqlite3_prepare_v2(_db, "insert into post(userID, town, title, content, imgName, status, price) values(?,?,?,?,?,?,?)", -1, &_stmt, NULL);
+	// statement 통해서 쿼리 구성
 	sqlite3_bind_text(_stmt, 1, post.GetUserID(), post.GetUserID().GetLength(), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 2, post.GetTown());
 	sqlite3_bind_text(_stmt, 3, title, strlen(title), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 4, content, strlen(content), SQLITE_STATIC);
-	sqlite3_bind_text(_stmt, 5, post.GetImgName(), post.GetImgName().GetLength(), SQLITE_STATIC);
+	sqlite3_bind_text(_stmt, 5, imgName, strlen(imgName), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 6, post.GetStatus());
 	sqlite3_bind_text(_stmt, 7, price, strlen(price), SQLITE_STATIC);
-
-	/*sqlite3_step(_stmt);
-	sqlite3_finalize(_stmt);*/
 
 
 	if (sqlite3_step(_stmt) == SQLITE_DONE) {
@@ -95,7 +74,7 @@ BOOL CPostDAO::createPost(CPostDTO post) {
 		result = false;
 	}
 	// https://www.sqlite.org/c3ref/step.html
-	// reset -> 
+	
 	sqlite3_reset(_stmt);
 	sqlite3_finalize(_stmt);
 
@@ -106,9 +85,8 @@ BOOL CPostDAO::createPost(CPostDTO post) {
 
 // R
 CPostDTO* CPostDAO::getPost(int postID) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -116,7 +94,6 @@ CPostDTO* CPostDAO::getPost(int postID) {
 		exit(1);
 	}
 
-	// "from user"
 
 	CString sTmp;
 	sTmp.Format("select * from post where postID = ?");
@@ -126,7 +103,6 @@ CPostDTO* CPostDAO::getPost(int postID) {
 	sqlite3_bind_int(_stmt, 1, postID);
 
 	if (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		char szAnsi[300];
@@ -136,7 +112,7 @@ CPostDTO* CPostDAO::getPost(int postID) {
 		CString _userID(sqlite3_column_text(_stmt, 1));
 		int _town = sqlite3_column_int(_stmt, 2);
 
-		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300);
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300); // 한글 출력
 		CString _title(szAnsi);
 
 		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 4), szAnsi, 300);
@@ -146,7 +122,9 @@ CPostDTO* CPostDAO::getPost(int postID) {
 		CString _imgName(szAnsi);
 
 		int _status = sqlite3_column_int(_stmt, 6);
-		CString _price(sqlite3_column_text(_stmt, 7));
+
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 7), szAnsi, 300);
+		CString _price(szAnsi);
 
 		_post->SetPostID(_postID);
 		_post->SetUserID(_userID);
@@ -158,19 +136,16 @@ CPostDTO* CPostDAO::getPost(int postID) {
 		_post->SetPrice(_price);
 	}
 	else {
-		_post = NULL;
+		_post = NULL; // 일치하는 결과 없으면 NULL 반환
 	}
-
-
 
 	sqlite3_finalize(_stmt);
 	sqlite3_close(_db);
 	return _post;
 }
 std::vector<CPostDTO*> CPostDAO::getAll() {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -179,13 +154,12 @@ std::vector<CPostDTO*> CPostDAO::getAll() {
 	}
 
 	// "from post"
-	_postList.clear();
+	_postList.clear(); // 초기화
 	CString sTmp;
 	sTmp.Format("select * from post order by postID desc");
 
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		char szAnsi[300];
@@ -195,7 +169,7 @@ std::vector<CPostDTO*> CPostDAO::getAll() {
 		CString _userID(sqlite3_column_text(_stmt, 1));
 		int _town = sqlite3_column_int(_stmt, 2);
 
-		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300);
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300); // 한글 출력
 		CString _title(szAnsi);
 
 		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 4), szAnsi, 300);
@@ -228,9 +202,8 @@ std::vector<CPostDTO*> CPostDAO::getAll() {
 }
 
 std::vector<CPostDTO*> CPostDAO::getAllByUser(CString userID) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -238,22 +211,14 @@ std::vector<CPostDTO*> CPostDAO::getAllByUser(CString userID) {
 		exit(1);
 	}
 
-	//sqlite3_finalize(_stmt);
-	//sqlite3_prepare(_db, "INSERT ... (?,?)", -1, &_stmt, NULL);
-	//sqlite3_bind_int(_stmt, 1, 123);
-	//sqlite3_bind_int(_stmt, 2, 456);
-	//sqlite3_step(_stmt);
-	//sqlite3_finalize(_stmt);
 
-	// "from user"
-	_postList.clear();
+	// from post
+	_postList.clear(); // 초기화
 	CString sTmp;
-	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("select * from post where userID = ? order by postID desc"));
+	sTmp.Format("select * from post where userID = ? order by postID desc"); // 최근 글이 상단에 오도록 정렬
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		char szAnsi[300];
@@ -263,7 +228,7 @@ std::vector<CPostDTO*> CPostDAO::getAllByUser(CString userID) {
 		CString _userID(sqlite3_column_text(_stmt, 1));
 		int _town = sqlite3_column_int(_stmt, 2);
 
-		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300);
+		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 3), szAnsi, 300); // 한글 출력
 		CString _title(szAnsi);
 
 		UTF8ToAnsi((char*)sqlite3_column_text(_stmt, 4), szAnsi, 300);
@@ -295,9 +260,8 @@ std::vector<CPostDTO*> CPostDAO::getAllByUser(CString userID) {
 }
 
 std::vector<CPostDTO*> CPostDAO::getAllByTown(int townID) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -305,23 +269,15 @@ std::vector<CPostDTO*> CPostDAO::getAllByTown(int townID) {
 		exit(1);
 	}
 
-	//sqlite3_finalize(_stmt);
-	//sqlite3_prepare(_db, "INSERT ... (?,?)", -1, &_stmt, NULL);
-	//sqlite3_bind_int(_stmt, 1, 123);
-	//sqlite3_bind_int(_stmt, 2, 456);
-	//sqlite3_step(_stmt);
-	//sqlite3_finalize(_stmt);
 
-
-	// "from user"
-	_postList.clear();
+	// from post
+	_postList.clear(); // 초기화
 	CString sTmp;
-	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("select * from post where town = ? order by postID desc"));
+	sTmp.Format("select * from post where town = ? order by postID desc"); // 최근 글이 상단에 오도록 정렬
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, townID);
+
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		char szAnsi[300];
@@ -363,9 +319,8 @@ std::vector<CPostDTO*> CPostDAO::getAllByTown(int townID) {
 }
 
 std::vector<CPostDTO*> CPostDAO::getAllByBookMark(CString userID) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -373,23 +328,15 @@ std::vector<CPostDTO*> CPostDAO::getAllByBookMark(CString userID) {
 		exit(1);
 	}
 
-	//sqlite3_finalize(_stmt);
-	//sqlite3_prepare(_db, "INSERT ... (?,?)", -1, &_stmt, NULL);
-	//sqlite3_bind_int(_stmt, 1, 123);
-	//sqlite3_bind_int(_stmt, 2, 456);
-	//sqlite3_step(_stmt);
-	//sqlite3_finalize(_stmt);
 
-
-	// "from user"
-	_postList.clear();
+	// from post
+	_postList.clear(); // 초기화
 	CString sTmp;
-	//sTmp.Format(_T("select * from db where "));
-	sTmp.Format(_T("select * from post where postID in (select postID from bookmark where userID = ?) ORDER by postID desc"));
+	sTmp.Format("select * from post where postID in (select postID from bookmark where userID = ?) ORDER by postID desc"); // 최근 글이 상단에 오도록 정렬
+
 	sqlite3_prepare_v2(_db, sTmp, -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		char szAnsi[300];
@@ -432,9 +379,8 @@ std::vector<CPostDTO*> CPostDAO::getAllByBookMark(CString userID) {
 }
 
 std::vector<CPostDTO*> CPostDAO::getAllByBookMarkAndSearch(CString userID, CString q) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -442,21 +388,12 @@ std::vector<CPostDTO*> CPostDAO::getAllByBookMarkAndSearch(CString userID, CStri
 		exit(1);
 	}
 
-	//sqlite3_finalize(_stmt);
-	//sqlite3_prepare(_db, "INSERT ... (?,?)", -1, &_stmt, NULL);
-	//sqlite3_bind_int(_stmt, 1, 123);
-	//sqlite3_bind_int(_stmt, 2, 456);
-	//sqlite3_step(_stmt);
-	//sqlite3_finalize(_stmt);
-
-
-	// "from user"
-	_postList.clear();
+	// from post
+	_postList.clear(); // 초기화
 	CString sTmp;
-	//sTmp.Format(_T("select * from db where "));
 
 	char _q[130];
-	dataClean(_q, q);
+	dataClean(_q, q); // 
 	sTmp.Format("select * from post where postID in (select postID from bookmark where userID = ?) and title like '%%%s%%' ORDER by postID desc", q);
 
 	char _sql[100];
@@ -466,7 +403,6 @@ std::vector<CPostDTO*> CPostDAO::getAllByBookMarkAndSearch(CString userID, CStri
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
 
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		char szAnsi[300];
@@ -508,9 +444,8 @@ std::vector<CPostDTO*> CPostDAO::getAllByBookMarkAndSearch(CString userID, CStri
 }
 
 std::vector<CPostDTO*> CPostDAO::getAllByTitleSearch(CString q, int townID) {
-	// 테이블을 읽어와 리스트 컨트롤에 보여주기
 
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
@@ -518,18 +453,10 @@ std::vector<CPostDTO*> CPostDAO::getAllByTitleSearch(CString q, int townID) {
 		exit(1);
 	}
 
-	//sqlite3_finalize(_stmt);
-	//sqlite3_prepare(_db, "INSERT ... (?,?)", -1, &_stmt, NULL);
-	//sqlite3_bind_int(_stmt, 1, 123);
-	//sqlite3_bind_int(_stmt, 2, 456);
-	//sqlite3_step(_stmt);
-	//sqlite3_finalize(_stmt);
 
-
-	// "from user"
-	_postList.clear();
+	// from post
+	_postList.clear(); // 초기화
 	CString sTmp;
-	//sTmp.Format(_T("select * from db where "));
 
 	char _q[100];
 	dataClean(_q, q);
@@ -539,10 +466,8 @@ std::vector<CPostDTO*> CPostDAO::getAllByTitleSearch(CString q, int townID) {
 	dataClean(_sql, sTmp);
 
 	sqlite3_prepare_v2(_db, _sql, -1, &_stmt, NULL);
-	//sqlite3_bind_text(_stmt, 1, _q, strlen(_q), SQLITE_STATIC);
 
 	while (sqlite3_step(_stmt) != SQLITE_DONE) {
-		int i;
 		int num_cols = sqlite3_column_count(_stmt);
 
 		char szAnsi[300];
@@ -586,15 +511,13 @@ std::vector<CPostDTO*> CPostDAO::getAllByTitleSearch(CString q, int townID) {
 
 // U
 BOOL CPostDAO::updatePost(CPostDTO post) {
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 	if (rc != SQLITE_OK)
 	{
 		printf("Failed to open DB\n");
 		sqlite3_close(_db);
 		exit(1);
 	}
-
-	//sqlite3_finalize(_stmt);
 
 	// userID는 불변
 	sqlite3_prepare_v2(_db, "UPDATE post SET town = ?,"
@@ -617,7 +540,6 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 	char price[100];
 	dataClean(price, post.GetPrice());
 
-	//sqlite3_prepare_v2(_db, "insert into post(userID, town, title, content, imgName, status, price) values(?,?,?,?,?,?,?)", -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, post.GetTown());
 	sqlite3_bind_text(_stmt, 2, title, strlen(title), SQLITE_STATIC);
 	sqlite3_bind_text(_stmt, 3, content, strlen(content), SQLITE_STATIC);
@@ -631,7 +553,6 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 		result = false;
 	}
 	// https://www.sqlite.org/c3ref/step.html
-	// reset -> 
 	sqlite3_reset(_stmt);
 	sqlite3_finalize(_stmt);
 
@@ -642,7 +563,7 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 
 // D
 BOOL CPostDAO::deletePost(int postID) {
-	int rc = sqlite3_open("test.db", &_db);
+	int rc = sqlite3_open(DB_FILE_NAME, &_db);
 
 	if (rc != SQLITE_OK)
 	{
@@ -651,23 +572,14 @@ BOOL CPostDAO::deletePost(int postID) {
 		exit(1);
 	}
 
-	//sqlite3_finalize(_stmt);
-
 
 	// https://stackoverflow.com/a/61796041/14099774
+	// 삭제 정책 활성화
 	char* sql = "PRAGMA foreign_keys = ON;";
 	rc = sqlite3_exec(_db, sql, NULL, 0, &_errmsg);
 
 	BOOL result = true;
 
-	//_errmsg = NULL;
-	//char sql[255] = { 0 };
-	//sprintf_s(sql, "delete from user where userID = '%s';", userID);
-
-	//if (SQLITE_OK != sqlite3_exec(_db, sql, NULL, NULL, &_errmsg))
-	//{
-	//	printf("delete");
-	//}
 
 	sqlite3_prepare(_db, "delete from post where postID = ?", -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, postID);
@@ -677,7 +589,6 @@ BOOL CPostDAO::deletePost(int postID) {
 		result = false;
 	}
 	// https://www.sqlite.org/c3ref/step.html
-	// reset -> 
 	sqlite3_reset(_stmt);
 	sqlite3_finalize(_stmt);
 
@@ -687,7 +598,7 @@ BOOL CPostDAO::deletePost(int postID) {
 	
 }
 
-void CPostDAO::dataClean(char* dest, CString str) {
+void CPostDAO::dataClean(char* dest, CString str) { // 멀티 바이트 UTF8 인코딩 과정
 	char* tmp;
 	//*sLen = WideCharToMultiByte(CP_ACP, 0, (LPCWCH)(LPCTSTR)str, -1, NULL, 0, NULL, NULL);
 	tmp = new char[str.GetLength() + 1];

@@ -7,9 +7,9 @@ class CBookMarkDTO {
 public:
 	CBookMarkDTO();
 private:
-	int bookMarkID;
-	CString userID;
-	int postID;
+	int bookMarkID; // PK
+	CString userID; // FK
+	int postID; // FK
 
 public:
 	// Getter

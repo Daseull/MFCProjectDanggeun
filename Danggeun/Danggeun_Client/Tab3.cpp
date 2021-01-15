@@ -118,10 +118,10 @@ void CTab3::LoadBookmarkPost() {
 					bmp.Attach(img);
 					m_ImageList.Add(&bmp, RGB(255, 255, 255));
 
-					int i = m_list.GetItemCount();	// 이미지 순서 맞는지 확인하기
-					m_list.AddItem(post->GetTitle(), i, 0, -1, i);
-					m_list.AddItem(post->GetPrice(), i, 1);
-					m_list.AddItem(status[post->GetStatus()], i, 2);
+	//				int i = m_list.GetItemCount();	// 이미지 순서 맞는지 확인하기
+	//				m_list.AddItem(post->GetTitle(), i, 0, -1, i);
+	//				m_list.AddItem(post->GetPrice(), i, 1);
+	//				m_list.AddItem(status[post->GetStatus()], i, 2);
 
 					int postid = post->GetPostID();
 					CString postID;
