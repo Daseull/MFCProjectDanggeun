@@ -36,7 +36,9 @@ int CUserDAO::UTF8ToAnsi(char* szSrc, char* strDest, int destSize) // DB -> Ãâ·Â
 
 // C
 BOOL CUserDAO::createUser(CUserDTO user) {
-
+	if (getUser(user.GetUserID())) {
+		return false;
+	}
 
 	BOOL result = true;
 	int rc = sqlite3_open(DB_FILE_NAME, &_db);
@@ -45,14 +47,6 @@ BOOL CUserDAO::createUser(CUserDTO user) {
 		printf("Failed to open DB\n");
 		sqlite3_close(_db);
 		exit(1);
-	}
-
-	char userID[100];
-	int sLen;
-	dataClean(userID, user.GetUserID());
-	
-	if (getUser(user.GetUserID())) {
-		return false;
 	}
 
 	sqlite3_prepare_v2(_db, "insert into user(userID, userPw, town, phone, isAdmin) values(?,?,?,?,?)", -1, &_stmt, NULL);
