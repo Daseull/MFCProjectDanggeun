@@ -85,6 +85,7 @@ BOOL CTab3::OnInitDialog()						// 다이얼로그 초기화
 
 
 void CTab3::LoadBookmarkPost() {
+	
 
 	GetDlgItem(IDC_BUTTON_BACK)->ShowWindow(SW_HIDE);	// 돌아가기 버튼 숨기기
 	int n = m_list.GetItemCount();						// 리스트 행의 개수만큼
@@ -96,7 +97,9 @@ void CTab3::LoadBookmarkPost() {
 	extern CPostDB* postDB;
 	extern CBookMarkDB* bookmarkDB;
 	extern CString status[3];
-
+	
+	extern CString town[];
+	m_strTown = town[CurrentUser->GetTown()];
 	/*
 	for (CBookMarkDTO* bookmark : bookmarkDB->bookMarkList) {
 		if (bookmark->GetUserID() == CurrentUser->GetUserID()) {
