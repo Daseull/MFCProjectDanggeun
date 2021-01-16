@@ -30,3 +30,20 @@ C/C++(General/Additional Include Directories): $(ProjectDir)\SQlite3;%(Additiona
 Linker(General/Additional Library Directories): $(ProjectDir)\SQlite3
 
 ```
+
+**멀티바이트**
+
+구성 속성 -> 일반 -> 문자 집합 -> 멀티바이트 설정
+
+**디버깅 설정**
+
+x64로 설정. 상단 툴바에서 선택 가능하다.
+
+**DB 설정**
+
+- db 이름
+  pch.h 헤더 내
+  DB_FILE_NAME에 해당하는 db가 *프로젝트 폴더(Danggeun_Client) 에 생성된다. 
+- dll 에러
+  https://enddldishfwk.tistory.com/8
+
