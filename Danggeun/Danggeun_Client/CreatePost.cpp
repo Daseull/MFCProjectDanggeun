@@ -15,12 +15,12 @@ CString img_path = "";
 CCreatePost::CCreatePost(CPostDTO* post, CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOG_CREATE_POST, pParent)
 	, m_post(post)
-	, m_strTitle(_T("글 제목을 작성해주세요"))
+	, m_strTitle(_T("글 제목을 작성해주세요"))	//필요 문구 미리 채워놓기
 	, m_strPrice(_T("가격을 입력해주세요"))
 	, m_strText(_T("동네에 올릴 게시글 내용을 작성해주세요(가품 및 판매금지품목은 게시가 제한 될 수 있어요.)"))
 	
 {
-	//변수 초기화
+	//그리기용 변수 초기화
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
@@ -44,7 +44,7 @@ void CCreatePost::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_COMEDIT, m_tMyButton2);
 }
 
-//멤버함수 
+//이벤트 핸들러
 BEGIN_MESSAGE_MAP(CCreatePost, CDialogEx)
 	ON_WM_CTLCOLOR()
 	ON_BN_CLICKED(IDC_BUTTON_POST, &CCreatePost::OnBnClickedButtonPost)
@@ -53,7 +53,7 @@ BEGIN_MESSAGE_MAP(CCreatePost, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CCreatePost 메시지 처리기
+
 
 //다이아로그의 배경색상 칠하기
 HBRUSH CCreatePost::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
@@ -184,8 +184,8 @@ void CCreatePost::OnStnClickedStaticAddpic()
 		copyImg.Create(60, 60, 24);												
 		img.StretchBlt(copyImg.GetDC(), 0, 0, 60, 60, 0, 0, 200,200, SRCCOPY);	// 이미지 복사
 
-		img.Save("res\\" + img_path);						// 이미지 저장
-		copyImg.Save("res\\small_" + img_path);
+		img.Save("res\\" + img_path);						// 이미지 저장소에 원본 이미지 저장
+		copyImg.Save("res\\small_" + img_path);				// 이미지 저장소에 썸네일용 작은 이미지 저장 
 		copyImg.ReleaseDC();								// DC 해제
 		img.Detach();
 

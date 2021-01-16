@@ -176,5 +176,6 @@ void CTab4::OnClickedButtonWithdraw()
 	AfxMessageBox("회원 탈퇴 완료ㅠㅠ\n 다음에 또 이용해주세요!");
 	//회원탈퇴
 	userDB->dao.deleteUser(CurrentUser->GetUserID());
+	//프로그램 종료
 	exit(0);
 }
