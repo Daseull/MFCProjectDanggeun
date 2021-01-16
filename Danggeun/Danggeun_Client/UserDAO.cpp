@@ -319,7 +319,7 @@ BOOL CUserDAO::updateUser(CUserDTO user) {
 	
 	
 
-	if (sqlite3_step(_stmt) == SQLITE_DONE) {
+	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
@@ -352,7 +352,7 @@ BOOL CUserDAO::deleteUser(CString userID) {
 	sqlite3_prepare_v2(_db, "delete from user where userID = ?", -1, &_stmt, NULL);
 	sqlite3_bind_text(_stmt, 1, userID, userID.GetLength(), SQLITE_STATIC);
 
-	if (sqlite3_step(_stmt) == SQLITE_DONE) {
+	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}

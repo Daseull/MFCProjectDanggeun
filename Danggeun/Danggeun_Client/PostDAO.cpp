@@ -69,7 +69,7 @@ BOOL CPostDAO::createPost(CPostDTO post) {
 	sqlite3_bind_text(_stmt, 7, price, strlen(price), SQLITE_STATIC);
 
 
-	if (sqlite3_step(_stmt) == SQLITE_DONE) {
+	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
@@ -548,7 +548,7 @@ BOOL CPostDAO::updatePost(CPostDTO post) {
 	sqlite3_bind_text(_stmt, 6, price, strlen(price), SQLITE_STATIC);
 	sqlite3_bind_int(_stmt, 7, post.GetPostID());
 
-	if (sqlite3_step(_stmt) == SQLITE_DONE) {
+	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
@@ -584,7 +584,7 @@ BOOL CPostDAO::deletePost(int postID) {
 	sqlite3_prepare(_db, "delete from post where postID = ?", -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, postID);
 
-	if (sqlite3_step(_stmt) == SQLITE_DONE) {
+	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}

@@ -53,7 +53,7 @@ BOOL CBookMarkDAO::createBookMark(CBookMarkDTO bookMark) {
 	sqlite3_bind_int(_stmt, 2, bookMark.GetPostID());
 
 
-	if (sqlite3_step(_stmt) == SQLITE_DONE) {
+	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
@@ -278,7 +278,7 @@ BOOL CBookMarkDAO::deleteBookMark(int bookMarkID) {
 	sqlite3_prepare_v2(_db, "delete from bookmark where bookMarkID = ?", -1, &_stmt, NULL);
 	sqlite3_bind_int(_stmt, 1, bookMarkID);
 
-	if (sqlite3_step(_stmt) == SQLITE_DONE) {
+	if (sqlite3_step(_stmt) != SQLITE_DONE) {
 		// 제대로 동작하지 않은 경우
 		result = false;
 	}
