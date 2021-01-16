@@ -47,3 +47,5 @@ x64로 설정. 상단 툴바에서 선택 가능하다.
 - dll 에러
   https://enddldishfwk.tistory.com/8
 
+- 그 외 레퍼런스
+  https://www.notion.so/a17d7fb72db641a09c989aad5247ce19?v=64508266086f443b97330a230d835e28
