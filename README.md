@@ -22,6 +22,7 @@
 
 ## 실행 환경 설정
 **Project Properties**
+
 ```
 
 General(Output Dir): $(ProjectDir)$(Platform)\$(Configuration)\
@@ -33,7 +34,7 @@ Linker(General/Additional Library Directories): $(ProjectDir)\SQlite3
 
 **멀티바이트**
 
-구성 속성 -> 일반 -> 문자 집합 -> 멀티바이트 설정
+프로젝트>속성>고급>문자집합>멀티 바이트 문자집합 사용
 
 **디버깅 설정**
 
@@ -49,3 +50,19 @@ x64로 설정. 상단 툴바에서 선택 가능하다.
 
 - 그 외 레퍼런스
   https://www.notion.so/a17d7fb72db641a09c989aad5247ce19?v=64508266086f443b97330a230d835e28
+
+**필요 파일들**
+
+프로젝트 폴더의 res 폴더 내에
+
+- bitmap1.bmp
+- filled_1.bmp
+- not_filled_2.bmp
+- Danggeun_Client.ico
+- DanggeunClient.rc2
+
+
+
+업로드할 사진은 200*200 사이즈가 권장!
+사이즈가 맞는 이미지파일들은 testimage폴더에 있습니다.
+
