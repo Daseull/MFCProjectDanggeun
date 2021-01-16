@@ -1,18 +1,4 @@
-/********************************************************************
-	created:	2005/06/03
-	created:	03:06:2005   11:23
-	filename: 	x:\Software\Mfc\Source\Controls\Buttons\RoundButtonStyle.h
-	file path:	x:\Software\Mfc\Source\Controls\Buttons
-	file base:	RoundButtonStyle
-	file ext:	h
-	author:		Markus Zocholl
-	
-	purpose:	CRoundButtonStyle manages the Style of CRoundButton, a 
-				Button-Control with round Design.
-				Because the generation of the Button-Images is time consuming
-				this is only done once in the Style-Class, and all Buttons 
-				associated with this class take the same Images.
-*********************************************************************/
+
 
 #pragma once
 #include "afxwin.h"
