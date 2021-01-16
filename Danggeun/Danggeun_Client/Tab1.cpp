@@ -228,13 +228,14 @@ void CTab1::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	int idx = pNMListView->iItem;
 
-	// 선택된 아이템값의 아이템을 (0,1 ... n 번째 인덱스) 한개 가져온다.
 	if (idx != -1) {
+		//선택된 행의 포스트아이디를 리스트 컨트롤의 세번째 컬럼에서 가져온다
 		CString sIndexPostID;
 		sIndexPostID = m_list.GetItemText(idx, 3);
+		//스트링을 정수로 변환(포스트 아이디)
 		int PostID = _ttoi(sIndexPostID);
 		extern CPostDB* postDB;
-		//상세페이지창 생성하기
+		//해당글의 정보를 가진 상세페이지창 생성하기
 		CDetailPage dlg(postDB->dao.getPost(PostID));
 		dlg.DoModal();
 	}
@@ -249,16 +250,15 @@ BOOL CTab1::OnInitDialog()
 	m_ImageList.Create(60, 60, ILC_COLORDDB | ILC_MASK, 8, 8);
 	m_list.SetImageList(&m_ImageList, LVSIL_SMALL);
 
-	//스크롤 해도 글쓰기 버튼 안움직이게 하려고 
-	GetDlgItem(IDC_BUTTON_NEWPOST)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
-	GetDlgItem(IDC_LIST1)->ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN, 0);
-	GetDlgItem(IDC_BUTTON_NEWPOST)->BringWindowToTop();
+	
 
-	//글 목록의 항목 생성
+	//글 선택시 해당 줄의 행이 전체 선택되게 설정
 	m_list.SetExtendedStyle(LVS_EX_FULLROWSELECT);
+	//리스트 컨트롤의 컬럼 삽입
 	m_list.InsertColumn(0, "글 제목", LVCFMT_LEFT, 400);
 	m_list.InsertColumn(1, "가격", LVCFMT_RIGHT, 100);
 	m_list.InsertColumn(2, "판매상태", LVCFMT_RIGHT, 100);
+	//포스트 아이디는 컨트롤러에서 사용하며 사용자에게는 보이지 않도록 사이즈를 0으로 설정한다
 	m_list.InsertColumn(3, "postID", LVCFMT_RIGHT, 0);
 	
 	//글 목록 가져오기

@@ -54,10 +54,11 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-
+//생성자
 CDanggeunClientDlg::CDanggeunClientDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DANGGEUN_CLIENT_DIALOG, pParent)
 {
+	//멤버변수 초기화
 	pDlg1 = NULL;
 	pDlg2 = NULL;
 	pDlg3 = NULL;
@@ -107,7 +108,7 @@ CLoginDlg LoginDlg;
 
 BOOL CDanggeunClientDlg::OnInitDialog()
 {
-	//로그인 하기 위해 userDB 생성
+	//로그인을 위해 userDB 생성
 	userDB = new CUserDB;
 
 	CDialogEx::OnInitDialog();

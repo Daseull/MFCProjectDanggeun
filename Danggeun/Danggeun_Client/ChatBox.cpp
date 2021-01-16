@@ -67,6 +67,7 @@ BOOL ChatBox::OnInitDialog()			// 다이얼로그 초기화
 	m_socCom.Connect("127.0.0.1", 21000);	// 서버에 접속
 	m_socCom.Init(this->m_hWnd);			// 메인 핸들러 받아옴
 
+	//글자 폰트 셋팅
 	//제목
 	CFont font1;
 	LOGFONT lf1;
@@ -85,14 +86,13 @@ BOOL ChatBox::OnInitDialog()			// 다이얼로그 초기화
 	lf6.lfHeight = 16;
 	lf6.lfWeight = FW_BOLD;
 	::lstrcpy(lf6.lfFaceName, "나눔고딕");
-
 	font6.CreateFontIndirectA(&lf6);
 	GetDlgItem(IDC_STATIC_PRICE)->SetFont(&font6);
 	font6.Detach();
 
 
 
-	m_image.Load("res\\small_" + ((CDetailPage*)GetParent())->m_post->GetImgName());// 이미지 경로 받아옴
+	m_image.Load("res\\small_" + ((CDetailPage*)GetParent())->m_post->GetImgName());// 이미지 저장소에서 썸네일용 작은 이미지 로드
 	HBITMAP h_bmp = (HBITMAP)m_image;												// 이미지 비트맵으로 변환
 	m_picture.SetBitmap(h_bmp);														// 컨트롤에 표시할 비트맵 지정
 
@@ -151,5 +151,6 @@ HBRUSH ChatBox::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 void ChatBox::OnIdok()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	//엔터누르면 자동으로 센드
 	OnBnClickedButtonSend();
 }

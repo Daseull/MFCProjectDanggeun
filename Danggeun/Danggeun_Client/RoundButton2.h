@@ -1,22 +1,3 @@
-/********************************************************************
-	created:	2005/06/03
-	created:	3:6:2005   13:21
-	filename: 	x:\Software\Mfc\Source\Controls\Buttons\RoundButton2.h
-	file path:	x:\Software\Mfc\Source\Controls\Buttons
-	file base:	RoundButton2
-	file ext:	h
-	author:		Markus Zocholl
-	
-	purpose:	CRoundButton2 defines a universal Button-Control with the 
-				following features:
-
-				* Shape is a rounded Rectangle
-				* Button includes Border and Button-Face
-				* Many parameters to get an individual look
-				* Functions of Button to be en- or disabled:
-					- Button (disabled means a static control with userdefined styles)
-					- Hover
-*********************************************************************/
 
 #pragma once
 #include "afxwin.h"
