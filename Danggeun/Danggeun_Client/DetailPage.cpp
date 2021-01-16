@@ -14,10 +14,12 @@
 
 IMPLEMENT_DYNAMIC(CDetailPage, CDialogEx)
 
+//생성자
 CDetailPage::CDetailPage(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_DIALOG_DETAIL, pParent)
 
 {
+	//그리기(디자인)용 변수 초기화
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
@@ -32,6 +34,7 @@ CDetailPage::CDetailPage(CPostDTO* post, CWnd* pParent)
 
 {
 	
+	//그리기(디자인)용 변수 초기화
 	m_bk_brush.CreateSolidBrush(RGB(253, 212, 129));
 	m_tMyButton1.SetRoundButtonStyle(&m_tMyButtonStyle);
 	m_tMyButton2.SetRoundButtonStyle(&m_tMyButtonStyle);
@@ -59,6 +62,7 @@ void CDetailPage::DoDataExchange(CDataExchange* pDX)
 }
 
 
+// CDetailPage 메시지 처리기
 BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
 	ON_WM_CTLCOLOR()
 	ON_BN_CLICKED(IDC_BUTTON_HEART, &CDetailPage::OnBnClickedButtonHeart)
@@ -67,9 +71,8 @@ BEGIN_MESSAGE_MAP(CDetailPage, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CDetailPage 메시지 처리기
 
-
+//다이얼로그의 배경 색상 칠하기
 HBRUSH CDetailPage::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);

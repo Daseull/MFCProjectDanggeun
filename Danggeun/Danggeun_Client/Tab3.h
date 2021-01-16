@@ -24,13 +24,10 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedOk();
-	afx_msg void OnBnClickedCancel();
 	afx_msg void OnLbnSelchangeListHeart();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	CRoundButtonStyle m_tMyButtonStyle;
 	CRoundButton2 m_tMyButton1;
-	//CString m_strTown;
-	afx_msg void OnStnClickedCancel();
 	CRoundButton2 m_tMyButton2;
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedButtonSearch();

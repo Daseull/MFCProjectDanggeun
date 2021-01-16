@@ -28,27 +28,21 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedOk();
-	afx_msg void OnBnClickedCancel();
-	CString m_strSearch;
-	CString m_strTown;
-//	afx_msg void OnLvnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult);
-	CListCtrlEx m_list;
-	afx_msg void OnClickedButtonSearch();
-//	afx_msg void OnClickList1(NMHDR* pNMHDR, LRESULT* pResult);
 	CRoundButton2 m_tMyButton1;
 	CRoundButton2 m_tMyButton2;
 	CRoundButtonStyle m_tMyButtonStyle;
+	CString m_strSearch;
+	CString m_strTown;
+	CListCtrlEx m_list;
+	afx_msg void OnBnClickedOk();
+	afx_msg void OnBnClickedCancel();
+	afx_msg void OnClickedButtonSearch();
 	afx_msg void OnBnClickedButtonNewpost();
-//	afx_msg void OnPaint();
-//	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-//	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	afx_msg void OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnClickedButtonBack();
 	virtual BOOL OnInitDialog();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 protected:
 	CRoundButton2 m_tMyButton3;
-public:
-	afx_msg void OnClickedButtonBack();
 };
